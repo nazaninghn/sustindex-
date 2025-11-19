@@ -21,17 +21,17 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
 
-# تنظیمات پنل ادمین
+# Admin panel settings
 admin.site.site_header = "Sustindex Admin Panel"
 admin.site.site_title = "Sustindex Admin"
 admin.site.index_title = "Welcome to Sustindex Admin"
 
-# URLهای بدون پیشوند زبان
+# URLs without language prefix
 urlpatterns = [
-    path('i18n/', include('django.conf.urls.i18n')),  # برای تغییر زبان
+    path('i18n/', include('django.conf.urls.i18n')),  # For language switching
 ]
 
-# URLهای با پیشوند زبان
+# URLs with language prefix
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),

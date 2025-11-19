@@ -3,9 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User, CompanyProfile
 
 class CompanyRegistrationForm(UserCreationForm):
-    company_name = forms.CharField(max_length=200, label='نام شرکت')
-    email = forms.EmailField(label='ایمیل')
-    phone = forms.CharField(max_length=20, label='تلفن')
+    company_name = forms.CharField(max_length=200, label='Company Name')
+    email = forms.EmailField(label='Email')
+    phone = forms.CharField(max_length=20, label='Phone')
     
     class Meta:
         model = User

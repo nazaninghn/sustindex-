@@ -9,7 +9,7 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ['username', 'email', 'company_name']
     
     fieldsets = BaseUserAdmin.fieldsets + (
-        ('اطلاعات شرکت', {'fields': ('membership_type', 'company_name', 'phone')}),
+        ('Company Information', {'fields': ('membership_type', 'company_name', 'phone')}),
     )
 
 @admin.register(CompanyProfile)
