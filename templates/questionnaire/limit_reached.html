@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="alert alert-warning text-center">
+    <h3>{% trans "Membership Limit" %}</h3>
+    <p>{% trans "With Silver membership, you can only respond to the questionnaire once." %}</p>
+    <p>{% trans "For unlimited access, please upgrade to Gold membership." %}</p>
+    <a href="{% url 'dashboard' %}" class="btn btn-primary">{% trans "Back to Dashboard" %}</a>
+</div>
+{% endblock %}

@@ -1,0 +1,389 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Questionnaire Result" %} - Sustindex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #2d6a4f;
+            position: absolute;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .result-container {
+            max-width: 700px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            animation: scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .result-header {
+            background: linear-gradient(135deg, #1b4332, #2d6a4f, #52b788);
+            padding: 50px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-header::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-in-out 3;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .result-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .result-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .result-body {
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .score-label {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .score-display {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .score-circle {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .score-ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 40px rgba(45, 106, 79, 0.2);
+            animation: rotate 3s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .score-inner {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .score-number {
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #1b4332, #2d6a4f, #52b788);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            animation: countUp 2s ease-out;
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .score-suffix {
+            font-size: 1.5rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .completion-info {
+            margin: 40px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            color: #666;
+        }
+
+        .completion-info strong {
+            color: #1b4332;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 16px 35px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2d6a4f, #52b788);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #2d6a4f;
+            border: 2px solid #2d6a4f;
+        }
+
+        .btn-secondary:hover {
+            background: #2d6a4f;
+            color: white;
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            border-radius: 25px;
+            color: #1b4332;
+            font-weight: 700;
+            margin-top: 20px;
+            animation: shine 2s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+        }
+
+        @media (max-width: 768px) {
+            .result-header {
+                padding: 40px 30px;
+            }
+
+            .result-header h1 {
+                font-size: 2rem;
+            }
+
+            .score-circle {
+                width: 200px;
+                height: 200px;
+            }
+
+            .score-inner {
+                width: 160px;
+                height: 160px;
+            }
+
+            .score-number {
+                font-size: 4rem;
+            }
+
+            .result-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <div class="result-card">
+            <!-- Header -->
+            <div class="result-header">
+                <div class="result-icon">🎉</div>
+                <h1>{% trans "Questionnaire Result" %}</h1>
+                <p>{% trans "Congratulations on completing the assessment!" %}</p>
+            </div>
+
+            <!-- Body -->
+            <div class="result-body">
+                <div class="score-label">{% trans "Your Total Score" %}</div>
+                
+                <div class="score-display">
+                    <div class="score-circle">
+                        <div class="score-ring">
+                            <div class="score-inner">
+                                <div class="score-number">{{ attempt.total_score }}</div>
+                                <div class="score-suffix">pts</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if attempt.total_score >= 30 %}
+                    <div class="achievement-badge">
+                        🏆 {% trans "Excellent Performance!" %}
+                    </div>
+                {% elif attempt.total_score >= 20 %}
+                    <div class="achievement-badge" style="background: linear-gradient(135deg, #c0c0c0, #e8e8e8);">
+                        ⭐ {% trans "Good Performance!" %}
+                    </div>
+                {% endif %}
+
+                <div class="completion-info">
+                    <strong>{% trans "Completion Date" %}:</strong> {{ attempt.completed_at|date:"F d, Y - H:i" }}
+                </div>
+
+                <div class="result-actions">
+                    {% if user.membership_type != 'free' %}
+                    <a href="#" class="btn btn-primary">
+                        📄 {% trans "Download PDF Report" %}
+                    </a>
+                    {% endif %}
+                    
+                    <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+                        ← {% trans "Back to Dashboard" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Effect -->
+    <script>
+        // Create confetti
+        function createConfetti() {
+            const colors = ['#2d6a4f', '#52b788', '#95d5b2', '#b7e4c7', '#d8f3dc'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(confetti);
+            }
+        }
+
+        // Trigger confetti on load
+        window.addEventListener('load', createConfetti);
+
+        // Animate score number
+        const scoreElement = document.querySelector('.score-number');
+        const finalScore = {{ attempt.total_score }};
+        let currentScore = 0;
+        
+        const interval = setInterval(() => {
+            if (currentScore < finalScore) {
+                currentScore++;
+                scoreElement.textContent = currentScore;
+            } else {
+                clearInterval(interval);
+            }
+        }, 50);
+    </script>
+</body>
+</html>

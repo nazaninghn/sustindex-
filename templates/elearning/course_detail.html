@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h2 class="mb-4">{{ course.title }}</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        {{ course.description|safe }}
+    </div>
+</div>
+
+<h4 class="mb-3">{% trans "Lessons" %}</h4>
+<div class="list-group">
+    {% for lesson in lessons %}
+    <a href="{% url 'lesson_detail' lesson.id %}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ lesson.title }}</h5>
+            <small>{{ lesson.duration_minutes }} {% trans "minutes" %}</small>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

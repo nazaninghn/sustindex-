@@ -1,0 +1,609 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Dashboard" %} - Sustindex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            background: linear-gradient(180deg, #1b4332 0%, #2d6a4f 100%);
+            padding: 30px 0;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .logo-section {
+            padding: 0 30px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info {
+            padding: 0 30px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #52b788, #95d5b2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .user-name {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .user-membership {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 30px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+        }
+
+        .logout-section {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            padding: 0 30px;
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+        }
+
+        .top-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1b4332;
+        }
+
+        .language-selector select {
+            padding: 10px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            font-weight: 500;
+            cursor: pointer;
+            color: #2d6a4f;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2d6a4f, #52b788);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.15);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1b4332;
+        }
+
+        /* Action Card */
+        .action-card {
+            background: linear-gradient(135deg, #2d6a4f, #52b788);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3);
+        }
+
+        .action-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .action-card p {
+            opacity: 0.9;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .btn-action {
+            padding: 14px 30px;
+            background: white;
+            color: #2d6a4f;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* History Table */
+        .history-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1b4332;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #2d6a4f;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #666;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-completed {
+            background: #d8f3dc;
+            color: #2d6a4f;
+        }
+
+        .status-progress {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .btn-view {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #2d6a4f, #52b788);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .btn-view:hover {
+            transform: scale(1.05);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: linear-gradient(135deg, #2d6a4f, #52b788);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .sidebar.mobile-open {
+            transform: translateX(0) !important;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .top-bar {
+                padding-left: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+    
+    <!-- Overlay -->
+    <div class="overlay" onclick="toggleMobileMenu()"></div>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo-section">
+            <div class="logo">🌱 Sustindex</div>
+        </div>
+
+        <div class="user-info">
+            <div class="user-avatar">{{ user.username|slice:":1"|upper }}</div>
+            <div class="user-name">{{ user.username }}</div>
+            <span class="user-membership">{{ user.get_membership_type_display }}</span>
+        </div>
+
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{% url 'dashboard' %}" class="nav-link active">
+                        <span class="nav-icon">📊</span>
+                        <span>{% trans "Dashboard" %}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'start_questionnaire' %}" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        <span>{% trans "Questionnaire" %}</span>
+                    </a>
+                </li>
+                {% if user.membership_type == 'gold' %}
+                <li class="nav-item">
+                    <a href="{% url 'course_list' %}" class="nav-link">
+                        <span class="nav-icon">🎓</span>
+                        <span>{% trans "Courses" %}</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <div class="logout-section">
+            <a href="{% url 'logout' %}" class="btn-logout">
+                🚪 {% trans "Logout" %}
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <h1 class="page-title">{% trans "Dashboard" %}</h1>
+            <div class="language-selector">
+                <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.path }}" />
+                    <select name="language" onchange="this.form.submit();">
+                        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 English</option>
+                        <option value="tr" {% if LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 Türkçe</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👤</div>
+                <div class="stat-label">{% trans "Membership Type" %}</div>
+                <div class="stat-value">{{ user.get_membership_type_display }}</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">{% trans "Completed Questionnaires" %}</div>
+                <div class="stat-value">{{ completed_count }}</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-label">{% trans "Total Score" %}</div>
+                <div class="stat-value">{{ last_score }}</div>
+            </div>
+        </div>
+
+        <!-- Action Card -->
+        <div class="action-card">
+            <h3>{% trans "Ready to assess your sustainability?" %}</h3>
+            <p>{% trans "Start a new questionnaire to evaluate your company's sustainability performance and get detailed insights." %}</p>
+            <a href="{% url 'start_questionnaire' %}" class="btn-action">
+                {% trans "Start New Questionnaire" %} →
+            </a>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <div class="section-header">
+                <h2 class="section-title">{% trans "Questionnaire History" %}</h2>
+            </div>
+
+            <div class="table-container">
+                {% if user.attempts.all %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{% trans "Date" %}</th>
+                            <th>{% trans "Status" %}</th>
+                            <th>{% trans "Score" %}</th>
+                            <th>{% trans "Actions" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attempt in user.attempts.all %}
+                        <tr>
+                            <td>{{ attempt.started_at|date:"M d, Y H:i" }}</td>
+                            <td>
+                                {% if attempt.is_completed %}
+                                    <span class="status-badge status-completed">{% trans "Completed" %}</span>
+                                {% else %}
+                                    <span class="status-badge status-progress">{% trans "In Progress" %}</span>
+                                {% endif %}
+                            </td>
+                            <td><strong>{{ attempt.total_score }}</strong></td>
+                            <td>
+                                {% if attempt.is_completed %}
+                                    <a href="{% url 'questionnaire_result' attempt.id %}" class="btn-view">
+                                        {% trans "View Result" %}
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'questionnaire_page' attempt.id %}" class="btn-view">
+                                        {% trans "Continue" %}
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <p>{% trans "You haven't completed any questionnaires yet" %}</p>
+                    <a href="{% url 'start_questionnaire' %}" class="btn-action" style="margin-top: 20px;">
+                        {% trans "Start Your First Questionnaire" %}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleMobileMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

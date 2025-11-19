@@ -1,0 +1,344 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Sustainability Assessment Questionnaire" %} - Sustindex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #1b4332;
+            margin-bottom: 15px;
+        }
+
+        .header .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .progress-track {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2d6a4f, #52b788);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #2d6a4f, #52b788);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .category-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .category-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .question-block {
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .question-block:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .question-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: 600;
+            color: #1b4332;
+            margin-right: 15px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            color: #1b4332;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .choices-container {
+            margin-left: 50px;
+        }
+
+        .choice-option {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .choice-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .choice-label {
+            display: block;
+            padding: 18px 25px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .choice-option input[type="radio"]:checked + .choice-label {
+            background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
+            border-color: #2d6a4f;
+            color: #1b4332;
+            transform: translateX(5px);
+        }
+
+        .choice-label:hover {
+            border-color: #52b788;
+            background: #f0f9f4;
+        }
+
+        .choice-label::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 50%;
+            margin-right: 12px;
+            vertical-align: middle;
+            transition: all 0.3s ease;
+        }
+
+        .choice-option input[type="radio"]:checked + .choice-label::before {
+            background: #2d6a4f;
+            border-color: #2d6a4f;
+            box-shadow: inset 0 0 0 4px white;
+        }
+
+        .submit-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-submit {
+            padding: 18px 60px;
+            background: linear-gradient(135deg, #2d6a4f, #52b788);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3);
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: white;
+            color: #2d6a4f;
+            border: 2px solid #2d6a4f;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background: #2d6a4f;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .choices-container {
+                margin-left: 0;
+            }
+
+            .question-text {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .question-number {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="icon">📋</div>
+            <h1>{% trans "Sustainability Assessment Questionnaire" %}</h1>
+        </div>
+
+        <form method="post" id="questionnaireForm">
+            {% csrf_token %}
+            
+            {% for category in categories %}
+            <div class="category-card">
+                <div class="category-header">
+                    <h2>{{ category.name }}</h2>
+                    {% if category.description %}
+                    <p>{{ category.description }}</p>
+                    {% endif %}
+                </div>
+
+                {% for question in category.questions.all %}
+                {% if question.is_active %}
+                <div class="question-block">
+                    <div class="question-text">
+                        <span class="question-number">{{ question.order }}</span>
+                        <span>{{ question.text|safe }}</span>
+                    </div>
+                    
+                    <div class="choices-container">
+                        {% for choice in question.choices.all %}
+                        <div class="choice-option">
+                            <input type="radio" 
+                                   name="question_{{ question.id }}" 
+                                   id="choice_{{ choice.id }}" 
+                                   value="{{ choice.id }}" 
+                                   required>
+                            <label class="choice-label" for="choice_{{ choice.id }}">
+                                {{ choice.text }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <button type="submit" class="btn-submit">
+                    {% trans "Submit Questionnaire" %} →
+                </button>
+                <br>
+                <a href="{% url 'dashboard' %}" class="btn-back">
+                    ← {% trans "Back to Dashboard" %}
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Auto-scroll to next question after selection
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const currentBlock = this.closest('.question-block');
+                const nextBlock = currentBlock.nextElementSibling;
+                
+                if (nextBlock && nextBlock.classList.contains('question-block')) {
+                    setTimeout(() => {
+                        nextBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
