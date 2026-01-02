@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-mk-g2ptinu4*8ojldf$f*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']  # Render will handle this
+ALLOWED_HOSTS = ['*']  # Allow access from all devices
 
 
 # Application definition
