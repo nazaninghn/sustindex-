@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Question, Choice, QuestionnaireAttempt, Answer
+from .models import Category, Question, Choice, QuestionnaireAttempt, Answer, UserDocument
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -20,11 +20,18 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
     ordering = ['category', 'order']
 
+class UserDocumentInline(admin.TabularInline):
+    model = UserDocument
+    extra = 0
+    readonly_fields = ['title', 'file', 'uploaded_at', 'file_size']
+    can_delete = False
+
 class AnswerInline(admin.TabularInline):
     model = Answer
     extra = 0
     readonly_fields = ['question', 'choice', 'answered_at']
     can_delete = False
+    inlines = [UserDocumentInline]
 
 @admin.register(QuestionnaireAttempt)
 class QuestionnaireAttemptAdmin(admin.ModelAdmin):
@@ -38,3 +45,10 @@ class QuestionnaireAttemptAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
         if obj.is_completed:
             obj.calculate_score()
+
+@admin.register(UserDocument)
+class UserDocumentAdmin(admin.ModelAdmin):
+    list_display = ['answer', 'title', 'uploaded_at', 'get_file_size_display']
+    list_filter = ['uploaded_at']
+    search_fields = ['title', 'answer__attempt__user__username']
+    readonly_fields = ['uploaded_at', 'file_size']

@@ -92,3 +92,29 @@ class Answer(models.Model):
     
     def __str__(self):
         return f"{self.attempt.user.username} - {self.question}"
+
+
+class UserDocument(models.Model):
+    """User uploaded documents for questions"""
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='documents', verbose_name=_('Answer'))
+    title = models.CharField(max_length=200, verbose_name=_('Document Title'))
+    file = models.FileField(upload_to='user_documents/', verbose_name=_('Document File'))
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Uploaded At'))
+    file_size = models.IntegerField(default=0, verbose_name=_('File Size (bytes)'))
+    
+    class Meta:
+        verbose_name = _('User Document')
+        verbose_name_plural = _('User Documents')
+        ordering = ['-uploaded_at']
+    
+    def __str__(self):
+        return f"{self.answer.attempt.user.username} - {self.title}"
+    
+    def get_file_size_display(self):
+        """Return human readable file size"""
+        if self.file_size < 1024:
+            return f"{self.file_size} B"
+        elif self.file_size < 1024 * 1024:
+            return f"{self.file_size // 1024} KB"
+        else:
+            return f"{self.file_size // (1024 * 1024)} MB"
