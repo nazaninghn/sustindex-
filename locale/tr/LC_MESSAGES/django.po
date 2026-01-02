@@ -599,6 +599,7 @@ msgid ""
 "We will help you assess and improve your company's sustainability "
 "performance. Check our memberships and surround yourself with excellence!"
 msgstr ""
+"Şirketinizin sürdürülebilirlik performansını değerlendirmenize ve geliştirmenize yardımcı olacağız. Üyeliklerimizi kontrol edin ve kendinizi mükemmellikle çevreleyın!"
 
 #: .\templates\home.html:460
 #, fuzzy
@@ -677,10 +678,8 @@ msgid "Gold Membership"
 msgstr "Altın Üyelik"
 
 #: .\templates\home.html:510
-#, fuzzy
-#| msgid "Questionnaire"
 msgid "Complete sustainability solution"
-msgstr "Anket"
+msgstr "Tam sürdürülebilirlik çözümü"
 
 #: .\templates\home.html:512
 msgid "Unlimited questionnaire responses"
