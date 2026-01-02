@@ -26,6 +26,8 @@ class Question(models.Model):
     order = models.IntegerField(default=0, verbose_name=_('Display Order'))
     is_active = models.BooleanField(default=True, verbose_name=_('Active'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Created At'))
+    # اضافه کردن قابلیت آپلود فایل برای سوال
+    attachment = models.FileField(upload_to='question_attachments/', blank=True, verbose_name=_('Question Attachment'))
     
     class Meta:
         verbose_name = _('Question')
