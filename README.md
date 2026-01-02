@@ -1,5 +1,7 @@
 # 🌱 Sustindex - Corporate Sustainability Assessment Platform
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
 A comprehensive Django-based platform for corporate sustainability assessment with multi-tier membership system and e-learning capabilities.
 
 ![Django](https://img.shields.io/badge/Django-4.2-green)
@@ -9,6 +11,19 @@ A comprehensive Django-based platform for corporate sustainability assessment wi
 ## 🌍 Languages / Diller
 - 🇬🇧 **English** (Default)
 - 🇹🇷 **Türkçe** (Istanbul Turkish)
+
+## 🚀 Quick Deploy to Render
+
+1. **Fork this repository**
+2. **Go to [Render Dashboard](https://dashboard.render.com/)**
+3. **Click "New +" → "Web Service"**
+4. **Connect your forked repository**
+5. **Use these settings:**
+   - Build Command: `./build.sh`
+   - Start Command: `gunicorn sustindex.wsgi:application`
+6. **Deploy!**
+
+Your app will be live at: `https://your-service-name.onrender.com`
 
 ---
 

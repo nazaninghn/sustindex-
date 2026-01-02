@@ -3,3 +3,7 @@ Pillow
 django-crispy-forms>=2.3
 crispy-bootstrap5==2025.6
 django-ckeditor==6.7.0
+gunicorn
+psycopg2-binary
+dj-database-url
+whitenoise
