@@ -406,6 +406,7 @@
             .hero-container {
                 grid-template-columns: 1fr;
                 gap: 40px;
+                padding: 0 20px;
             }
 
             .hero-content h1 {
@@ -414,21 +415,142 @@
 
             .cards-grid {
                 grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .nav-container {
+                padding: 0 20px;
+            }
+            
+            .nav-links {
+                gap: 20px;
             }
         }
 
         @media (max-width: 768px) {
             .nav-links {
-                gap: 20px;
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            .nav-links a, .language-btn, .btn-login {
+                text-align: center;
+                padding: 12px 20px;
             }
 
             .hero-content h1 {
                 font-size: 2.5rem;
+                line-height: 1.1;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
             }
 
             .hero-buttons {
                 flex-direction: column;
+                gap: 15px;
             }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .hero-image-main {
+                height: 400px;
+                font-size: 150px;
+            }
+            
+            .membership-card {
+                padding: 30px 20px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .memberships {
+                padding: 60px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                padding: 20px 10px;
+                margin-top: 60px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .hero-image-main {
+                height: 300px;
+                font-size: 120px;
+            }
+            
+            .membership-card {
+                padding: 25px 15px;
+            }
+            
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .memberships {
+                padding: 40px 15px;
+            }
+        }
+        
+        /* Touch improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn-primary:hover,
+            .btn-secondary:hover,
+            .btn-login:hover,
+            .language-btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .membership-card:hover {
+                transform: none;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            }
+            
+            .choice-label:hover {
+                background: #f8f9fa;
+            }
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Better focus indicators for keyboard navigation */
+        .btn-primary:focus,
+        .btn-secondary:focus,
+        .btn-login:focus {
+            outline: 3px solid #52b788;
+            outline-offset: 2px;
         }
     </style>
 </head>

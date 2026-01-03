@@ -245,8 +245,46 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            
+            .container {
+                max-width: 100%;
+            }
+            
+            .header {
+                padding: 30px 20px;
+                margin-bottom: 20px;
+            }
+            
             .header h1 {
                 font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .header .icon {
+                font-size: 50px;
+                margin-bottom: 15px;
+            }
+
+            .category-card {
+                padding: 25px 15px;
+                margin-bottom: 20px;
+            }
+            
+            .category-header {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+            
+            .category-header h2 {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+            }
+            
+            .category-header p {
+                font-size: 0.9rem;
             }
 
             .choices-container {
@@ -256,10 +294,221 @@
             .question-text {
                 flex-direction: column;
                 align-items: flex-start;
+                font-size: 1.1rem;
+                margin-bottom: 15px;
             }
 
             .question-number {
                 margin-bottom: 10px;
+                margin-right: 0;
+            }
+            
+            .question-block {
+                margin-bottom: 30px;
+                padding-bottom: 30px;
+            }
+            
+            .choice-label {
+                padding: 15px 20px;
+                font-size: 0.95rem;
+                line-height: 1.4;
+                word-wrap: break-word;
+                white-space: normal;
+            }
+            
+            .choice-label::before {
+                width: 18px;
+                height: 18px;
+                margin-right: 10px;
+                flex-shrink: 0;
+            }
+            
+            .submit-section {
+                padding: 30px 20px;
+            }
+            
+            .btn-submit {
+                padding: 16px 40px;
+                font-size: 1.1rem;
+                width: 100%;
+            }
+            
+            .btn-back {
+                padding: 12px 25px;
+                margin-top: 15px;
+                width: 100%;
+                text-align: center;
+                box-sizing: border-box;
+            }
+            
+            /* Document upload improvements for mobile */
+            .document-upload-section {
+                margin-top: 20px !important;
+                padding: 15px !important;
+            }
+            
+            .upload-area {
+                padding: 15px !important;
+            }
+            
+            .upload-icon {
+                font-size: 1.5em !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .upload-area p {
+                font-size: 0.9rem !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .upload-area small {
+                font-size: 0.8rem !important;
+            }
+            
+            .uploaded-files > div {
+                padding: 8px 12px !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .uploaded-files strong {
+                font-size: 0.9rem !important;
+            }
+            
+            .uploaded-files small {
+                font-size: 0.8rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px 5px;
+            }
+            
+            .header {
+                padding: 25px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .category-card {
+                padding: 20px 12px;
+            }
+            
+            .category-header {
+                padding: 15px 12px;
+            }
+            
+            .category-header h2 {
+                font-size: 1.3rem;
+            }
+            
+            .question-text {
+                font-size: 1rem;
+            }
+            
+            .choice-label {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .submit-section {
+                padding: 25px 15px;
+            }
+            
+            .btn-submit {
+                padding: 14px 30px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .choice-label:hover {
+                border-color: #e9ecef;
+                background: #f8f9fa;
+            }
+            
+            .btn-submit:hover {
+                transform: none;
+                box-shadow: 0 4px 15px rgba(45, 106, 79, 0.2);
+            }
+            
+            .btn-back:hover {
+                background: white;
+                color: #2d6a4f;
+            }
+            
+            /* Larger touch targets */
+            .choice-label {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+            }
+            
+            .btn-submit, .btn-back {
+                min-height: 48px;
+            }
+        }
+        
+        /* Landscape orientation on mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .header .icon {
+                font-size: 40px;
+                margin-bottom: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .category-header {
+                padding: 15px;
+            }
+            
+            .question-block {
+                margin-bottom: 25px;
+                padding-bottom: 25px;
+            }
+        }
+        
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .choice-label::before {
+                border-width: 1px;
+            }
+        }
+        
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #1a4d3a 0%, #2d6a4f 100%);
+            }
+            
+            .category-card, .header, .submit-section {
+                background: #2b2b2b;
+                color: #ffffff;
+            }
+            
+            .choice-label {
+                background: #3a3a3a;
+                border-color: #555;
+                color: #ffffff;
+            }
+            
+            .choice-option input[type="radio"]:checked + .choice-label {
+                background: linear-gradient(135deg, #2d6a4f, #52b788);
+                color: #ffffff;
             }
         }
     </style>
