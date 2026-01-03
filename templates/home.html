@@ -29,9 +29,10 @@
             right: 0;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 20px 0;
+            padding: 15px 0;
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
             z-index: 1000;
+            min-height: 70px;
         }
 
         .nav-container {
@@ -41,6 +42,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -50,12 +52,14 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            flex-shrink: 0;
         }
 
         .nav-links {
             display: flex;
             gap: 40px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .nav-links a {
@@ -63,10 +67,13 @@
             color: #2d3748;
             font-weight: 500;
             transition: color 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
         }
 
         .nav-links a:hover {
             color: #2d6a4f;
+            background: rgba(45, 106, 79, 0.1);
         }
 
         .language-btn {
@@ -77,6 +84,7 @@
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
 
         .language-btn:hover {
@@ -93,6 +101,7 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 0.95rem;
         }
 
         .btn-login:hover {
@@ -102,13 +111,14 @@
 
         /* Hero Section */
         .hero {
-            margin-top: 80px;
-            min-height: 90vh;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
             display: flex;
             align-items: center;
             position: relative;
             overflow: hidden;
             background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 50%, #95d5b2 100%);
+            padding: 40px 0;
         }
 
         .hero::before {
@@ -428,95 +438,271 @@
         }
 
         @media (max-width: 768px) {
-            .nav-links {
+            /* Navigation mobile */
+            .navbar {
+                padding: 12px 0;
+                min-height: 60px;
+                position: fixed;
+                top: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(15px);
+            }
+            
+            .nav-container {
+                padding: 0 15px;
                 flex-direction: column;
                 gap: 15px;
                 align-items: stretch;
             }
             
+            .logo {
+                font-size: 1.5rem;
+                text-align: center;
+                margin-bottom: 5px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+                width: 100%;
+            }
+            
             .nav-links a, .language-btn, .btn-login {
                 text-align: center;
                 padding: 12px 20px;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                width: 100%;
+                box-sizing: border-box;
+                display: block;
+            }
+            
+            .language-btn {
+                margin: 0;
+                border: 1px solid #e2e8f0;
+            }
+            
+            .btn-login {
+                background: #2d6a4f;
+                color: white;
+                border-color: #2d6a4f;
             }
 
+            /* Hero section mobile */
+            .hero {
+                margin-top: 140px; /* Space for expanded mobile nav */
+                min-height: calc(100vh - 140px);
+                padding: 30px 0;
+            }
+            
+            .hero-container {
+                padding: 0 15px;
+                gap: 30px;
+            }
+            
+            .hero-content {
+                text-align: center;
+            }
+            
             .hero-content h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
                 line-height: 1.1;
+                margin-bottom: 20px;
             }
             
             .hero-content p {
                 font-size: 1.1rem;
+                line-height: 1.6;
+                margin-bottom: 30px;
             }
 
             .hero-buttons {
                 flex-direction: column;
                 gap: 15px;
+                align-items: stretch;
             }
             
             .btn-primary, .btn-secondary {
                 width: 100%;
                 text-align: center;
-            }
-            
-            .hero-image-main {
-                height: 400px;
-                font-size: 150px;
-            }
-            
-            .membership-card {
-                padding: 30px 20px;
-            }
-            
-            .card-title {
-                font-size: 1.5rem;
-            }
-            
-            .section-header h2 {
-                font-size: 2.2rem;
-            }
-            
-            .memberships {
-                padding: 60px 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero {
-                padding: 20px 10px;
-                margin-top: 60px;
-            }
-            
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-            
-            .hero-content p {
-                font-size: 1rem;
+                padding: 16px 30px;
+                font-size: 1.1rem;
+                border-radius: 10px;
             }
             
             .hero-image-main {
                 height: 300px;
                 font-size: 120px;
+                margin-top: 20px;
+            }
+            
+            /* Memberships section mobile */
+            .memberships {
+                padding: 60px 15px;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+                margin-bottom: 15px;
+            }
+            
+            .section-header p {
+                font-size: 1.1rem;
             }
             
             .membership-card {
-                padding: 25px 15px;
+                padding: 30px 20px;
+                margin-bottom: 25px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+                margin-bottom: 12px;
+            }
+            
+            .card-description {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+            
+            .card-features {
+                margin-bottom: 25px;
+            }
+            
+            .card-features li {
+                padding: 8px 0;
+                font-size: 0.95rem;
+            }
+            
+            .card-button {
+                padding: 14px 20px;
+                font-size: 1rem;
+                border-radius: 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            /* Extra small mobile */
+            .navbar {
+                min-height: 55px;
+                padding: 10px 0;
             }
             
             .nav-container {
-                padding: 0 15px;
+                padding: 0 10px;
+                gap: 12px;
             }
             
             .logo {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+            }
+            
+            .nav-links a, .language-btn, .btn-login {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+            }
+            
+            .hero {
+                margin-top: 130px;
+                min-height: calc(100vh - 130px);
+                padding: 20px 0;
+            }
+            
+            .hero-container {
+                padding: 0 10px;
+                gap: 25px;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.9rem;
+                margin-bottom: 15px;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+                margin-bottom: 25px;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 14px 25px;
+                font-size: 1rem;
+            }
+            
+            .hero-image-main {
+                height: 250px;
+                font-size: 100px;
+            }
+            
+            .memberships {
+                padding: 40px 10px;
             }
             
             .section-header h2 {
                 font-size: 1.8rem;
             }
             
-            .memberships {
-                padding: 40px 15px;
+            .section-header p {
+                font-size: 1rem;
+            }
+            
+            .membership-card {
+                padding: 25px 15px;
+            }
+            
+            .card-icon {
+                font-size: 50px;
+                margin-bottom: 15px;
+            }
+            
+            .card-title {
+                font-size: 1.3rem;
+            }
+            
+            .card-description {
+                font-size: 0.95rem;
+            }
+            
+            .card-features li {
+                font-size: 0.9rem;
+                padding: 6px 0;
+            }
+        }
+        
+        /* Landscape orientation fixes */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero {
+                margin-top: 80px;
+                min-height: calc(100vh - 80px);
+                padding: 20px 0;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-image-main {
+                height: 200px;
+                font-size: 80px;
+            }
+            
+            .nav-container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .nav-links {
+                flex-direction: row;
+                gap: 15px;
+                width: auto;
+            }
+            
+            .nav-links a, .language-btn, .btn-login {
+                width: auto;
+                padding: 8px 15px;
+                font-size: 0.85rem;
             }
         }
         
@@ -535,8 +721,16 @@
                 box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             }
             
-            .choice-label:hover {
-                background: #f8f9fa;
+            .nav-links a:hover {
+                background: rgba(45, 106, 79, 0.1);
+            }
+            
+            /* Larger touch targets */
+            .nav-links a, .btn-primary, .btn-secondary, .btn-login, .language-btn {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
         
@@ -548,9 +742,33 @@
         /* Better focus indicators for keyboard navigation */
         .btn-primary:focus,
         .btn-secondary:focus,
-        .btn-login:focus {
+        .btn-login:focus,
+        .nav-links a:focus {
             outline: 3px solid #52b788;
             outline-offset: 2px;
+        }
+        
+        /* Prevent horizontal scroll */
+        body {
+            overflow-x: hidden;
+        }
+        
+        /* Safe area for notched devices */
+        @supports (padding: max(0px)) {
+            .nav-container {
+                padding-left: max(15px, env(safe-area-inset-left));
+                padding-right: max(15px, env(safe-area-inset-right));
+            }
+            
+            .hero-container {
+                padding-left: max(15px, env(safe-area-inset-left));
+                padding-right: max(15px, env(safe-area-inset-right));
+            }
+            
+            .memberships-container {
+                padding-left: max(40px, env(safe-area-inset-left));
+                padding-right: max(40px, env(safe-area-inset-right));
+            }
         }
     </style>
 </head>
@@ -646,7 +864,59 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2025 Sustindex. {% trans "All rights reserved." %}</p>
+        <div class="footer-container">
+            <p>&copy; 2025 Sustindex. {% trans "All rights reserved." %}</p>
+        </div>
     </footer>
+    
+    <style>
+        .footer {
+            background: #1b4332;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .footer p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .footer {
+                padding: 25px 0;
+            }
+            
+            .footer-container {
+                padding: 0 15px;
+            }
+            
+            .footer p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .footer {
+                padding: 20px 0;
+            }
+            
+            .footer-container {
+                padding: 0 10px;
+            }
+            
+            .footer p {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </body>
 </html>
