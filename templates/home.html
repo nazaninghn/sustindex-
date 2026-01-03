@@ -15,9 +15,18 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            margin: 0;
+            padding: 0;
             background: #f8f9fa;
         }
 
@@ -246,11 +255,14 @@
         .memberships {
             padding: 100px 40px;
             background: white;
+            position: relative;
+            overflow: visible;
         }
 
         .memberships-container {
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
         }
 
         .section-header {
@@ -496,22 +508,24 @@
             /* Hero section mobile */
             .hero {
                 margin-top: 50px;
-                min-height: calc(100vh - 50px);
-                padding: 20px 0;
-                display: flex;
-                align-items: flex-start;
-                justify-content: center;
+                min-height: auto;
+                padding: 30px 0;
+                display: block;
+                position: relative;
+                overflow: visible;
             }
             
             .hero-container {
                 padding: 20px 15px;
                 gap: 30px;
-                margin-top: 20px;
+                margin-top: 0;
+                display: block;
+                grid-template-columns: none;
             }
             
             .hero-content {
                 text-align: center;
-                order: 1;
+                margin-bottom: 30px;
             }
             
             .hero-content h1 {
@@ -543,7 +557,7 @@
             }
             
             .hero-image {
-                order: 2;
+                margin-top: 20px;
             }
             
             .hero-image-main {
@@ -555,6 +569,8 @@
             /* Memberships section mobile */
             .memberships {
                 padding: 50px 15px;
+                position: relative;
+                overflow: visible;
             }
             
             .section-header h2 {
@@ -569,6 +585,8 @@
             .membership-card {
                 padding: 25px 20px;
                 margin-bottom: 20px;
+                position: relative;
+                overflow: visible;
             }
             
             .card-title {
@@ -929,6 +947,33 @@
             
             .footer p {
                 font-size: 0.85rem;
+            }
+        }
+        
+        /* Ensure scrolling works properly on all devices */
+        html, body {
+            height: auto !important;
+            min-height: 100vh;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Fix any potential scroll blocking */
+        .hero, .memberships {
+            position: relative;
+            overflow: visible;
+        }
+        
+        /* Mobile scroll fix */
+        @media (max-width: 768px) {
+            html, body {
+                overflow-y: scroll !important;
+                -webkit-overflow-scrolling: touch;
+                height: auto !important;
+            }
+            
+            body {
+                position: relative;
             }
         }
     </style>
