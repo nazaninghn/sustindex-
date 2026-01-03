@@ -440,8 +440,8 @@
         @media (max-width: 768px) {
             /* Navigation mobile */
             .navbar {
-                padding: 12px 0;
-                min-height: 60px;
+                padding: 8px 0;
+                min-height: 50px;
                 position: fixed;
                 top: 0;
                 width: 100%;
@@ -451,40 +451,43 @@
             
             .nav-container {
                 padding: 0 15px;
-                flex-direction: column;
-                gap: 15px;
-                align-items: stretch;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
             }
             
             .logo {
-                font-size: 1.5rem;
-                text-align: center;
-                margin-bottom: 5px;
+                font-size: 1.4rem;
+                text-align: left;
+                margin: 0;
             }
             
             .nav-links {
-                flex-direction: column;
-                gap: 10px;
-                align-items: stretch;
-                width: 100%;
+                flex-direction: row;
+                gap: 8px;
+                align-items: center;
+                width: auto;
+                flex-wrap: wrap;
             }
             
-            .nav-links a, .language-btn, .btn-login {
-                text-align: center;
-                padding: 12px 20px;
-                border-radius: 8px;
-                font-size: 0.9rem;
-                width: 100%;
-                box-sizing: border-box;
-                display: block;
+            .nav-links a {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+                border-radius: 6px;
+                white-space: nowrap;
             }
             
             .language-btn {
+                padding: 6px 10px;
+                font-size: 0.8rem;
                 margin: 0;
                 border: 1px solid #e2e8f0;
             }
             
             .btn-login {
+                padding: 6px 12px;
+                font-size: 0.8rem;
                 background: #2d6a4f;
                 color: white;
                 border-color: #2d6a4f;
@@ -492,93 +495,104 @@
 
             /* Hero section mobile */
             .hero {
-                margin-top: 140px; /* Space for expanded mobile nav */
-                min-height: calc(100vh - 140px);
-                padding: 30px 0;
+                margin-top: 50px;
+                min-height: calc(100vh - 50px);
+                padding: 20px 0;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
             }
             
             .hero-container {
-                padding: 0 15px;
+                padding: 20px 15px;
                 gap: 30px;
+                margin-top: 20px;
             }
             
             .hero-content {
                 text-align: center;
+                order: 1;
             }
             
             .hero-content h1 {
-                font-size: 2.2rem;
-                line-height: 1.1;
-                margin-bottom: 20px;
+                font-size: 2rem;
+                line-height: 1.2;
+                margin-bottom: 15px;
+                color: #1b4332;
             }
             
             .hero-content p {
-                font-size: 1.1rem;
-                line-height: 1.6;
-                margin-bottom: 30px;
+                font-size: 1rem;
+                line-height: 1.5;
+                margin-bottom: 25px;
+                color: #2d6a4f;
             }
 
             .hero-buttons {
                 flex-direction: column;
-                gap: 15px;
+                gap: 12px;
                 align-items: stretch;
             }
             
             .btn-primary, .btn-secondary {
                 width: 100%;
                 text-align: center;
-                padding: 16px 30px;
-                font-size: 1.1rem;
+                padding: 14px 25px;
+                font-size: 1rem;
                 border-radius: 10px;
             }
             
+            .hero-image {
+                order: 2;
+            }
+            
             .hero-image-main {
-                height: 300px;
-                font-size: 120px;
-                margin-top: 20px;
+                height: 250px;
+                font-size: 100px;
+                margin-top: 0;
             }
             
             /* Memberships section mobile */
             .memberships {
-                padding: 60px 15px;
+                padding: 50px 15px;
             }
             
             .section-header h2 {
-                font-size: 2.2rem;
+                font-size: 2rem;
                 margin-bottom: 15px;
             }
             
             .section-header p {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             
             .membership-card {
-                padding: 30px 20px;
-                margin-bottom: 25px;
+                padding: 25px 20px;
+                margin-bottom: 20px;
             }
             
             .card-title {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
                 margin-bottom: 12px;
             }
             
             .card-description {
-                font-size: 1rem;
+                font-size: 0.95rem;
                 margin-bottom: 20px;
             }
             
             .card-features {
-                margin-bottom: 25px;
+                margin-bottom: 20px;
             }
             
             .card-features li {
-                padding: 8px 0;
-                font-size: 0.95rem;
+                padding: 6px 0;
+                font-size: 0.9rem;
             }
             
             .card-button {
-                padding: 14px 20px;
-                font-size: 1rem;
+                padding: 12px 20px;
+                font-size: 0.95rem;
                 border-radius: 8px;
             }
         }

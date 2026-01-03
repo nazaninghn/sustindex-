@@ -7,22 +7,37 @@
     <title>{% trans "Sustainability Assessment Questionnaire" %} - Sustindex</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* Prevent horizontal scroll */
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
+        }
+        
+        html {
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        body {
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 20px 10px;
+            margin: 0;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
@@ -246,136 +261,201 @@
 
         @media (max-width: 768px) {
             body {
-                padding: 20px 10px;
+                padding: 10px 5px;
+                min-height: 100vh;
+                overflow-x: hidden;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
             
             .container {
                 max-width: 100%;
+                margin: 0 auto;
+                padding: 0;
             }
             
             .header {
-                padding: 30px 20px;
-                margin-bottom: 20px;
+                padding: 20px 15px;
+                margin-bottom: 15px;
+                border-radius: 15px;
             }
             
             .header h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
                 line-height: 1.2;
+                margin-bottom: 10px;
             }
             
             .header .icon {
-                font-size: 50px;
-                margin-bottom: 15px;
+                font-size: 40px;
+                margin-bottom: 10px;
             }
 
             .category-card {
-                padding: 25px 15px;
-                margin-bottom: 20px;
+                padding: 20px 12px;
+                margin-bottom: 15px;
+                border-radius: 15px;
+                overflow: visible;
             }
             
             .category-header {
-                padding: 20px 15px;
-                margin-bottom: 20px;
+                padding: 15px 12px;
+                margin-bottom: 15px;
+                border-radius: 12px;
             }
             
             .category-header h2 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
                 margin-bottom: 8px;
             }
             
             .category-header p {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
             }
 
             .choices-container {
                 margin-left: 0;
+                overflow: visible;
             }
 
             .question-text {
                 flex-direction: column;
                 align-items: flex-start;
-                font-size: 1.1rem;
+                font-size: 1rem;
                 margin-bottom: 15px;
+                word-wrap: break-word;
             }
 
             .question-number {
-                margin-bottom: 10px;
+                margin-bottom: 8px;
                 margin-right: 0;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                font-size: 0.9rem;
             }
             
             .question-block {
-                margin-bottom: 30px;
-                padding-bottom: 30px;
+                margin-bottom: 25px;
+                padding-bottom: 25px;
+                overflow: visible;
+            }
+            
+            .choice-option {
+                margin-bottom: 12px;
+                overflow: visible;
             }
             
             .choice-label {
-                padding: 15px 20px;
-                font-size: 0.95rem;
+                padding: 12px 15px;
+                font-size: 0.9rem;
                 line-height: 1.4;
                 word-wrap: break-word;
                 white-space: normal;
+                overflow: visible;
+                border-radius: 10px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
             }
             
             .choice-label::before {
-                width: 18px;
-                height: 18px;
+                width: 16px;
+                height: 16px;
                 margin-right: 10px;
                 flex-shrink: 0;
             }
             
             .submit-section {
-                padding: 30px 20px;
+                padding: 20px 15px;
+                border-radius: 15px;
+                margin-top: 20px;
             }
             
             .btn-submit {
-                padding: 16px 40px;
-                font-size: 1.1rem;
+                padding: 14px 30px;
+                font-size: 1rem;
                 width: 100%;
+                min-height: 48px;
             }
             
             .btn-back {
-                padding: 12px 25px;
-                margin-top: 15px;
+                padding: 10px 20px;
+                margin-top: 12px;
                 width: 100%;
                 text-align: center;
                 box-sizing: border-box;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             
             /* Document upload improvements for mobile */
             .document-upload-section {
-                margin-top: 20px !important;
-                padding: 15px !important;
+                margin-top: 15px !important;
+                padding: 12px !important;
+                border-radius: 10px !important;
+                overflow: visible !important;
+            }
+            
+            .document-upload-section h5 {
+                font-size: 1rem !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .document-upload-section p {
+                font-size: 0.85rem !important;
+                margin-bottom: 12px !important;
             }
             
             .upload-area {
-                padding: 15px !important;
+                padding: 12px !important;
+                border-radius: 8px !important;
+                min-height: 80px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
             
             .upload-icon {
                 font-size: 1.5em !important;
-                margin-bottom: 8px !important;
+                margin-bottom: 6px !important;
             }
             
             .upload-area p {
-                font-size: 0.9rem !important;
-                margin-bottom: 5px !important;
+                font-size: 0.85rem !important;
+                margin: 0 0 4px 0 !important;
+                text-align: center !important;
             }
             
             .upload-area small {
-                font-size: 0.8rem !important;
+                font-size: 0.75rem !important;
+                text-align: center !important;
+            }
+            
+            .uploaded-files {
+                margin-top: 10px !important;
+                overflow: visible !important;
             }
             
             .uploaded-files > div {
-                padding: 8px 12px !important;
-                margin-bottom: 8px !important;
+                padding: 8px 10px !important;
+                margin-bottom: 6px !important;
+                border-radius: 6px !important;
+                overflow: visible !important;
+                word-wrap: break-word !important;
             }
             
             .uploaded-files strong {
-                font-size: 0.9rem !important;
+                font-size: 0.85rem !important;
+                display: block !important;
+                margin-bottom: 2px !important;
             }
             
             .uploaded-files small {
-                font-size: 0.8rem !important;
+                font-size: 0.75rem !important;
             }
         }
         
