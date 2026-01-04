@@ -1,802 +1,1036 @@
 {% load i18n %}
+{% load dict_extras %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% trans "Sustainability Assessment Questionnaire" %} - Sustindex</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>{% trans "ESG Assessment Questionnaire" %} - Sustindex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Prevent horizontal scroll */
-        * {
-            box-sizing: border-box;
-        }
-        
-        html {
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        body {
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-            position: relative;
+        :root {
+            --primary-color: #1F7A63;
+            --neutral-color: #2E2E2E;
+            --accent-color: #4C6EF5;
+            --light-gray: #F8F9FA;
+            --success-green: #28A745;
+            --warning-orange: #FF6B35;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);
-            min-height: 100vh;
-            padding: 20px 10px;
+        * {
+            box-sizing: border-box;
             margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light-gray);
+            min-height: 100vh;
+            padding: 2rem 1rem;
             overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+        }
+
+        .progress-stats {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar-container {
+            background: #E9ECEF;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--success-green));
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #E9ECEF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .step-circle.completed {
+            background: var(--success-green);
+            color: white;
+        }
+
+        .step-circle.current {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Header */
         .header {
             background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             text-align: center;
         }
 
         .header h1 {
             font-size: 2.5rem;
-            color: #1b4332;
-            margin-bottom: 15px;
+            font-weight: 800;
+            color: var(--neutral-color);
+            margin-bottom: 1rem;
         }
 
-        .header .icon {
-            font-size: 60px;
-            margin-bottom: 20px;
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .progress-bar {
+        /* Category Sections */
+        .category-section {
             background: white;
             border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .progress-label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .progress-track {
-            height: 10px;
-            background: #e9ecef;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #2d6a4f, #52b788);
-            border-radius: 10px;
-            transition: width 0.3s ease;
-        }
-
-        .category-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .category-header {
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
-            color: white;
-            padding: 25px 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
         }
 
-        .category-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
-
-        .category-header p {
-            opacity: 0.9;
-            font-size: 0.95rem;
-        }
-
-        .question-block {
-            margin-bottom: 40px;
-            padding-bottom: 40px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .question-block:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .question-number {
-            display: inline-block;
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
+        .category-icon {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            text-align: center;
-            line-height: 35px;
-            font-weight: 600;
-            color: #1b4332;
-            margin-right: 15px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .category-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .category-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Questions */
+        .question-card {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-color);
         }
 
         .question-text {
-            font-size: 1.2rem;
-            color: #1b4332;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
+            color: var(--neutral-color);
+            margin-bottom: 1rem;
+            line-height: 1.5;
         }
 
         .choices-container {
-            margin-left: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
         .choice-option {
-            position: relative;
-            margin-bottom: 15px;
-        }
-
-        .choice-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .choice-label {
-            display: block;
-            padding: 18px 25px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #E9ECEF;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 500;
-            color: #495057;
         }
 
-        .choice-option input[type="radio"]:checked + .choice-label {
-            background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
-            border-color: #2d6a4f;
-            color: #1b4332;
-            transform: translateX(5px);
+        .choice-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(31, 122, 99, 0.05);
         }
 
-        .choice-label:hover {
-            border-color: #52b788;
-            background: #f0f9f4;
+        .choice-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(31, 122, 99, 0.1);
         }
 
-        .choice-label::before {
-            content: '';
-            display: inline-block;
+        .choice-radio {
+            margin-right: 1rem;
             width: 20px;
             height: 20px;
-            border: 2px solid #dee2e6;
-            border-radius: 50%;
-            margin-right: 12px;
-            vertical-align: middle;
+            accent-color: var(--primary-color);
+        }
+
+        .choice-text {
+            flex: 1;
+            font-size: 0.95rem;
+            color: var(--neutral-color);
+            line-height: 1.4;
+        }
+
+        .choice-score {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* File Upload Section */
+        .file-upload-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #E9ECEF;
+        }
+
+        .upload-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--neutral-color);
+            font-size: 0.9rem;
+        }
+
+        .upload-header i {
+            color: var(--primary-color);
+        }
+
+        .upload-area {
+            border: 2px dashed #E9ECEF;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            background: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: rgba(31, 122, 99, 0.05);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--primary-color);
+            background: rgba(31, 122, 99, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-placeholder i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .upload-placeholder p {
+            color: var(--neutral-color);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-placeholder small {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .uploaded-files {
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: white;
+            border: 1px solid #E9ECEF;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
             transition: all 0.3s ease;
         }
 
-        .choice-option input[type="radio"]:checked + .choice-label::before {
-            background: #2d6a4f;
-            border-color: #2d6a4f;
-            box-shadow: inset 0 0 0 4px white;
+        .file-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(31, 122, 99, 0.05);
         }
 
-        .submit-section {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
         }
 
-        .btn-submit {
-            padding: 18px 60px;
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .file-icon.pdf { background: #dc3545; }
+        .file-icon.doc { background: #0d6efd; }
+        .file-icon.xls { background: #198754; }
+        .file-icon.img { background: #fd7e14; }
+        .file-icon.default { background: #6c757d; }
+
+        .file-details h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--neutral-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .file-details span {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-remove {
+            background: #dc3545;
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-weight: 600;
+            padding: 0.5rem;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.8rem;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3);
+        .btn-remove:hover {
+            background: #c82333;
+            transform: scale(1.05);
         }
 
-        .btn-back {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
+        .upload-progress {
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar-upload {
+            height: 4px;
+            background: #E9ECEF;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill-upload {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-green));
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        /* Submit Button */
+        .submit-container {
             background: white;
-            color: #2d6a4f;
-            border: 2px solid #2d6a4f;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--success-green));
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
             border-radius: 10px;
-            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(31, 122, 99, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Save & Continue */
+        .save-continue {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
             font-weight: 600;
+            cursor: pointer;
+            margin-right: 1rem;
             transition: all 0.3s ease;
         }
 
-        .btn-back:hover {
-            background: #2d6a4f;
+        .save-continue:hover {
+            background: var(--primary-color);
             color: white;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
             body {
-                padding: 10px 5px;
-                min-height: 100vh;
-                overflow-x: hidden;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
+                padding: 1rem 0.5rem;
             }
-            
-            .container {
-                max-width: 100%;
-                margin: 0 auto;
-                padding: 0;
+
+            .progress-container,
+            .header,
+            .category-section,
+            .submit-container {
+                padding: 1.5rem;
             }
-            
-            .header {
-                padding: 20px 15px;
-                margin-bottom: 15px;
-                border-radius: 15px;
-            }
-            
+
             .header h1 {
-                font-size: 1.8rem;
-                line-height: 1.2;
-                margin-bottom: 10px;
-            }
-            
-            .header .icon {
-                font-size: 40px;
-                margin-bottom: 10px;
+                font-size: 2rem;
             }
 
-            .category-card {
-                padding: 20px 12px;
-                margin-bottom: 15px;
-                border-radius: 15px;
-                overflow: visible;
-            }
-            
             .category-header {
-                padding: 15px 12px;
-                margin-bottom: 15px;
-                border-radius: 12px;
-            }
-            
-            .category-header h2 {
-                font-size: 1.3rem;
-                margin-bottom: 8px;
-            }
-            
-            .category-header p {
-                font-size: 0.85rem;
+                flex-direction: column;
+                text-align: center;
             }
 
-            .choices-container {
-                margin-left: 0;
-                overflow: visible;
+            .category-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
             }
 
-            .question-text {
+            .question-card {
+                padding: 1rem;
+            }
+
+            .choice-option {
+                padding: 0.75rem;
+            }
+
+            .progress-steps {
+                display: none;
+            }
+
+            .submit-btn {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .save-continue {
+                width: 100%;
+                margin-right: 0;
+            }
+
+            /* Mobile file upload adjustments */
+            .upload-area {
+                padding: 1.5rem 1rem;
+            }
+
+            .upload-placeholder i {
+                font-size: 1.5rem;
+            }
+
+            .file-item {
                 flex-direction: column;
                 align-items: flex-start;
-                font-size: 1rem;
-                margin-bottom: 15px;
-                word-wrap: break-word;
+                gap: 0.75rem;
             }
 
-            .question-number {
-                margin-bottom: 8px;
-                margin-right: 0;
-                width: 30px;
-                height: 30px;
-                line-height: 30px;
-                font-size: 0.9rem;
-            }
-            
-            .question-block {
-                margin-bottom: 25px;
-                padding-bottom: 25px;
-                overflow: visible;
-            }
-            
-            .choice-option {
-                margin-bottom: 12px;
-                overflow: visible;
-            }
-            
-            .choice-label {
-                padding: 12px 15px;
-                font-size: 0.9rem;
-                line-height: 1.4;
-                word-wrap: break-word;
-                white-space: normal;
-                overflow: visible;
-                border-radius: 10px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-            }
-            
-            .choice-label::before {
-                width: 16px;
-                height: 16px;
-                margin-right: 10px;
-                flex-shrink: 0;
-            }
-            
-            .submit-section {
-                padding: 20px 15px;
-                border-radius: 15px;
-                margin-top: 20px;
-            }
-            
-            .btn-submit {
-                padding: 14px 30px;
-                font-size: 1rem;
+            .file-info {
                 width: 100%;
-                min-height: 48px;
             }
-            
-            .btn-back {
-                padding: 10px 20px;
-                margin-top: 12px;
-                width: 100%;
-                text-align: center;
-                box-sizing: border-box;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            /* Document upload improvements for mobile */
-            .document-upload-section {
-                margin-top: 15px !important;
-                padding: 12px !important;
-                border-radius: 10px !important;
-                overflow: visible !important;
-            }
-            
-            .document-upload-section h5 {
-                font-size: 1rem !important;
-                margin-bottom: 8px !important;
-            }
-            
-            .document-upload-section p {
-                font-size: 0.85rem !important;
-                margin-bottom: 12px !important;
-            }
-            
-            .upload-area {
-                padding: 12px !important;
-                border-radius: 8px !important;
-                min-height: 80px !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-            
-            .upload-icon {
-                font-size: 1.5em !important;
-                margin-bottom: 6px !important;
-            }
-            
-            .upload-area p {
-                font-size: 0.85rem !important;
-                margin: 0 0 4px 0 !important;
-                text-align: center !important;
-            }
-            
-            .upload-area small {
-                font-size: 0.75rem !important;
-                text-align: center !important;
-            }
-            
-            .uploaded-files {
-                margin-top: 10px !important;
-                overflow: visible !important;
-            }
-            
-            .uploaded-files > div {
-                padding: 8px 10px !important;
-                margin-bottom: 6px !important;
-                border-radius: 6px !important;
-                overflow: visible !important;
-                word-wrap: break-word !important;
-            }
-            
-            .uploaded-files strong {
-                font-size: 0.85rem !important;
-                display: block !important;
-                margin-bottom: 2px !important;
-            }
-            
-            .uploaded-files small {
-                font-size: 0.75rem !important;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            body {
-                padding: 15px 5px;
-            }
-            
-            .header {
-                padding: 25px 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .category-card {
-                padding: 20px 12px;
-            }
-            
-            .category-header {
-                padding: 15px 12px;
-            }
-            
-            .category-header h2 {
-                font-size: 1.3rem;
-            }
-            
-            .question-text {
-                font-size: 1rem;
-            }
-            
-            .choice-label {
-                padding: 12px 15px;
-                font-size: 0.9rem;
-            }
-            
-            .submit-section {
-                padding: 25px 15px;
-            }
-            
-            .btn-submit {
-                padding: 14px 30px;
-                font-size: 1rem;
-            }
-        }
-        
-        /* Touch device optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            .choice-label:hover {
-                border-color: #e9ecef;
-                background: #f8f9fa;
-            }
-            
-            .btn-submit:hover {
-                transform: none;
-                box-shadow: 0 4px 15px rgba(45, 106, 79, 0.2);
-            }
-            
-            .btn-back:hover {
-                background: white;
-                color: #2d6a4f;
-            }
-            
-            /* Larger touch targets */
-            .choice-label {
-                min-height: 48px;
-                display: flex;
-                align-items: center;
-            }
-            
-            .btn-submit, .btn-back {
-                min-height: 48px;
-            }
-        }
-        
-        /* Landscape orientation on mobile */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .header .icon {
-                font-size: 40px;
-                margin-bottom: 10px;
-            }
-            
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .category-header {
-                padding: 15px;
-            }
-            
-            .question-block {
-                margin-bottom: 25px;
-                padding-bottom: 25px;
-            }
-        }
-        
-        /* High DPI displays */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .choice-label::before {
-                border-width: 1px;
-            }
-        }
-        
-        /* Accessibility improvements */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-        
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(135deg, #1a4d3a 0%, #2d6a4f 100%);
-            }
-            
-            .category-card, .header, .submit-section {
-                background: #2b2b2b;
-                color: #ffffff;
-            }
-            
-            .choice-label {
-                background: #3a3a3a;
-                border-color: #555;
-                color: #ffffff;
-            }
-            
-            .choice-option input[type="radio"]:checked + .choice-label {
-                background: linear-gradient(135deg, #2d6a4f, #52b788);
-                color: #ffffff;
+
+            .file-actions {
+                align-self: flex-end;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="icon">📋</div>
-            <h1>{% trans "Sustainability Assessment Questionnaire" %}</h1>
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <div class="progress-title">{% trans "ESG Assessment Progress" %}</div>
+                <div class="progress-stats">
+                    <span id="answered-count">0</span> / <span id="total-questions">{{ categories|length }}</span> {% trans "Categories" %}
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+            </div>
+            <div class="progress-steps">
+                {% for category in categories %}
+                <div class="progress-step">
+                    <div class="step-circle" id="step-{{ forloop.counter }}">{{ forloop.counter }}</div>
+                    <span>{{ category.name|truncatechars:10 }}</span>
+                </div>
+                {% endfor %}
+            </div>
         </div>
 
-        <form method="post" id="questionnaireForm">
+        <!-- Header -->
+        <div class="header">
+            <h1>{% trans "ESG Assessment Questionnaire" %}</h1>
+            <p>{% trans "Complete this comprehensive assessment to receive your ESG score and professional sustainability report." %}</p>
+        </div>
+
+        <!-- Form -->
+        <form method="post" id="questionnaire-form">
             {% csrf_token %}
             
             {% for category in categories %}
-            <div class="category-card">
+            <div class="category-section" data-category="{{ forloop.counter }}">
                 <div class="category-header">
-                    <h2>{{ category.name }}</h2>
-                    {% if category.description %}
-                    <p>{{ category.description }}</p>
-                    {% endif %}
+                    <div class="category-icon">
+                        {% if 'Environment' in category.name %}
+                            <i class="fas fa-leaf"></i>
+                        {% elif 'Social' in category.name %}
+                            <i class="fas fa-users"></i>
+                        {% elif 'Governance' in category.name %}
+                            <i class="fas fa-balance-scale"></i>
+                        {% else %}
+                            <i class="fas fa-chart-line"></i>
+                        {% endif %}
+                    </div>
+                    <div class="category-info">
+                        <h3>{{ category.name }}</h3>
+                        <p>{{ category.description }}</p>
+                    </div>
                 </div>
 
                 {% for question in category.questions.all %}
-                {% if question.is_active %}
-                <div class="question-block">
+                <div class="question-card">
                     <div class="question-text">
-                        <span class="question-number">{{ question.order }}</span>
-                        <span>{{ question.text|safe }}</span>
+                        {{ forloop.counter }}. {{ question.text|safe }}
                     </div>
                     
                     <div class="choices-container">
                         {% for choice in question.choices.all %}
-                        <div class="choice-option">
+                        <label class="choice-option" for="choice_{{ question.id }}_{{ choice.id }}">
                             <input type="radio" 
                                    name="question_{{ question.id }}" 
-                                   id="choice_{{ choice.id }}" 
                                    value="{{ choice.id }}" 
-                                   required>
-                            <label class="choice-label" for="choice_{{ choice.id }}">
-                                {{ choice.text }}
-                            </label>
-                        </div>
+                                   id="choice_{{ question.id }}_{{ choice.id }}"
+                                   class="choice-radio"
+                                   data-question="{{ question.id }}">
+                            <span class="choice-text">{{ choice.text }}</span>
+                            <span class="choice-score">{{ choice.score }} pts</span>
+                        </label>
                         {% endfor %}
-                        
-                        <!-- Document Upload Section -->
-                        <div class="document-upload-section" style="margin-top: 25px; padding: 20px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 12px; border-left: 4px solid #52b788;">
-                            <h5 style="color: #2d6a4f; margin-bottom: 10px; font-size: 1.1rem;">📎 Supporting Documents (Optional)</h5>
-                            <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">
-                                Upload relevant documents to support your answer (certificates, reports, policies, etc.)
-                            </p>
-                            
-                            <div class="upload-area" 
-                                 id="upload_area_{{ question.id }}" 
-                                 onclick="document.getElementById('file_input_{{ question.id }}').click()"
-                                 style="border: 2px dashed #52b788; padding: 20px; text-align: center; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
-                                <div class="upload-icon" style="font-size: 2em; color: #52b788; margin-bottom: 10px;">📁</div>
-                                <p style="margin: 0; color: #2d6a4f; font-weight: 500;">Click to upload or drag files here</p>
-                                <small style="color: #666;">Max file size: 10MB | Supported: PDF, DOC, JPG, PNG</small>
-                                <input type="file" 
-                                       id="file_input_{{ question.id }}" 
-                                       style="display: none;" 
-                                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
-                                       multiple
-                                       onchange="handleFileUpload({{ question.id }}, this.files)">
+                    </div>
+
+                    <!-- File Upload Section -->
+                    <div class="file-upload-section">
+                        <div class="upload-header">
+                            <i class="fas fa-paperclip"></i>
+                            <span>{% trans "Supporting Documents" %} ({% trans "Optional" %})</span>
+                        </div>
+                        <div class="upload-area" id="upload-area-{{ question.id }}">
+                            <div class="upload-placeholder">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>{% trans "Drag & drop files here or click to browse" %}</p>
+                                <small>{% trans "PDF, DOC, XLS, JPG, PNG (Max 10MB)" %}</small>
                             </div>
-                            
-                            <div class="uploaded-files" id="uploaded_files_{{ question.id }}" style="margin-top: 15px;"></div>
+                            <input type="file" 
+                                   id="file-input-{{ question.id }}" 
+                                   class="file-input"
+                                   data-question="{{ question.id }}"
+                                   multiple
+                                   accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
+                        </div>
+                        <div class="uploaded-files" id="uploaded-files-{{ question.id }}">
+                            {% if existing_documents %}
+                                {% for doc in existing_documents|get_item:question.id %}
+                                <div class="file-item" id="file-existing-{{ doc.id }}" data-document-id="{{ doc.id }}">
+                                    <div class="file-info">
+                                        <div class="file-icon {% if 'pdf' in doc.file.name|lower %}pdf{% elif 'doc' in doc.file.name|lower %}doc{% elif 'xls' in doc.file.name|lower %}xls{% elif doc.file.name|lower|slice:'-4:' in 'jpg,jpeg,png' %}img{% else %}default{% endif %}">
+                                            <i class="fas fa-file{% if 'pdf' in doc.file.name|lower %}-pdf{% elif 'doc' in doc.file.name|lower %}-word{% elif 'xls' in doc.file.name|lower %}-excel{% elif doc.file.name|lower|slice:'-4:' in 'jpg,jpeg,png' %}-image{% endif %}"></i>
+                                        </div>
+                                        <div class="file-details">
+                                            <h4>{{ doc.title }}</h4>
+                                            <span>{{ doc.get_file_size_display }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="file-actions">
+                                        <button type="button" class="btn-remove" onclick="removeExistingFile('{{ doc.id }}', '{{ question.id }}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
-                {% endif %}
                 {% endfor %}
             </div>
             {% endfor %}
 
-            <!-- Submit Section -->
-            <div class="submit-section">
-                <button type="submit" class="btn-submit">
-                    {% trans "Submit Questionnaire" %} →
+            <!-- Submit -->
+            <div class="submit-container">
+                <button type="submit" class="submit-btn" id="submit-btn" disabled>
+                    <i class="fas fa-check-circle"></i> {% trans "Complete Assessment" %}
                 </button>
-                <br>
-                <a href="{% url 'dashboard' %}" class="btn-back">
-                    ← {% trans "Back to Dashboard" %}
-                </a>
+                <div style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                    {% trans "Please answer all questions to complete the assessment" %}
+                </div>
             </div>
         </form>
     </div>
 
     <script>
-        // Auto-scroll to next question after selection
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('questionnaire-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const answeredCount = document.getElementById('answered-count');
+        const totalQuestions = document.querySelectorAll('.question-card').length;
+        
+        let answeredQuestions = new Set();
+        let uploadedFiles = {};
+
+        // Update progress
+        function updateProgress() {
+            const progress = (answeredQuestions.size / totalQuestions) * 100;
+            progressBar.style.width = progress + '%';
+            answeredCount.textContent = answeredQuestions.size;
+            
+            // Enable submit button if all questions answered
+            submitBtn.disabled = answeredQuestions.size < totalQuestions;
+            
+            // Update step circles
+            const categories = document.querySelectorAll('.category-section');
+            categories.forEach((category, index) => {
+                const categoryQuestions = category.querySelectorAll('.question-card');
+                const categoryAnswered = Array.from(categoryQuestions).every(q => {
+                    const questionId = q.querySelector('input[type="radio"]').dataset.question;
+                    return answeredQuestions.has(questionId);
+                });
+                
+                const stepCircle = document.getElementById(`step-${index + 1}`);
+                if (categoryAnswered) {
+                    stepCircle.classList.add('completed');
+                    stepCircle.innerHTML = '<i class="fas fa-check"></i>';
+                } else {
+                    stepCircle.classList.remove('completed');
+                    stepCircle.textContent = index + 1;
+                }
+            });
+        }
+
+        // Handle radio button changes
         document.querySelectorAll('input[type="radio"]').forEach(radio => {
             radio.addEventListener('change', function() {
-                const currentBlock = this.closest('.question-block');
-                const nextBlock = currentBlock.nextElementSibling;
+                const questionId = this.dataset.question;
+                answeredQuestions.add(questionId);
                 
-                if (nextBlock && nextBlock.classList.contains('question-block')) {
-                    setTimeout(() => {
-                        nextBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 300);
-                }
+                // Update choice styling
+                const choiceOptions = document.querySelectorAll(`input[name="question_${questionId}"]`);
+                choiceOptions.forEach(option => {
+                    option.closest('.choice-option').classList.remove('selected');
+                });
+                this.closest('.choice-option').classList.add('selected');
+                
+                updateProgress();
             });
         });
 
-        // File upload functionality
-        function handleFileUpload(questionId, files) {
-            const uploadedFilesDiv = document.getElementById(`uploaded_files_${questionId}`);
-            
-            Array.from(files).forEach(file => {
-                // Validate file size
-                if (file.size > 10 * 1024 * 1024) {
-                    alert(`File "${file.name}" is too large. Maximum size is 10MB.`);
-                    return;
-                }
-                
-                // Create file display element
-                const fileDiv = document.createElement('div');
-                fileDiv.style.cssText = `
-                    display: flex; 
-                    align-items: center; 
-                    justify-content: space-between; 
-                    padding: 10px 15px; 
-                    background: white; 
-                    border-radius: 8px; 
-                    margin-bottom: 10px; 
-                    border: 1px solid #dee2e6;
-                `;
-                
-                const fileInfo = document.createElement('div');
-                fileInfo.innerHTML = `
-                    <strong style="color: #2d6a4f;">${file.name}</strong><br>
-                    <small style="color: #666;">${formatFileSize(file.size)} • ${file.type || 'Unknown type'}</small>
-                `;
-                
-                const uploadStatus = document.createElement('div');
-                uploadStatus.innerHTML = '<span style="color: #ffc107;">⏳ Uploading...</span>';
-                
-                fileDiv.appendChild(fileInfo);
-                fileDiv.appendChild(uploadStatus);
-                uploadedFilesDiv.appendChild(fileDiv);
-                
-                // Upload file via AJAX
-                uploadFile(questionId, file, uploadStatus);
+        // File Upload Functionality
+        document.querySelectorAll('.upload-area').forEach(uploadArea => {
+            const questionId = uploadArea.id.split('-')[2];
+            const fileInput = document.getElementById(`file-input-${questionId}`);
+            const uploadedFilesContainer = document.getElementById(`uploaded-files-${questionId}`);
+
+            // Initialize uploaded files array
+            uploadedFiles[questionId] = [];
+
+            // Click to browse
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
             });
-        }
-        
-        function uploadFile(questionId, file, statusElement) {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('question_id', questionId);
-            formData.append('attempt_id', {{ attempt.id }});
-            formData.append('title', file.name);
-            
-            fetch('{% url "upload_document" %}', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+
+            // Drag and drop
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files, questionId);
+            });
+
+            // File input change
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files, questionId);
+            });
+
+            function handleFiles(files, questionId) {
+                Array.from(files).forEach(file => {
+                    if (validateFile(file)) {
+                        uploadFile(file, questionId);
+                    }
+                });
+            }
+
+            function validateFile(file) {
+                const maxSize = 10 * 1024 * 1024; // 10MB
+                const allowedTypes = [
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/vnd.ms-excel',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'image/jpeg',
+                    'image/jpg',
+                    'image/png'
+                ];
+
+                if (file.size > maxSize) {
+                    alert('{% trans "File size too large. Maximum 10MB allowed." %}');
+                    return false;
                 }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    statusElement.innerHTML = '<span style="color: #28a745;">✅ Uploaded</span>';
+
+                if (!allowedTypes.includes(file.type)) {
+                    alert('{% trans "File type not supported. Please upload PDF, DOC, XLS, or image files." %}');
+                    return false;
+                }
+
+                return true;
+            }
+
+            function uploadFile(file, questionId) {
+                const fileId = Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                
+                // Create file item
+                const fileItem = createFileItem(file, fileId, questionId);
+                uploadedFilesContainer.appendChild(fileItem);
+
+                // Add to uploaded files array
+                uploadedFiles[questionId].push({
+                    id: fileId,
+                    file: file,
+                    name: file.name,
+                    size: file.size
+                });
+
+                // Real AJAX upload
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('attempt_id', '{{ attempt.id }}');
+                formData.append('question_id', questionId);
+                formData.append('title', file.name);
+
+                fetch('{% url "upload_document" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update file item with server response
+                        const fileItem = document.getElementById(`file-${fileId}`);
+                        if (fileItem) {
+                            fileItem.dataset.documentId = data.document_id;
+                            // Hide progress bar
+                            const progressContainer = fileItem.querySelector('.upload-progress');
+                            if (progressContainer) {
+                                progressContainer.style.display = 'none';
+                            }
+                        }
+                    } else {
+                        // Show error and remove file item
+                        alert('Upload failed: ' + data.error);
+                        removeFile(fileId, questionId);
+                    }
+                })
+                .catch(error => {
+                    console.error('Upload error:', error);
+                    alert('Upload failed. Please try again.');
+                    removeFile(fileId, questionId);
+                });
+
+                // Show upload progress
+                simulateUpload(fileId, questionId);
+            }
+
+            function createFileItem(file, fileId, questionId) {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.id = `file-${fileId}`;
+
+                const fileIcon = getFileIcon(file.type);
+                const fileSize = formatFileSize(file.size);
+
+                fileItem.innerHTML = `
+                    <div class="file-info">
+                        <div class="file-icon ${fileIcon.class}">
+                            <i class="${fileIcon.icon}"></i>
+                        </div>
+                        <div class="file-details">
+                            <h4>${file.name}</h4>
+                            <span>${fileSize}</span>
+                        </div>
+                    </div>
+                    <div class="file-actions">
+                        <button type="button" class="btn-remove" onclick="removeFile('${fileId}', '${questionId}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="upload-progress" id="progress-${fileId}">
+                        <div class="progress-bar-upload">
+                            <div class="progress-fill-upload" style="width: 0%"></div>
+                        </div>
+                    </div>
+                `;
+
+                return fileItem;
+            }
+
+            function getFileIcon(fileType) {
+                if (fileType.includes('pdf')) {
+                    return { class: 'pdf', icon: 'fas fa-file-pdf' };
+                } else if (fileType.includes('word') || fileType.includes('document')) {
+                    return { class: 'doc', icon: 'fas fa-file-word' };
+                } else if (fileType.includes('excel') || fileType.includes('sheet')) {
+                    return { class: 'xls', icon: 'fas fa-file-excel' };
+                } else if (fileType.includes('image')) {
+                    return { class: 'img', icon: 'fas fa-file-image' };
                 } else {
-                    statusElement.innerHTML = '<span style="color: #dc3545;">❌ Failed</span>';
-                    console.error('Upload error:', data.error);
+                    return { class: 'default', icon: 'fas fa-file' };
                 }
-            })
-            .catch(error => {
-                statusElement.innerHTML = '<span style="color: #dc3545;">❌ Error</span>';
-                console.error('Upload error:', error);
-            });
-        }
-        
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
+            }
 
-        // Drag and drop functionality
-        document.querySelectorAll('.upload-area').forEach(area => {
-            area.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#2d6a4f';
-                this.style.backgroundColor = '#f0f9f4';
-            });
-            
-            area.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#52b788';
-                this.style.backgroundColor = 'transparent';
-            });
-            
-            area.addEventListener('drop', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#52b788';
-                this.style.backgroundColor = 'transparent';
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            function simulateUpload(fileId, questionId) {
+                const progressFill = document.querySelector(`#progress-${fileId} .progress-fill-upload`);
+                let progress = 0;
                 
-                const questionId = this.id.split('_')[2];
-                const files = e.dataTransfer.files;
-                handleFileUpload(questionId, files);
-            });
+                const interval = setInterval(() => {
+                    progress += Math.random() * 30;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        // Hide progress bar after completion
+                        setTimeout(() => {
+                            const progressContainer = document.getElementById(`progress-${fileId}`);
+                            if (progressContainer) {
+                                progressContainer.style.display = 'none';
+                            }
+                        }, 1000);
+                    }
+                    progressFill.style.width = progress + '%';
+                }, 200);
+            }
         });
+
+        // Remove file function (global)
+        window.removeFile = function(fileId, questionId) {
+            const fileItem = document.getElementById(`file-${fileId}`);
+            if (fileItem) {
+                const documentId = fileItem.dataset.documentId;
+                
+                // If file was uploaded to server, delete it
+                if (documentId) {
+                    fetch(`/questionnaire/delete-document/${documentId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.success) {
+                            console.error('Failed to delete file from server:', data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Delete error:', error);
+                    });
+                }
+                
+                fileItem.remove();
+            }
+            
+            // Remove from uploaded files array
+            uploadedFiles[questionId] = uploadedFiles[questionId].filter(file => file.id !== fileId);
+        };
+
+        // Remove existing file function (global)
+        window.removeExistingFile = function(documentId, questionId) {
+            const fileItem = document.getElementById(`file-existing-${documentId}`);
+            if (fileItem) {
+                fetch(`/questionnaire/delete-document/${documentId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        fileItem.remove();
+                    } else {
+                        alert('Failed to delete file: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Delete error:', error);
+                    alert('Failed to delete file. Please try again.');
+                });
+            }
+        };
+
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            if (answeredQuestions.size < totalQuestions) {
+                e.preventDefault();
+                alert('{% trans "Please answer all questions before submitting." %}');
+                return;
+            }
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {% trans "Processing..." %}';
+            submitBtn.disabled = true;
+
+            // Here you would typically upload the files to the server
+            // For now, we'll just log the uploaded files
+            console.log('Uploaded files:', uploadedFiles);
+        });
+
+        // Initialize progress
+        updateProgress();
+    });
     </script>
 </body>
 </html>

@@ -1,83 +1,58 @@
-# 🌱 Sustindex - Corporate Sustainability Assessment Platform
+# 🌱 Sustindex - ESG Assessment Platform
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+A comprehensive **Environmental, Social, and Governance (ESG)** assessment platform designed for businesses to evaluate, track, and improve their sustainability performance.
 
-A comprehensive Django-based platform for corporate sustainability assessment with multi-tier membership system and e-learning capabilities.
-
-![Django](https://img.shields.io/badge/Django-4.2-green)
-![Python](https://img.shields.io/badge/Python-3.x-blue)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-
-## 🌍 Languages / Diller
-- 🇬🇧 **English** (Default)
-- 🇹🇷 **Türkçe** (Istanbul Turkish)
-
-## 🚀 Quick Deploy to Render
-
-1. **Fork this repository**
-2. **Go to [Render Dashboard](https://dashboard.render.com/)**
-3. **Click "New +" → "Web Service"**
-4. **Connect your forked repository**
-5. **Use these settings:**
-   - Build Command: `./build.sh`
-   - Start Command: `gunicorn sustindex.wsgi:application`
-6. **Deploy!**
-
-Your app will be live at: `https://your-service-name.onrender.com`
-
----
+![Sustindex Dashboard](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![Django](https://img.shields.io/badge/Django-4.2.7-blue)
+![Python](https://img.shields.io/badge/Python-3.8+-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ## ✨ Features
 
-### 🎯 Core Features
-- **Multi-tier Membership System**: Free, Silver, and Gold membership levels with different access rights
-- **Sustainability Questionnaire**: Comprehensive assessment with category-based questions and automatic scoring
-- **E-Learning Platform**: Exclusive courses and lessons for Gold members with progress tracking
-- **Multi-language Support**: Full support for English and Turkish (i18n)
-- **Admin Panel**: Complete content management system for all aspects of the platform
-- **Modern UI**: Professional, responsive design with green sustainability-themed color palette
+### 🎯 **Core Functionality**
+- **Comprehensive ESG Assessment** - 10+ questions across Environmental, Social, and Governance categories
+- **Professional Scoring System** - Weighted scoring with A+ to D grades
+- **Document Upload** - Support for evidence files (PDF, DOC, XLS, images)
+- **PDF Report Generation** - Executive-ready sustainability reports
+- **Multi-language Support** - English and Turkish localization
 
-### 👥 Membership Levels
+### 🎨 **Modern UI/UX**
+- **Professional Design** - Enterprise-grade interface with Inter font
+- **Responsive Layout** - Optimized for desktop, tablet, and mobile
+- **Interactive Animations** - Smooth transitions and progress indicators
+- **Accessibility Compliant** - WCAG guidelines adherence
 
-| Level | Questionnaire | Reports | E-Learning | Retake |
-|-------|--------------|---------|------------|--------|
-| **Free** | ❌ Limited | ❌ No | ❌ No | ❌ No |
-| **Silver** | ✅ Once | ✅ Once | ❌ No | ❌ No |
-| **Gold** | ✅ Unlimited | ✅ Unlimited | ✅ Yes | ✅ Yes |
+### 👥 **User Management**
+- **Multi-tier Membership** - Free, Silver, and Gold subscription levels
+- **Secure Authentication** - Django's built-in security features
+- **User Dashboard** - Comprehensive performance tracking
+- **Assessment History** - Track progress over time
 
-### 🎓 E-Learning Features
-- Separate course libraries for each company
-- Video lessons with rich text content
-- File attachments for lessons
-- Progress tracking
-- Complete data isolation between companies
-
----
+### 📊 **Reporting & Analytics**
+- **ESG Scoring Engine** - Based on international standards
+- **Visual Analytics** - Charts, progress bars, and performance metrics
+- **Professional Reports** - PDF export with recommendations
+- **Performance Insights** - Strengths, priorities, and opportunities
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.8 or higher
-- pip (Python package manager)
+- Python 3.8+
+- PostgreSQL
 - Git
 
 ### Installation
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/YOUR_USERNAME/sustindex.git
+git clone https://github.com/yourusername/sustindex.git
 cd sustindex
 ```
 
-2. **Create and activate virtual environment**
+2. **Create virtual environment**
 ```bash
-# Windows
 python -m venv venv
-venv\Scripts\activate
-
-# Linux/Mac
-python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
 3. **Install dependencies**
@@ -85,281 +60,160 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. **Run migrations**
+4. **Environment setup**
 ```bash
-python manage.py migrate
+# Create .env file
+cp .env.example .env
+# Edit .env with your database credentials
 ```
 
-5. **Create superuser**
+5. **Database setup**
+```bash
+python manage.py migrate
+python manage.py collectstatic
+```
+
+6. **Create sample data**
+```bash
+python setup.py
+python add_questions.py
+python setup_esg_weights.py
+```
+
+7. **Create superuser**
 ```bash
 python manage.py createsuperuser
 ```
 
-6. **Compile translations**
-```bash
-python manage.py compilemessages --ignore=venv
-```
-
-7. **Run development server**
+8. **Run development server**
 ```bash
 python manage.py runserver
 ```
 
-8. **Access the application**
-- English: http://127.0.0.1:8000/en/
-- Turkish: http://127.0.0.1:8000/tr/
-- Admin panel: http://127.0.0.1:8000/en/admin/
-
----
-
-## 📊 Sample Data
-
-### Default Admin Account
-- **Username**: `admin`
-- **Password**: `admin123`
-
-### Test Users
-| Username | Password | Membership |
-|----------|----------|------------|
-| company_free | test1234 | Free |
-| company_silver | test1234 | Silver |
-| company_gold | test1234 | Gold |
-
-### Sample Questions
-- 3 categories (Environment, Social Responsibility, Corporate Governance)
-- 4 sample questions with multiple choice options
-- Different scores for each option
-
----
+Visit `http://127.0.0.1:8000` to access the platform.
 
 ## 📁 Project Structure
 
 ```
 sustindex/
 ├── accounts/           # User management and authentication
-├── questionnaire/      # Sustainability assessment system
-├── elearning/         # E-learning platform
-├── reports/           # Report generation
+├── questionnaire/      # ESG assessment logic
+├── reports/           # Report generation and analytics
+├── elearning/         # Educational content (Gold tier)
 ├── templates/         # HTML templates
-├── locale/            # Translation files
-│   ├── en/           # English
-│   └── tr/           # Turkish
-├── static/            # Static files (CSS, JS, images)
-├── media/             # Uploaded files
-└── sustindex/         # Project settings
+├── static/           # CSS, JS, images
+├── locale/           # Internationalization files
+├── media/            # User uploaded files
+└── sustindex/        # Django project settings
 ```
 
----
+## 🎨 Design System
 
-## 🛠️ Technologies Used
+### Color Palette
+- **Primary**: `#1F7A63` - Professional green
+- **Accent**: `#4C6EF5` - Data visualization blue  
+- **Success**: `#28A745` - Achievement green
+- **Warning**: `#FF6B35` - Alert orange
+- **Gold**: `#FFD700` - Premium highlights
 
-- **Backend**: Django 4.2.7
-- **Database**: SQLite (development) / PostgreSQL (production ready)
-- **Rich Text Editor**: CKEditor
-- **Internationalization**: Django i18n
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Fonts**: Google Fonts (Poppins)
-- **Forms**: Django Crispy Forms
+### Typography
+- **Font Family**: Inter (Google Fonts)
+- **Weights**: 300, 400, 500, 600, 700, 800
 
----
+## 🔧 Configuration
 
-## 📊 Admin Panel Features
-
-The admin panel provides complete control over:
-- ✅ User management and membership levels
-- ✅ Company profiles with custom fields
-- ✅ Question categories and questions
-- ✅ Answer choices with scoring system
-- ✅ Questionnaire attempts and results
-- ✅ E-learning courses and lessons
-- ✅ Lesson attachments and progress tracking
-- ✅ Membership history
-
-### How to Use Admin Panel
-
-#### 1. Create Questions
-
-**Step 1: Create Categories**
-- Go to "Categories"
-- Add category name and description
-- Set display order
-
-**Step 2: Add Questions**
-- Go to "Questions"
-- Select category
-- Enter question text (supports rich text)
-- Set display order
-- Mark as "Active"
-
-**Step 3: Set Options and Scores**
-- In the question form, add choices inline
-- Enter choice text
-- Set score (e.g., 0, 5, 10)
-- Set display order
-
-**Example:**
-```
-Question: Do you have a waste management program?
-  ✓ Yes, comprehensive program - Score: 10
-  ✓ Partially - Score: 5
-  ✓ No - Score: 0
+### Environment Variables
+```env
+DEBUG=False
+SECRET_KEY=your-secret-key
+DATABASE_URL=postgresql://user:password@localhost/sustindex
+ALLOWED_HOSTS=yourdomain.com
 ```
 
-#### 2. Manage Memberships
-- Go to "Users"
-- Select a user
-- Change "Membership Type" field
-- Save changes
+### Membership Tiers
+- **Free**: Basic access, limited assessments
+- **Silver**: One complete assessment with PDF report
+- **Gold**: Unlimited assessments + E-learning modules
 
-#### 3. Create E-Learning Content
-- Go to "Courses"
-- Create course for a Gold member company
-- Add lessons with content and videos
-- Upload attachments if needed
+## 📊 ESG Framework
 
----
+### Assessment Categories
+1. **Environmental** (33.3% weight)
+   - Waste management
+   - Energy usage
+   - Environmental certifications
+   - Green building practices
 
-## 🌐 Multi-language Support
+2. **Social** (33.3% weight)
+   - Employee training
+   - Labor practices
+   - Product safety
+   - Community engagement
 
-### Switching Languages
+3. **Governance** (33.3% weight)
+   - Board independence
+   - Risk management
+   - Data privacy
+   - Transparency
 
-**From Website:**
-Click on the language selector (🇬🇧 EN / 🇹🇷 TR) in the navigation bar
+### Scoring System
+- **A+ (90-100)**: Outstanding performance
+- **A (80-89)**: Excellent performance
+- **B+ (70-79)**: Good performance
+- **B (60-69)**: Fair performance
+- **C+ (50-59)**: Below average
+- **C (40-49)**: Poor performance
+- **D (0-39)**: Needs significant improvement
 
-**Direct URL:**
-- English: Add `/en/` to URL
-- Turkish: Add `/tr/` to URL
+## 🚀 Deployment
 
-### Adding New Languages
+### Production Setup
+1. **Configure PostgreSQL database**
+2. **Set environment variables**
+3. **Run migrations and collect static files**
+4. **Configure web server (Nginx + Gunicorn)**
+5. **Set up SSL certificate**
 
+### Docker Deployment
 ```bash
-# Create translation files
-python manage.py makemessages -l [language_code] --ignore=venv
-
-# Edit the .po file in locale/[language_code]/LC_MESSAGES/django.po
-
-# Compile translations
-python manage.py compilemessages --ignore=venv
+docker-compose up -d
 ```
 
----
+## 🤝 Contributing
 
-## 👨‍💻 Development
-
-### Database Migrations
-
-```bash
-# Create migrations
-python manage.py makemigrations
-
-# Apply migrations
-python manage.py migrate
-```
-
-### Update Translations
-
-```bash
-# Extract translatable strings
-python manage.py makemessages -l tr --ignore=venv
-python manage.py makemessages -l en --ignore=venv
-
-# Compile translations
-python manage.py compilemessages --ignore=venv
-```
-
-### Collect Static Files (Production)
-
-```bash
-python manage.py collectstatic
-```
-
----
-
-## 🎨 Design Features
-
-- Modern, clean interface
-- Sustainability-themed green color palette (#1b4332, #2d6a4f, #52b788)
-- Smooth animations and transitions
-- Fully responsive design
-- Accessibility compliant
-- Professional dashboard layouts
-- Confetti effects on success pages
-
----
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📝 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **Django Framework** - Web framework
+- **Bootstrap & Font Awesome** - UI components and icons
+- **ReportLab** - PDF generation
+- **PostgreSQL** - Database system
+- **Inter Font** - Typography by Rasmus Andersson
+
+## 📞 Support
+
+For support, email support@sustindex.com or create an issue on GitHub.
+
+## 🔮 Roadmap
+
+- [ ] Industry benchmarking
+- [ ] Time-series analysis
+- [ ] Goal setting and tracking
+- [ ] AI-powered recommendations
+- [ ] API integrations
+- [ ] Mobile app
 
 ---
 
-## 👥 Contributing
+**Built with ❤️ for a sustainable future**
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📧 Contact
-
-For questions or support, please open an issue on GitHub.
-
----
-
-Made with 💚 for a sustainable future
-
----
-
-# Türkçe
-
-## Hızlı Başlangıç
-
-### 1. Sanal Ortamı Etkinleştir
-```bash
-.\venv\Scripts\activate
-```
-
-### 2. Sunucuyu Çalıştır
-```bash
-python manage.py runserver
-```
-
-### 3. Web Sitesine Eriş
-- **İngilizce**: http://127.0.0.1:8000/en/
-- **Türkçe**: http://127.0.0.1:8000/tr/
-
-### 4. Yönetim Paneli
-- **URL**: http://127.0.0.1:8000/tr/admin/
-- **Kullanıcı adı**: `admin`
-- **Şifre**: `admin123`
-
-## Özellikler
-
-- ✅ Üç seviyeli üyelik sistemi (Ücretsiz, Gümüş, Altın)
-- ✅ Puanlama sistemi ile akıllı anket
-- ✅ Altın üyeler için e-öğrenme platformu
-- ✅ Güçlü yönetim paneli
-- ✅ İki dilli arayüz (İngilizce/Türkçe)
-- ✅ Şirket kayıt formu
-- ✅ Modern ve profesyonel tasarım
-
-## Üyelik Seviyeleri
-
-| Seviye | Anket | Raporlar | E-Öğrenme | Tekrar |
-|--------|-------|----------|-----------|--------|
-| **Ücretsiz** | ❌ Sınırlı | ❌ Hayır | ❌ Hayır | ❌ Hayır |
-| **Gümüş** | ✅ Bir kez | ✅ Bir kez | ❌ Hayır | ❌ Hayır |
-| **Altın** | ✅ Sınırsız | ✅ Sınırsız | ✅ Evet | ✅ Evet |
-
-## Dil Değiştirme
-
-Üst menüdeki dil seçiciyi (🇬🇧 EN / 🇹🇷 TR) kullanarak dilinizi değiştirebilirsiniz.
-
-## Destek
-
-Sorular ve sorunlar için GitHub'da issue açabilirsiniz.
+*Sustindex helps organizations measure, track, and improve their ESG performance with professional-grade assessment tools.*

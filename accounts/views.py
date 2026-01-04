@@ -41,8 +41,26 @@ def dashboard(request):
     last_attempt = request.user.attempts.filter(is_completed=True).first()
     last_score = last_attempt.total_score if last_attempt else 0
     
+    # Get latest ESG scores if available
+    esg_scores = None
+    if last_attempt:
+        esg_scores = {
+            'environmental': last_attempt.environmental_score,
+            'social': last_attempt.social_score,
+            'governance': last_attempt.governance_score,
+            'total': last_attempt.total_score,
+            'grade': last_attempt.esg_grade
+        }
+    
+    # Get reports count
+    from reports.models import Report
+    reports_count = Report.objects.filter(attempt__user=request.user).count()
+    
     context = {
         'completed_count': completed_count,
         'last_score': last_score,
+        'esg_scores': esg_scores,
+        'reports_count': reports_count,
+        'last_attempt': last_attempt,
     }
     return render(request, 'accounts/dashboard.html', context)

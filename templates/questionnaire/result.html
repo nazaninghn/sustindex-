@@ -1,12 +1,28 @@
 {% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% trans "Questionnaire Result" %} - Sustindex</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>{% trans "ESG Assessment Complete" %} - Sustindex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #1F7A63;
+            --neutral-color: #2E2E2E;
+            --accent-color: #4C6EF5;
+            --light-gray: #F8F9FA;
+            --success-green: #28A745;
+            --warning-orange: #FF6B35;
+            --gold: #FFD700;
+            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, #2d6a4f 100%);
+            --gradient-success: linear-gradient(135deg, var(--success-green) 0%, #20C997 100%);
+            --gradient-gold: linear-gradient(135deg, var(--gold) 0%, #FFC107 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,376 +30,1170 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background: var(--light-gray);
             min-height: 100vh;
-            background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);
+            color: var(--neutral-color);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            position: relative;
+            gap: 0.5rem;
         }
 
-        /* Confetti animation */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #2d6a4f;
-            position: absolute;
-            animation: confetti-fall 3s linear infinite;
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
         }
 
-        @keyframes confetti-fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--neutral-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
         }
 
-        .result-container {
-            max-width: 700px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
+        .nav-links a:hover {
+            background: rgba(31, 122, 99, 0.1);
+            color: var(--primary-color);
         }
 
-        .result-card {
-            background: white;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            animation: scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .result-header {
-            background: linear-gradient(135deg, #1b4332, #2d6a4f, #52b788);
-            padding: 50px 40px;
+        /* Hero Section */
+        .hero-section {
+            background: var(--gradient-primary);
+            border-radius: 25px;
+            padding: 4rem 3rem;
             text-align: center;
             color: white;
+            margin-bottom: 3rem;
             position: relative;
             overflow: hidden;
         }
 
-        .result-header::before {
+        .hero-section::before {
             content: '';
             position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            top: -100px;
-            right: -100px;
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        .result-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: bounce 1s ease-in-out 3;
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .result-header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .result-header p {
-            opacity: 0.9;
-            font-size: 1.1rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .result-body {
-            padding: 60px 40px;
-            text-align: center;
-        }
-
-        .score-label {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .score-display {
-            position: relative;
-            margin: 30px 0;
-        }
-
-        .score-circle {
-            width: 250px;
-            height: 250px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .score-ring {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 40px rgba(45, 106, 79, 0.2);
-            animation: rotate 3s ease-in-out infinite;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
         }
 
         @keyframes rotate {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(5deg); }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .score-inner {
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .celebration-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .completion-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Results Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Grade Card */
+        .grade-card {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grade-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-success);
+        }
+
+        .grade-circle {
             width: 200px;
             height: 200px;
-            background: white;
             border-radius: 50%;
+            margin: 0 auto 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
+            font-size: 4rem;
+            font-weight: 800;
+            color: white;
+            position: relative;
+            animation: scaleIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s both;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0) rotate(-180deg); }
+            to { transform: scale(1) rotate(0deg); }
+        }
+
+        .grade-a { background: var(--gradient-success); }
+        .grade-b { background: var(--gradient-gold); }
+        .grade-c { background: linear-gradient(135deg, var(--warning-orange), #FD79A8); }
+        .grade-d { background: linear-gradient(135deg, #6c757d, #495057); }
+
+        .grade-circle::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: rotate-ring 3s linear infinite;
+        }
+
+        @keyframes rotate-ring {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .grade-info h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neutral-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .grade-score {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .grade-description {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .grade-description h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .grade-description p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* ESG Breakdown */
+        .esg-breakdown {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .breakdown-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .breakdown-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neutral-color);
+            margin-bottom: 1rem;
+        }
+
+        .breakdown-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .esg-components {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .component-card {
+            background: var(--light-gray);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .component-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .component-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .component-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .icon-env { background: var(--gradient-success); }
+        .icon-social { background: linear-gradient(135deg, var(--accent-color), #6C5CE7); }
+        .icon-gov { background: linear-gradient(135deg, var(--warning-orange), #FD79A8); }
+
+        .component-details h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .component-details p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .component-score {
+            text-align: right;
         }
 
         .score-number {
-            font-size: 5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #1b4332, #2d6a4f, #52b788);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--neutral-color);
             line-height: 1;
-            animation: countUp 2s ease-out;
         }
 
-        @keyframes countUp {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .score-suffix {
-            font-size: 1.5rem;
+        .score-label {
             color: #666;
-            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
         }
 
-        .completion-info {
-            margin: 40px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            color: #666;
+        .progress-container {
+            margin-top: 1.5rem;
         }
 
-        .completion-info strong {
-            color: #1b4332;
+        .progress-bar {
+            height: 12px;
+            background: #E9ECEF;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
         }
 
-        .result-actions {
+        .progress-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 2s ease 1s;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .fill-env { background: var(--gradient-success); }
+        .fill-social { background: linear-gradient(90deg, var(--accent-color), #6C5CE7); }
+        .fill-gov { background: linear-gradient(90deg, var(--warning-orange), #FD79A8); }
+
+        /* Insights Section */
+        .insights-section {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .insights-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .insights-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neutral-color);
+            margin-bottom: 1rem;
             display: flex;
-            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .insights-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--neutral-color);
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .insight-card {
+            background: var(--light-gray);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .insight-card.strength { border-left-color: var(--success-green); }
+        .insight-card.improvement { border-left-color: var(--warning-orange); }
+        .insight-card.opportunity { border-left-color: var(--accent-color); }
+
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .insight-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-strength { background: #d4edda; color: #155724; }
+        .badge-improvement { background: #fff3cd; color: #856404; }
+        .badge-opportunity { background: #cce7ff; color: #004085; }
+
+        .insight-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+        }
+
+        .insight-content {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Action Section */
+        .action-section {
+            background: var(--gradient-primary);
+            border-radius: 25px;
+            padding: 4rem 3rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .action-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .action-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .action-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1.5rem;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 40px;
         }
 
-        .btn {
-            padding: 16px 35px;
+        .btn-action {
+            padding: 1.2rem 2.5rem;
             border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 1.1rem;
             text-decoration: none;
-            display: inline-block;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-action:hover::before {
+            left: 100%;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
-            color: white;
-            border: none;
+            background: var(--gradient-gold);
+            color: var(--neutral-color);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+            color: var(--neutral-color);
+            text-decoration: none;
         }
 
         .btn-secondary {
-            background: white;
-            color: #2d6a4f;
-            border: 2px solid #2d6a4f;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
         }
 
         .btn-secondary:hover {
-            background: #2d6a4f;
+            background: rgba(255,255,255,0.3);
+            border-color: white;
+            transform: translateY(-3px);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+            text-decoration: none;
+        }
+
+        /* Upgrade Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--neutral-color);
+            margin: 0 auto 2rem;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--neutral-color);
+            margin-bottom: 1rem;
+        }
+
+        .modal-text {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-modal {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-modal-primary {
+            background: var(--primary-color);
             color: white;
         }
 
-        .achievement-badge {
-            display: inline-block;
-            padding: 12px 25px;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            border-radius: 25px;
-            color: #1b4332;
-            font-weight: 700;
-            margin-top: 20px;
-            animation: shine 2s ease-in-out infinite;
+        .btn-modal-primary:hover {
+            background: #1a6b56;
+            transform: translateY(-2px);
         }
 
-        @keyframes shine {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+        .btn-modal-secondary {
+            background: var(--light-gray);
+            color: var(--neutral-color);
+        }
+
+        .btn-modal-secondary:hover {
+            background: #e9ecef;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .completion-stats {
+                gap: 2rem;
+            }
         }
 
         @media (max-width: 768px) {
-            .result-header {
-                padding: 40px 30px;
+            .nav-container {
+                padding: 0 1rem;
             }
 
-            .result-header h1 {
+            .main-container {
+                padding: 1rem;
+            }
+
+            .hero-section {
+                padding: 3rem 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .completion-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .grade-circle {
+                width: 150px;
+                height: 150px;
+                font-size: 3rem;
+            }
+
+            .esg-breakdown,
+            .insights-section,
+            .action-section {
+                padding: 2rem;
+            }
+
+            .breakdown-title,
+            .insights-title,
+            .action-title {
                 font-size: 2rem;
             }
 
-            .score-circle {
-                width: 200px;
-                height: 200px;
+            .insights-grid {
+                grid-template-columns: 1fr;
             }
 
-            .score-inner {
-                width: 160px;
-                height: 160px;
-            }
-
-            .score-number {
-                font-size: 4rem;
-            }
-
-            .result-actions {
+            .action-buttons {
                 flex-direction: column;
+                align-items: center;
             }
 
-            .btn {
+            .btn-action {
                 width: 100%;
+                max-width: 300px;
+                justify-content: center;
             }
+
+            .modal-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+        }
+
+        /* Professional fade-in animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="result-container">
-        <div class="result-card">
-            <!-- Header -->
-            <div class="result-header">
-                <div class="result-icon">🎉</div>
-                <h1>{% trans "Questionnaire Result" %}</h1>
-                <p>{% trans "Congratulations on completing the assessment!" %}</p>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">🌱 Sustindex</a>
+            <div class="nav-links">
+                <a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a>
+                <a href="{% url 'reports_dashboard' %}">{% trans "Reports" %}</a>
+                <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <div class="celebration-icon">📊</div>
+                <h1 class="hero-title">{% trans "Assessment Complete" %}</h1>
+                <p class="hero-subtitle">{% trans "Your comprehensive ESG sustainability analysis is ready for review" %}</p>
+                
+                <div class="completion-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ attempt.answers.count }}</span>
+                        <span class="stat-label">{% trans "Questions Analyzed" %}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">{{ attempt.answers.count|add:attempt.documents_count|default:0 }}</span>
+                        <span class="stat-label">{% trans "Supporting Documents" %}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">{{ attempt.completed_at|date:"M d" }}</span>
+                        <span class="stat-label">{% trans "Assessment Date" %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Grid -->
+        <div class="results-grid">
+            <!-- Grade Card -->
+            <div class="grade-card">
+                <div class="grade-circle grade-{{ esg_scores.grade|lower|slice:':1' }}">
+                    {{ esg_scores.grade }}
+                </div>
+                <div class="grade-info">
+                    <h2>{% trans "Your ESG Grade" %}</h2>
+                    <div class="grade-score">
+                        {% trans "Overall Score" %}: {{ esg_scores.total|floatformat:1 }}/100
+                    </div>
+                </div>
+                
+                <div class="grade-description">
+                    <h4>
+                        {% if esg_scores.grade == 'A+' or esg_scores.grade == 'A' %}
+                            {% trans "Excellent Performance" %}
+                        {% elif esg_scores.grade == 'B+' or esg_scores.grade == 'B' %}
+                            {% trans "Good Performance" %}
+                        {% elif esg_scores.grade == 'C+' or esg_scores.grade == 'C' %}
+                            {% trans "Fair Performance" %}
+                        {% else %}
+                            {% trans "Needs Improvement" %}
+                        {% endif %}
+                    </h4>
+                    <p>
+                        {% if esg_scores.grade == 'A+' or esg_scores.grade == 'A' %}
+                            {% trans "Outstanding sustainability practices. Your organization demonstrates leadership in ESG performance." %}
+                        {% elif esg_scores.grade == 'B+' or esg_scores.grade == 'B' %}
+                            {% trans "Strong sustainability foundation with opportunities for enhancement in key areas." %}
+                        {% elif esg_scores.grade == 'C+' or esg_scores.grade == 'C' %}
+                            {% trans "Moderate sustainability practices. Focus on improving key ESG areas for better performance." %}
+                        {% else %}
+                            {% trans "Significant opportunities for improvement. Consider developing comprehensive ESG strategies." %}
+                        {% endif %}
+                    </p>
+                </div>
             </div>
 
-            <!-- Body -->
-            <div class="result-body">
-                <div class="score-label">{% trans "Your Total Score" %}</div>
+            <!-- ESG Breakdown -->
+            <div class="esg-breakdown">
+                <div class="breakdown-header">
+                    <h2 class="breakdown-title">{% trans "ESG Performance" %}</h2>
+                    <p class="breakdown-subtitle">{% trans "Detailed breakdown of your sustainability scores" %}</p>
+                </div>
                 
-                <div class="score-display">
-                    <div class="score-circle">
-                        <div class="score-ring">
-                            <div class="score-inner">
-                                <div class="score-number">{{ attempt.total_score }}</div>
-                                <div class="score-suffix">pts</div>
+                <div class="esg-components">
+                    <div class="component-card">
+                        <div class="component-header">
+                            <div class="component-info">
+                                <div class="component-icon icon-env">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div class="component-details">
+                                    <h3>{% trans "Environmental" %}</h3>
+                                    <p>{% trans "Climate, waste, energy & resources" %}</p>
+                                </div>
+                            </div>
+                            <div class="component-score">
+                                <div class="score-number">{{ esg_scores.environmental|floatformat:0 }}</div>
+                                <div class="score-label">{% trans "out of 100" %}</div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-env" style="width: 0%" data-width="{{ esg_scores.environmental }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-header">
+                            <div class="component-info">
+                                <div class="component-icon icon-social">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="component-details">
+                                    <h3>{% trans "Social" %}</h3>
+                                    <p>{% trans "Employees, community & stakeholders" %}</p>
+                                </div>
+                            </div>
+                            <div class="component-score">
+                                <div class="score-number">{{ esg_scores.social|floatformat:0 }}</div>
+                                <div class="score-label">{% trans "out of 100" %}</div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-social" style="width: 0%" data-width="{{ esg_scores.social }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-header">
+                            <div class="component-info">
+                                <div class="component-icon icon-gov">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                                <div class="component-details">
+                                    <h3>{% trans "Governance" %}</h3>
+                                    <p>{% trans "Leadership, ethics & transparency" %}</p>
+                                </div>
+                            </div>
+                            <div class="component-score">
+                                <div class="score-number">{{ esg_scores.governance|floatformat:0 }}</div>
+                                <div class="score-label">{% trans "out of 100" %}</div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-gov" style="width: 0%" data-width="{{ esg_scores.governance }}%"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                {% if attempt.total_score >= 30 %}
-                    <div class="achievement-badge">
-                        🏆 {% trans "Excellent Performance!" %}
+        <!-- Insights Section -->
+        <div class="insights-section">
+            <div class="insights-header">
+                <h2 class="insights-title">
+                    <div class="insights-icon">
+                        <i class="fas fa-lightbulb"></i>
                     </div>
-                {% elif attempt.total_score >= 20 %}
-                    <div class="achievement-badge" style="background: linear-gradient(135deg, #c0c0c0, #e8e8e8);">
-                        ⭐ {% trans "Good Performance!" %}
+                    {% trans "Key Insights" %}
+                </h2>
+            </div>
+            
+            <div class="insights-grid">
+                {% if esg_scores.environmental >= 70 %}
+                <div class="insight-card strength">
+                    <div class="insight-header">
+                        <div class="insight-badge badge-strength">{% trans "Strength" %}</div>
+                        <div class="insight-title">{% trans "Environmental Leadership" %}</div>
                     </div>
+                    <div class="insight-content">
+                        {% trans "Your organization shows strong environmental stewardship with excellent practices in sustainability management." %}
+                    </div>
+                </div>
                 {% endif %}
 
-                <div class="completion-info">
-                    <strong>{% trans "Completion Date" %}:</strong> {{ attempt.completed_at|date:"F d, Y - H:i" }}
+                {% if esg_scores.social >= 70 %}
+                <div class="insight-card strength">
+                    <div class="insight-header">
+                        <div class="insight-badge badge-strength">{% trans "Strength" %}</div>
+                        <div class="insight-title">{% trans "Social Responsibility" %}</div>
+                    </div>
+                    <div class="insight-content">
+                        {% trans "Strong commitment to employee welfare and community engagement demonstrates social leadership." %}
+                    </div>
                 </div>
+                {% endif %}
 
-                <div class="result-actions">
+                {% if esg_scores.governance >= 70 %}
+                <div class="insight-card strength">
+                    <div class="insight-header">
+                        <div class="insight-badge badge-strength">{% trans "Strength" %}</div>
+                        <div class="insight-title">{% trans "Corporate Governance" %}</div>
+                    </div>
+                    <div class="insight-content">
+                        {% trans "Excellent governance practices with strong transparency and ethical leadership frameworks." %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if esg_scores.environmental < 50 %}
+                <div class="insight-card improvement">
+                    <div class="insight-header">
+                        <div class="insight-badge badge-improvement">{% trans "Priority" %}</div>
+                        <div class="insight-title">{% trans "Environmental Impact" %}</div>
+                    </div>
+                    <div class="insight-content">
+                        {% trans "Focus on developing comprehensive environmental policies and sustainable practices to improve your environmental footprint." %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if esg_scores.social < 50 %}
+                <div class="insight-card improvement">
+                    <div class="insight-header">
+                        <div class="insight-badge badge-improvement">{% trans "Priority" %}</div>
+                        <div class="insight-title">{% trans "Social Programs" %}</div>
+                    </div>
+                    <div class="insight-content">
+                        {% trans "Enhance employee training, diversity initiatives, and community engagement programs for better social impact." %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if esg_scores.governance < 50 %}
+                <div class="insight-card improvement">
+                    <div class="insight-header">
+                        <div class="insight-badge badge-improvement">{% trans "Priority" %}</div>
+                        <div class="insight-title">{% trans "Governance Structure" %}</div>
+                    </div>
+                    <div class="insight-content">
+                        {% trans "Strengthen board independence, risk management, and transparency reporting for better governance." %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="insight-card opportunity">
+                    <div class="insight-header">
+                        <div class="insight-badge badge-opportunity">{% trans "Opportunity" %}</div>
+                        <div class="insight-title">{% trans "Continuous Improvement" %}</div>
+                    </div>
+                    <div class="insight-content">
+                        {% trans "Regular ESG assessments and stakeholder engagement can help maintain and improve your sustainability performance." %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Section -->
+        <div class="action-section">
+            <div class="action-content">
+                <h2 class="action-title">{% trans "Next Steps" %}</h2>
+                <p class="action-subtitle">{% trans "Access your comprehensive ESG analysis and actionable insights" %}</p>
+                
+                <div class="action-buttons">
                     {% if user.membership_type != 'free' %}
-                    <a href="#" class="btn btn-primary">
-                        📄 {% trans "Download PDF Report" %}
+                    <a href="{% url 'view_report' report.id %}" class="btn-action btn-primary">
+                        <i class="fas fa-chart-line"></i>
+                        {% trans "View Detailed Analysis" %}
                     </a>
+                    <a href="{% url 'download_report_pdf' report.id %}" class="btn-action btn-secondary">
+                        <i class="fas fa-download"></i>
+                        {% trans "Export PDF Report" %}
+                    </a>
+                    {% else %}
+                    <button onclick="showUpgradeModal()" class="btn-action btn-primary">
+                        <i class="fas fa-unlock"></i>
+                        {% trans "Access Full Analysis" %}
+                    </button>
                     {% endif %}
                     
-                    <a href="{% url 'dashboard' %}" class="btn btn-secondary">
-                        ← {% trans "Back to Dashboard" %}
+                    <a href="{% url 'dashboard' %}" class="btn-action btn-outline">
+                        <i class="fas fa-tachometer-alt"></i>
+                        {% trans "Return to Dashboard" %}
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Confetti Effect -->
+    <!-- Upgrade Modal -->
+    <div id="upgradeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-chart-bar"></i>
+            </div>
+            <h3 class="modal-title">{% trans "Professional ESG Analysis" %}</h3>
+            <p class="modal-text">
+                {% trans "Upgrade to Silver or Gold membership to access comprehensive ESG reports, detailed analytics, benchmarking data, and actionable recommendations for your organization." %}
+            </p>
+            <div class="modal-buttons">
+                <button onclick="hideUpgradeModal()" class="btn-modal btn-modal-secondary">
+                    {% trans "Not Now" %}
+                </button>
+                <button onclick="hideUpgradeModal()" class="btn-modal btn-modal-primary">
+                    {% trans "View Plans" %}
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Create confetti
-        function createConfetti() {
-            const colors = ['#2d6a4f', '#52b788', '#95d5b2', '#b7e4c7', '#d8f3dc'];
-            
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.animationDelay = Math.random() * 3 + 's';
-                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                document.body.appendChild(confetti);
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Professional fade-in effect for elements
+        function initializeAnimations() {
+            const elements = document.querySelectorAll('.grade-card, .esg-breakdown, .insights-section');
+            elements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'all 0.6s ease';
+                
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
         }
-
-        // Trigger confetti on load
-        window.addEventListener('load', createConfetti);
-
-        // Animate score number
-        const scoreElement = document.querySelector('.score-number');
-        const finalScore = {{ attempt.total_score }};
-        let currentScore = 0;
         
-        const interval = setInterval(() => {
-            if (currentScore < finalScore) {
-                currentScore++;
-                scoreElement.textContent = currentScore;
-            } else {
-                clearInterval(interval);
+        // Initialize animations
+        setTimeout(initializeAnimations, 300);
+        
+        // Animate progress bars
+        setTimeout(() => {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.dataset.width;
+                bar.style.width = width;
+            });
+        }, 1500);
+        
+        // Animate scores with counting effect
+        const scoreElements = document.querySelectorAll('.score-number');
+        scoreElements.forEach(element => {
+            const finalScore = parseInt(element.textContent);
+            let currentScore = 0;
+            const increment = finalScore / 50; // 50 steps
+            
+            const interval = setInterval(() => {
+                if (currentScore < finalScore) {
+                    currentScore += increment;
+                    element.textContent = Math.round(currentScore);
+                } else {
+                    element.textContent = finalScore;
+                    clearInterval(interval);
+                }
+            }, 30);
+        });
+
+        // Animate completion stats
+        const statNumbers = document.querySelectorAll('.stat-number');
+        statNumbers.forEach(element => {
+            const text = element.textContent;
+            if (!isNaN(text)) {
+                const finalNumber = parseInt(text);
+                let currentNumber = 0;
+                const increment = finalNumber / 30;
+                
+                const interval = setInterval(() => {
+                    if (currentNumber < finalNumber) {
+                        currentNumber += increment;
+                        element.textContent = Math.round(currentNumber);
+                    } else {
+                        element.textContent = finalNumber;
+                        clearInterval(interval);
+                    }
+                }, 50);
             }
-        }, 50);
+        });
+    });
+    
+    function showUpgradeModal() {
+        document.getElementById('upgradeModal').classList.add('active');
+    }
+    
+    function hideUpgradeModal() {
+        document.getElementById('upgradeModal').classList.remove('active');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('upgradeModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            hideUpgradeModal();
+        }
+    });
     </script>
 </body>
 </html>

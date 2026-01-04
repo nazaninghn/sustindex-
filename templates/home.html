@@ -6,28 +6,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sustindex - {% trans "Corporate Sustainability Assessment System" %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>{% trans "ESG Performance Assessment for Companies" %} - Sustindex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #1F7A63;
+            --neutral-color: #2E2E2E;
+            --accent-color: #4C6EF5;
+            --light-gray: #F8F9FA;
+            --success-green: #28A745;
+            --warning-orange: #FF6B35;
+            --gold: #FFD700;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
-
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--neutral-color);
             overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-            margin: 0;
-            padding: 0;
-            background: #f8f9fa;
         }
 
         /* Navigation */
@@ -37,769 +40,452 @@
             left: 0;
             right: 0;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             padding: 15px 0;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
             z-index: 1000;
-            min-height: 70px;
         }
 
         .nav-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
         }
 
         .logo {
             font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            flex-shrink: 0;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
         }
 
         .nav-links {
             display: flex;
-            gap: 40px;
+            gap: 2rem;
             align-items: center;
-            flex-wrap: wrap;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: #2d3748;
+            color: var(--neutral-color);
             font-weight: 500;
             transition: color 0.3s ease;
-            padding: 8px 12px;
-            border-radius: 6px;
         }
 
         .nav-links a:hover {
-            color: #2d6a4f;
-            background: rgba(45, 106, 79, 0.1);
+            color: var(--primary-color);
         }
 
         .language-btn {
             padding: 8px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
             background: white;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
         }
 
         .language-btn:hover {
-            border-color: #2d6a4f;
-            color: #2d6a4f;
+            border-color: var(--primary-color);
         }
 
         .btn-login {
             padding: 10px 24px;
-            background: white;
-            border: 2px solid #2d6a4f;
-            color: #2d6a4f;
-            border-radius: 10px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 6px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
-            font-size: 0.95rem;
         }
 
         .btn-login:hover {
-            background: #2d6a4f;
+            background: #1a6b56;
             color: white;
+            text-decoration: none;
         }
 
         /* Hero Section */
-        .hero {
-            margin-top: 70px;
-            min-height: calc(100vh - 70px);
-            display: flex;
-            align-items: center;
+        .hero-section {
+            margin-top: 80px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2d6a4f 100%);
+            color: white;
+            padding: 5rem 0;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 50%, #95d5b2 100%);
-            padding: 40px 0;
         }
 
-        .hero::before {
+        .hero-section::before {
             content: '';
             position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(45, 106, 79, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            top: -200px;
-            right: -200px;
-            animation: float 20s ease-in-out infinite;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
         }
 
-        .hero::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(82, 183, 136, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            bottom: -100px;
-            left: -100px;
-            animation: float 15s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
-        }
-
-        .hero-container {
-            max-width: 1400px;
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding: 0 2rem;
+        }
+
+        .hero-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 80px;
+            gap: 4rem;
             align-items: center;
-            position: relative;
-            z-index: 1;
         }
 
-        .hero-content h1 {
-            font-size: 4rem;
+        .hero-text h1 {
+            font-size: 3.5rem;
             font-weight: 800;
-            color: #1b4332;
-            line-height: 1.2;
-            margin-bottom: 30px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
         }
 
-        .hero-content p {
+        .hero-text p {
             font-size: 1.3rem;
-            color: #2d6a4f;
-            line-height: 1.8;
-            margin-bottom: 40px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
         }
 
-        .hero-buttons {
+        .hero-stats {
             display: flex;
-            gap: 20px;
+            gap: 3rem;
+            margin: 3rem 0;
         }
 
-        .btn-primary {
-            padding: 16px 40px;
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
-            color: white;
-            border: none;
-            border-radius: 12px;
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+            color: var(--gold);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .cta-primary {
+            background: var(--gold);
+            color: var(--neutral-color);
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-weight: 700;
             font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
+            transition: all 0.3s ease;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3);
+        .cta-primary:hover {
+            background: #FFC107;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+            color: var(--neutral-color);
+            text-decoration: none;
         }
 
-        .btn-secondary {
-            padding: 16px 40px;
+        .cta-secondary {
+            color: white;
+            padding: 18px 40px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Dashboard Preview */
+        .dashboard-preview {
             background: white;
-            color: #2d6a4f;
-            border: 2px solid #2d6a4f;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }
 
-        .btn-secondary:hover {
-            background: #2d6a4f;
-            color: white;
-        }
-
-        .hero-image {
-            position: relative;
-        }
-
-        .hero-image-main {
-            width: 100%;
-            height: 600px;
-            background: linear-gradient(135deg, rgba(45, 106, 79, 0.1), rgba(82, 183, 136, 0.1));
-            border-radius: 30px;
+        .preview-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            font-size: 200px;
-            animation: pulse 3s ease-in-out infinite;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .preview-title {
+            color: var(--neutral-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
         }
 
-        /* Membership Cards */
-        .memberships {
-            padding: 100px 40px;
-            background: white;
-            position: relative;
-            overflow: visible;
+        .preview-score {
+            background: var(--success-green);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1.2rem;
         }
 
-        .memberships-container {
-            max-width: 1400px;
+        .esg-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 10px;
+            background: var(--light-gray);
+        }
+
+        .metric-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .metric-label {
+            color: var(--neutral-color);
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .metric-bar {
+            height: 8px;
+            background: #E9ECEF;
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 2s ease;
+        }
+
+        .fill-env { background: var(--success-green); }
+        .fill-social { background: var(--accent-color); }
+        .fill-gov { background: var(--warning-orange); }
+
+        /* Features Section */
+        .features-section {
+            padding: 5rem 0;
+            background: var(--light-gray);
+        }
+
+        .features-container {
+            max-width: 1200px;
             margin: 0 auto;
-            position: relative;
+            padding: 0 2rem;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 4rem;
         }
 
         .section-header h2 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: #1b4332;
-            margin-bottom: 20px;
+            color: var(--neutral-color);
+            margin-bottom: 1rem;
         }
 
         .section-header p {
             font-size: 1.2rem;
             color: #666;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .cards-grid {
+        .feature-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
         }
 
-        .membership-card {
+        .feature-card {
             background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .membership-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #2d6a4f, #52b788);
-            transform: scaleX(0);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
             transition: transform 0.3s ease;
         }
 
-        .membership-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(45, 106, 79, 0.15);
-            border-color: #52b788;
+        .feature-card:hover {
+            transform: translateY(-5px);
         }
 
-        .membership-card:hover::before {
-            transform: scaleX(1);
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
         }
 
-        .card-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
-
-        .card-title {
-            font-size: 1.8rem;
+        .feature-card h4 {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: #1b4332;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
+            color: var(--neutral-color);
         }
 
-        .card-description {
+        .feature-card p {
             color: #666;
-            margin-bottom: 30px;
             line-height: 1.6;
         }
 
-        .card-features {
-            list-style: none;
-            margin-bottom: 30px;
+        /* Methodology Section */
+        .methodology-section {
+            padding: 5rem 0;
+            background: white;
         }
 
-        .card-features li {
-            padding: 10px 0;
-            color: #2d6a4f;
+        .methodology-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .methodology-item {
+            padding: 2rem;
+            border-left: 4px solid var(--primary-color);
+            background: var(--light-gray);
+            border-radius: 0 10px 10px 0;
+        }
+
+        .methodology-number {
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
 
-        .card-features li::before {
-            content: '✓';
-            color: #52b788;
-            font-weight: bold;
+        .methodology-item h5 {
             font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--neutral-color);
         }
 
-        .card-button {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-        }
-
-        .card-free .card-button {
-            background: #e9ecef;
-            color: #2d6a4f;
-            border: 2px solid #e9ecef;
-        }
-
-        .card-free .card-button:hover {
-            background: #2d6a4f;
-            color: white;
-            border-color: #2d6a4f;
-        }
-
-        .card-silver .card-button {
-            background: white;
-            color: #2d6a4f;
-            border: 2px solid #2d6a4f;
-        }
-
-        .card-silver .card-button:hover {
-            background: #2d6a4f;
-            color: white;
-        }
-
-        .card-gold {
-            background: linear-gradient(135deg, #fff8e1 0%, #ffe082 100%);
-            border-color: #ffd54f;
-        }
-
-        .card-gold .card-button {
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
-            color: white;
-            border: none;
-        }
-
-        .card-gold .card-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(45, 106, 79, 0.3);
+        .methodology-item p {
+            color: #666;
+            line-height: 1.6;
         }
 
         /* Footer */
         .footer {
-            background: #1b4332;
+            background: var(--neutral-color);
             color: white;
-            padding: 40px;
+            padding: 2rem 0;
             text-align: center;
         }
 
-        .footer p {
-            margin: 0;
-            opacity: 0.9;
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                padding: 0 20px;
-            }
-
-            .hero-content h1 {
-                font-size: 3rem;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .nav-container {
-                padding: 0 20px;
-            }
-            
-            .nav-links {
-                gap: 20px;
-            }
-        }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
-            /* Navigation mobile */
-            .navbar {
-                padding: 8px 0;
-                min-height: 50px;
-                position: fixed;
-                top: 0;
-                width: 100%;
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(15px);
-            }
-            
             .nav-container {
-                padding: 0 15px;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                gap: 10px;
-            }
-            
-            .logo {
-                font-size: 1.4rem;
-                text-align: left;
-                margin: 0;
-            }
-            
-            .nav-links {
-                flex-direction: row;
-                gap: 8px;
-                align-items: center;
-                width: auto;
-                flex-wrap: wrap;
-            }
-            
-            .nav-links a {
-                padding: 6px 10px;
-                font-size: 0.8rem;
-                border-radius: 6px;
-                white-space: nowrap;
-            }
-            
-            .language-btn {
-                padding: 6px 10px;
-                font-size: 0.8rem;
-                margin: 0;
-                border: 1px solid #e2e8f0;
-            }
-            
-            .btn-login {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-                background: #2d6a4f;
-                color: white;
-                border-color: #2d6a4f;
+                padding: 0 1rem;
             }
 
-            /* Hero section mobile */
-            .hero {
-                margin-top: 50px;
-                min-height: auto;
-                padding: 30px 0;
-                display: block;
-                position: relative;
-                overflow: visible;
-            }
-            
-            .hero-container {
-                padding: 20px 15px;
-                gap: 30px;
-                margin-top: 0;
-                display: block;
-                grid-template-columns: none;
-            }
-            
-            .hero-content {
-                text-align: center;
-                margin-bottom: 30px;
-            }
-            
-            .hero-content h1 {
-                font-size: 2rem;
-                line-height: 1.2;
-                margin-bottom: 15px;
-                color: #1b4332;
-            }
-            
-            .hero-content p {
-                font-size: 1rem;
-                line-height: 1.5;
-                margin-bottom: 25px;
-                color: #2d6a4f;
+            .nav-links {
+                gap: 1rem;
             }
 
-            .hero-buttons {
-                flex-direction: column;
-                gap: 12px;
-                align-items: stretch;
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
-            
-            .btn-primary, .btn-secondary {
-                width: 100%;
-                text-align: center;
-                padding: 14px 25px;
-                font-size: 1rem;
-                border-radius: 10px;
+
+            .hero-text h1 {
+                font-size: 2.5rem;
             }
-            
-            .hero-image {
-                margin-top: 20px;
-            }
-            
-            .hero-image-main {
-                height: 250px;
-                font-size: 100px;
-                margin-top: 0;
-            }
-            
-            /* Memberships section mobile */
-            .memberships {
-                padding: 50px 15px;
-                position: relative;
-                overflow: visible;
-            }
-            
-            .section-header h2 {
-                font-size: 2rem;
-                margin-bottom: 15px;
-            }
-            
-            .section-header p {
-                font-size: 1rem;
-            }
-            
-            .membership-card {
-                padding: 25px 20px;
-                margin-bottom: 20px;
-                position: relative;
-                overflow: visible;
-            }
-            
-            .card-title {
-                font-size: 1.4rem;
-                margin-bottom: 12px;
-            }
-            
-            .card-description {
-                font-size: 0.95rem;
-                margin-bottom: 20px;
-            }
-            
-            .card-features {
-                margin-bottom: 20px;
-            }
-            
-            .card-features li {
-                padding: 6px 0;
-                font-size: 0.9rem;
-            }
-            
-            .card-button {
-                padding: 12px 20px;
-                font-size: 0.95rem;
-                border-radius: 8px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            /* Extra small mobile */
-            .navbar {
-                min-height: 55px;
-                padding: 10px 0;
-            }
-            
-            .nav-container {
-                padding: 0 10px;
-                gap: 12px;
-            }
-            
-            .logo {
-                font-size: 1.3rem;
-            }
-            
-            .nav-links a, .language-btn, .btn-login {
-                padding: 10px 15px;
-                font-size: 0.85rem;
-            }
-            
-            .hero {
-                margin-top: 130px;
-                min-height: calc(100vh - 130px);
-                padding: 20px 0;
-            }
-            
-            .hero-container {
-                padding: 0 10px;
-                gap: 25px;
-            }
-            
-            .hero-content h1 {
-                font-size: 1.9rem;
-                margin-bottom: 15px;
-            }
-            
-            .hero-content p {
-                font-size: 1rem;
-                margin-bottom: 25px;
-            }
-            
-            .btn-primary, .btn-secondary {
-                padding: 14px 25px;
-                font-size: 1rem;
-            }
-            
-            .hero-image-main {
-                height: 250px;
-                font-size: 100px;
-            }
-            
-            .memberships {
-                padding: 40px 10px;
-            }
-            
-            .section-header h2 {
-                font-size: 1.8rem;
-            }
-            
-            .section-header p {
-                font-size: 1rem;
-            }
-            
-            .membership-card {
-                padding: 25px 15px;
-            }
-            
-            .card-icon {
-                font-size: 50px;
-                margin-bottom: 15px;
-            }
-            
-            .card-title {
-                font-size: 1.3rem;
-            }
-            
-            .card-description {
-                font-size: 0.95rem;
-            }
-            
-            .card-features li {
-                font-size: 0.9rem;
-                padding: 6px 0;
-            }
-        }
-        
-        /* Landscape orientation fixes */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .hero {
-                margin-top: 80px;
-                min-height: calc(100vh - 80px);
-                padding: 20px 0;
-            }
-            
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-            
-            .hero-image-main {
-                height: 200px;
-                font-size: 80px;
-            }
-            
-            .nav-container {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .nav-links {
-                flex-direction: row;
-                gap: 15px;
-                width: auto;
-            }
-            
-            .nav-links a, .language-btn, .btn-login {
-                width: auto;
-                padding: 8px 15px;
-                font-size: 0.85rem;
-            }
-        }
-        
-        /* Touch improvements */
-        @media (hover: none) and (pointer: coarse) {
-            .btn-primary:hover,
-            .btn-secondary:hover,
-            .btn-login:hover,
-            .language-btn:hover {
-                transform: none;
-                box-shadow: none;
-            }
-            
-            .membership-card:hover {
-                transform: none;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            }
-            
-            .nav-links a:hover {
-                background: rgba(45, 106, 79, 0.1);
-            }
-            
-            /* Larger touch targets */
-            .nav-links a, .btn-primary, .btn-secondary, .btn-login, .language-btn {
-                min-height: 44px;
-                display: flex;
-                align-items: center;
+
+            .hero-stats {
+                gap: 2rem;
                 justify-content: center;
             }
-        }
-        
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        /* Better focus indicators for keyboard navigation */
-        .btn-primary:focus,
-        .btn-secondary:focus,
-        .btn-login:focus,
-        .nav-links a:focus {
-            outline: 3px solid #52b788;
-            outline-offset: 2px;
-        }
-        
-        /* Prevent horizontal scroll */
-        body {
-            overflow-x: hidden;
-        }
-        
-        /* Safe area for notched devices */
-        @supports (padding: max(0px)) {
-            .nav-container {
-                padding-left: max(15px, env(safe-area-inset-left));
-                padding-right: max(15px, env(safe-area-inset-right));
+
+            .cta-buttons {
+                flex-direction: column;
             }
-            
-            .hero-container {
-                padding-left: max(15px, env(safe-area-inset-left));
-                padding-right: max(15px, env(safe-area-inset-right));
+
+            .esg-metrics {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
-            
-            .memberships-container {
-                padding-left: max(40px, env(safe-area-inset-left));
-                padding-right: max(40px, env(safe-area-inset-right));
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .methodology-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -808,7 +494,7 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">🌱 Sustindex</div>
+            <a href="/" class="logo">🌱 Sustindex</a>
             <div class="nav-links">
                 <form action="{% url 'set_language' %}" method="post" style="display: inline;">
                     {% csrf_token %}
@@ -824,72 +510,148 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1>{% trans "Find the perfect complement to your sustainability" %}</h1>
-                <p>{% trans "We will help you assess and improve your company's sustainability performance. Check our memberships and surround yourself with excellence!" %}</p>
-                <div class="hero-buttons">
-                    <a href="#memberships" class="btn-primary">{% trans "Explore Memberships" %}</a>
-                    <a href="{% url 'register' %}" class="btn-secondary">{% trans "Get Started" %}</a>
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <h1>{% trans "ESG Performance Assessment for Companies" %}</h1>
+                    <p>{% trans "Measure, score, and improve your sustainability performance with professional ESG reporting based on international standards." %}</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">30+</span>
+                            <span class="stat-label">{% trans "ESG Indicators" %}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">{% trans "Core Categories" %}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">A-D</span>
+                            <span class="stat-label">{% trans "Grade Scale" %}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="cta-buttons">
+                        <a href="{% url 'register' %}" class="cta-primary">
+                            {% trans "Start ESG Assessment" %}
+                        </a>
+                        <a href="#methodology" class="cta-secondary">
+                            {% trans "View Methodology" %}
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="hero-image">
-                <div class="hero-image-main">🌿</div>
+                
+                <div class="dashboard-preview">
+                    <div class="preview-header">
+                        <h3 class="preview-title">{% trans "ESG Dashboard" %}</h3>
+                        <div class="preview-score">A-</div>
+                    </div>
+                    
+                    <div class="esg-metrics">
+                        <div class="metric-card">
+                            <span class="metric-score">85</span>
+                            <div class="metric-label">{% trans "Environmental" %}</div>
+                            <div class="metric-bar">
+                                <div class="metric-fill fill-env" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <span class="metric-score">78</span>
+                            <div class="metric-label">{% trans "Social" %}</div>
+                            <div class="metric-bar">
+                                <div class="metric-fill fill-social" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <span class="metric-score">92</span>
+                            <div class="metric-label">{% trans "Governance" %}</div>
+                            <div class="metric-bar">
+                                <div class="metric-fill fill-gov" style="width: 92%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Memberships Section -->
-    <section class="memberships" id="memberships">
-        <div class="memberships-container">
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="features-container">
             <div class="section-header">
-                <h2>{% trans "Choose Your Membership" %}</h2>
-                <p>{% trans "Select the plan that best fits your company's needs" %}</p>
+                <h2>{% trans "Professional ESG Assessment" %}</h2>
+                <p>{% trans "Your company receives an ESG score based on 30 indicators across Environmental, Social, and Governance categories." %}</p>
             </div>
-
-            <div class="cards-grid">
-                <!-- Free Card -->
-                <div class="membership-card card-free">
-                    <div class="card-icon">🌱</div>
-                    <h3 class="card-title">{% trans "Free Membership" %}</h3>
-                    <p class="card-description">{% trans "Limited access to basic features" %}</p>
-                    <ul class="card-features">
-                        <li>{% trans "Basic dashboard access" %}</li>
-                        <li>{% trans "View sample questions" %}</li>
-                        <li>{% trans "Community support" %}</li>
-                    </ul>
-                    <a href="{% url 'register' %}" class="card-button">{% trans "Free Registration" %}</a>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>{% trans "Comprehensive Scoring" %}</h4>
+                    <p>{% trans "Detailed analysis across all ESG dimensions with weighted scoring methodology." %}</p>
                 </div>
-
-                <!-- Silver Card -->
-                <div class="membership-card card-silver">
-                    <div class="card-icon">🥈</div>
-                    <h3 class="card-title">{% trans "Silver Membership" %}</h3>
-                    <p class="card-description">{% trans "Perfect for getting started" %}</p>
-                    <ul class="card-features">
-                        <li>{% trans "One-time questionnaire response" %}</li>
-                        <li>{% trans "Receive report" %}</li>
-                        <li>{% trans "Email support" %}</li>
-                        <li>{% trans "Basic analytics" %}</li>
-                    </ul>
-                    <a href="{% url 'register' %}" class="card-button">{% trans "Register" %}</a>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h4>{% trans "Professional Reports" %}</h4>
+                    <p>{% trans "Executive-ready PDF reports with benchmarking and improvement recommendations." %}</p>
                 </div>
-
-                <!-- Gold Card -->
-                <div class="membership-card card-gold">
-                    <div class="card-icon">🏆</div>
-                    <h3 class="card-title">{% trans "Gold Membership" %}</h3>
-                    <p class="card-description">{% trans "Complete sustainability solution" %}</p>
-                    <ul class="card-features">
-                        <li>{% trans "Unlimited questionnaire responses" %}</li>
-                        <li>{% trans "Detailed reports" %}</li>
-                        <li>{% trans "Access to e-learning platform" %}</li>
-                        <li>{% trans "Consulting services" %}</li>
-                        <li>{% trans "Priority support" %}</li>
-                    </ul>
-                    <a href="{% url 'register' %}" class="card-button">{% trans "Register" %}</a>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>{% trans "Industry Standards" %}</h4>
+                    <p>{% trans "Based on internationally recognized ESG frameworks and best practices." %}</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="methodology" class="methodology-section">
+        <div class="methodology-container">
+            <div class="section-header">
+                <h2>{% trans "Assessment Methodology" %}</h2>
+                <p>{% trans "Our ESG assessment follows a structured approach based on international standards." %}</p>
+            </div>
+            
+            <div class="methodology-grid">
+                <div class="methodology-item">
+                    <div class="methodology-number">1</div>
+                    <h5>{% trans "Environmental Assessment" %}</h5>
+                    <p>{% trans "Waste management, energy usage, carbon footprint, and water conservation practices." %}</p>
+                </div>
+                
+                <div class="methodology-item">
+                    <div class="methodology-number">2</div>
+                    <h5>{% trans "Social Responsibility" %}</h5>
+                    <p>{% trans "Employee training, diversity policies, community engagement, and health & safety measures." %}</p>
+                </div>
+                
+                <div class="methodology-item">
+                    <div class="methodology-number">3</div>
+                    <h5>{% trans "Corporate Governance" %}</h5>
+                    <p>{% trans "Board independence, transparency, ethics programs, and stakeholder engagement." %}</p>
+                </div>
+                
+                <div class="methodology-item">
+                    <div class="methodology-number">4</div>
+                    <h5>{% trans "Scoring & Grading" %}</h5>
+                    <p>{% trans "Weighted scoring system with A+ to D grades and detailed improvement recommendations." %}</p>
+                </div>
+            </div>
+            
+            <div class="section-header" style="margin-top: 3rem;">
+                <a href="{% url 'register' %}" class="cta-primary">
+                    {% trans "Begin Assessment" %}
+                </a>
             </div>
         </div>
     </section>
@@ -900,82 +662,27 @@
             <p>&copy; 2025 Sustindex. {% trans "All rights reserved." %}</p>
         </div>
     </footer>
-    
-    <style>
-        .footer {
-            background: #1b4332;
-            color: white;
-            padding: 30px 0;
-            text-align: center;
-            margin-top: 0;
-        }
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate metric bars
+        const metricFills = document.querySelectorAll('.metric-fill');
         
-        .footer-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const fill = entry.target;
+                    const width = fill.style.width;
+                    fill.style.width = '0%';
+                    setTimeout(() => {
+                        fill.style.width = width;
+                    }, 500);
+                }
+            });
+        });
         
-        .footer p {
-            margin: 0;
-            opacity: 0.9;
-            font-size: 0.95rem;
-        }
-        
-        @media (max-width: 768px) {
-            .footer {
-                padding: 25px 0;
-            }
-            
-            .footer-container {
-                padding: 0 15px;
-            }
-            
-            .footer p {
-                font-size: 0.9rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .footer {
-                padding: 20px 0;
-            }
-            
-            .footer-container {
-                padding: 0 10px;
-            }
-            
-            .footer p {
-                font-size: 0.85rem;
-            }
-        }
-        
-        /* Ensure scrolling works properly on all devices */
-        html, body {
-            height: auto !important;
-            min-height: 100vh;
-            overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        /* Fix any potential scroll blocking */
-        .hero, .memberships {
-            position: relative;
-            overflow: visible;
-        }
-        
-        /* Mobile scroll fix */
-        @media (max-width: 768px) {
-            html, body {
-                overflow-y: scroll !important;
-                -webkit-overflow-scrolling: touch;
-                height: auto !important;
-            }
-            
-            body {
-                position: relative;
-            }
-        }
-    </style>
+        metricFills.forEach(fill => observer.observe(fill));
+    });
+    </script>
 </body>
 </html>

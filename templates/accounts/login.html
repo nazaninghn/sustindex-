@@ -1,12 +1,24 @@
 {% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% trans "Login" %} - Sustindex</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #1F7A63;
+            --neutral-color: #2E2E2E;
+            --accent-color: #4C6EF5;
+            --light-gray: #F8F9FA;
+            --success-green: #28A745;
+            --gold: #FFD700;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,606 +26,316 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2d6a4f 100%);
             min-height: 100vh;
-            background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
             position: relative;
-            overflow-x: hidden;
-            overflow-y: scroll;
-            -webkit-overflow-scrolling: touch;
-            padding: 0;
-            margin: 0;
+            overflow: hidden;
         }
 
-        /* Animated background */
         body::before {
             content: '';
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(45, 106, 79, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(82, 183, 136, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(149, 213, 178, 0.15) 0%, transparent 50%);
-            animation: float 20s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
         }
 
         .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            max-width: 1000px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             position: relative;
             z-index: 1;
-            width: 100%;
-            max-width: 1100px;
-            margin: 20px auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .login-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            display: flex;
-            min-height: 600px;
-            animation: slideIn 0.6s ease;
-            width: 100%;
-            max-width: 100%;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
         }
 
         .login-left {
-            flex: 1;
-            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #52b788 100%);
-            padding: 60px 50px;
+            padding: 3rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
+        }
+
+        .login-right {
+            background: linear-gradient(135deg, var(--primary-color), #2d6a4f);
             color: white;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             position: relative;
             overflow: hidden;
         }
 
-        .login-left::before {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            top: -150px;
-            right: -150px;
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        .login-left::after {
+        .login-right::before {
             content: '';
             position: absolute;
             width: 300px;
             height: 300px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            bottom: -100px;
-            left: -100px;
-            animation: pulse 4s ease-in-out infinite reverse;
+            top: -100px;
+            right: -100px;
+            animation: pulse 3s ease-in-out infinite;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 0.8; }
         }
 
-        .login-left-content {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-        }
-
-        .login-left .icon {
-            font-size: 100px;
-            margin-bottom: 30px;
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .login-left h1 {
-            font-size: 3rem;
+        .logo {
+            font-size: 2rem;
             font-weight: 800;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .login-left p {
-            font-size: 1.1rem;
-            opacity: 0.95;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .login-right {
-            flex: 1;
-            padding: 60px 50px;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .login-header {
-            margin-bottom: 40px;
-        }
-
-        .login-header h2 {
-            font-size: 2.5rem;
+        .login-title {
+            font-size: 2rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #1b4332, #2d6a4f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
+            color: var(--neutral-color);
+            margin-bottom: 0.5rem;
         }
 
-        .login-header p {
+        .login-subtitle {
             color: #666;
-            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 1.5rem;
         }
 
         .form-label {
-            font-weight: 600;
-            color: #1b4332;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
             display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--neutral-color);
         }
 
-        .form-control {
+        .form-input {
             width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 0.95rem;
+            padding: 1rem;
+            border: 2px solid #E9ECEF;
+            border-radius: 10px;
+            font-size: 1rem;
             transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
+            background: white;
         }
 
-        .form-control:focus {
-            border-color: #2d6a4f;
+        .form-input:focus {
             outline: none;
-            box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1);
-            transform: translateY(-2px);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(31, 122, 99, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #dc3545;
         }
 
         .btn-login {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
-            border: none;
-            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--success-green));
             color: white;
-            font-weight: 600;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
             font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 10px;
+            margin-bottom: 1rem;
         }
 
         .btn-login:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(31, 122, 99, 0.3);
         }
 
-        .btn-login:active {
-            transform: translateY(-1px);
+        .btn-login:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .login-footer {
-            margin-top: 30px;
+        .form-links {
             text-align: center;
-            color: #666;
-            font-size: 0.95rem;
+            margin-top: 1rem;
         }
 
-        .login-footer a {
-            color: #2d6a4f;
+        .form-links a {
+            color: var(--primary-color);
             text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
+            font-weight: 500;
         }
 
-        .login-footer a:hover {
-            color: #1b4332;
+        .form-links a:hover {
             text-decoration: underline;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #666;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #E9ECEF;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 1rem;
         }
 
         .language-selector {
             position: absolute;
-            top: 30px;
-            right: 30px;
+            top: 2rem;
+            right: 2rem;
             z-index: 10;
         }
 
-        .language-selector select {
-            padding: 10px 20px;
-            border: 2px solid rgba(45, 106, 79, 0.3);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #1b4332;
-            font-weight: 500;
+        .language-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            background: rgba(255,255,255,0.1);
+            color: white;
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
-        .alert {
-            border-radius: 12px;
-            margin-bottom: 25px;
-            padding: 15px 20px;
-            animation: slideDown 0.5s ease;
+        .language-btn:hover {
+            background: rgba(255,255,255,0.2);
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Right Side Content */
+        .welcome-content {
+            position: relative;
+            z-index: 2;
         }
 
-        @media (max-width: 1024px) {
-            .login-card {
-                flex-direction: column;
-                margin: 10px;
-                min-height: auto;
-            }
-
-            .login-left {
-                padding: 40px 30px;
-                min-height: 250px;
-            }
-
-            .login-left h1 {
-                font-size: 2.5rem;
-            }
-
-            .login-left .icon {
-                font-size: 80px;
-                margin-bottom: 20px;
-            }
-
-            .login-right {
-                padding: 40px 30px;
-            }
-            
-            .login-header h2 {
-                font-size: 2.2rem;
-            }
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
+        .welcome-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .features-list li i {
+            margin-right: 1rem;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        .stats-mini {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-mini {
+            text-align: center;
+        }
+
+        .stat-mini-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-mini-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .error-messages {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #f5c6cb;
+        }
+
+        .success-messages {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            body {
-                padding: 0;
-                min-height: 100vh;
-                height: auto;
-                overflow-y: scroll !important;
-                -webkit-overflow-scrolling: touch;
-                position: relative;
-            }
-            
             .login-container {
-                margin: 0;
-                padding: 10px;
-                width: 100%;
-                min-height: auto;
-                display: block;
-                box-sizing: border-box;
-            }
-            
-            .login-card {
-                margin: 0;
-                border-radius: 20px;
-                min-height: auto;
-                max-width: 100%;
-                display: block;
-                overflow: visible;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .login-left {
-                padding: 30px 20px;
-                min-height: 200px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .login-left h1 {
-                font-size: 2rem;
-                margin-bottom: 15px;
-            }
-            
-            .login-left .icon {
-                font-size: 60px;
-                margin-bottom: 15px;
-            }
-            
-            .login-left p {
-                font-size: 1rem;
-                margin-bottom: 10px;
+                grid-template-columns: 1fr;
+                max-width: 400px;
             }
 
             .login-right {
-                padding: 30px 20px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .login-header {
-                margin-bottom: 30px;
+                display: none;
             }
 
-            .login-header h2 {
-                font-size: 1.8rem;
-                margin-bottom: 8px;
-            }
-            
-            .login-header p {
-                font-size: 0.9rem;
+            .login-left {
+                padding: 2rem;
             }
 
             .language-selector {
-                top: 15px;
-                right: 15px;
                 position: fixed;
-                z-index: 1000;
-            }
-            
-            .language-selector select {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-            
-            .form-group {
-                margin-bottom: 20px;
-            }
-            
-            .form-control {
-                padding: 12px 15px;
-                font-size: 16px; /* Prevents zoom on iOS */
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .btn-login {
-                padding: 14px;
-                font-size: 1rem;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .login-footer {
-                margin-top: 25px;
-                font-size: 0.9rem;
-                padding-bottom: 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            body {
-                padding: 0;
-                height: auto;
-                overflow-y: scroll !important;
-                min-height: 100vh;
-            }
-            
-            .login-container {
-                margin: 0;
-                padding: 5px;
-                width: 100%;
-                min-height: auto;
-            }
-            
-            .login-card {
-                border-radius: 15px;
-                display: block;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .login-left {
-                padding: 25px 15px;
-                min-height: 180px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .login-left h1 {
-                font-size: 1.8rem;
-            }
-            
-            .login-left .icon {
-                font-size: 50px;
-                margin-bottom: 12px;
-            }
-            
-            .login-left p {
-                font-size: 0.9rem;
+                top: 1rem;
+                right: 1rem;
             }
 
-            .login-right {
-                padding: 25px 15px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .login-header h2 {
-                font-size: 1.6rem;
-            }
-            
-            .language-selector {
-                top: 10px;
-                right: 10px;
-                position: fixed;
-                z-index: 1000;
-            }
-            
-            .language-selector select {
-                padding: 6px 12px;
-                font-size: 0.85rem;
-            }
-            
-            .login-footer {
-                padding-bottom: 30px;
-            }
-        }
-        
-        /* Landscape orientation on mobile */
-        @media (max-width: 768px) and (orientation: landscape) {
-            body {
-                padding: 10px 0;
-                height: auto;
-                overflow-y: scroll !important;
-            }
-            
-            .login-container {
-                min-height: auto;
-            }
-            
-            .login-left {
-                min-height: 150px;
-                padding: 20px;
-            }
-            
-            .login-left .icon {
-                font-size: 40px;
-                margin-bottom: 10px;
-            }
-            
-            .login-left h1 {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
-            
-            .login-left p {
-                font-size: 0.85rem;
-                margin-bottom: 8px;
-            }
-            
-            .login-right {
-                padding: 20px;
-            }
-            
-            .login-header {
-                margin-bottom: 20px;
-            }
-            
-            .login-header h2 {
-                font-size: 1.5rem;
-            }
-        }
-        
-        /* Ensure proper scrolling on all devices */
-        html {
-            overflow-x: hidden;
-            overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch;
-            height: auto !important;
-        }
-        
-        /* Additional mobile scroll fixes */
-        @media (max-width: 768px) {
-            html, body {
-                height: auto !important;
-                min-height: 100vh;
-                overflow-y: scroll !important;
-                -webkit-overflow-scrolling: touch;
-                position: relative;
-            }
-            
-            .login-card {
-                position: relative;
-                overflow: visible;
-                height: auto;
-                min-height: auto;
-            }
-            
-            .login-container {
-                height: auto;
-                min-height: auto;
-            }
-            
-            /* Ensure content is not cut off */
-            .login-footer {
-                margin-bottom: 40px;
-                padding-bottom: 40px;
-            }
-        }
-        
-        /* Fix for iOS Safari */
-        @supports (-webkit-touch-callout: none) {
-            body {
-                min-height: -webkit-fill-available;
-                height: auto;
-            }
-            
-            @media (max-width: 768px) {
-                html, body {
-                    height: auto !important;
-                    overflow-y: scroll !important;
-                    min-height: 100vh;
-                }
-                
-                .login-container {
-                    padding-bottom: 50px;
-                }
-            }
-        }
-        
-        /* Force scroll on mobile devices */
-        @media screen and (max-width: 768px) {
-            html {
-                overflow-y: scroll !important;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            body {
-                overflow-y: scroll !important;
-                -webkit-overflow-scrolling: touch;
-                height: auto !important;
-                min-height: 100vh;
-                position: relative;
-            }
-            
-            /* Add extra space at bottom for mobile */
-            .login-footer {
-                padding-bottom: 60px !important;
-                margin-bottom: 20px !important;
+            .language-btn {
+                background: var(--primary-color);
+                border-color: var(--primary-color);
             }
         }
     </style>
@@ -621,99 +343,145 @@
 <body>
     <!-- Language Selector -->
     <div class="language-selector">
-        <form action="{% url 'set_language' %}" method="post" id="languageForm">
+        <form action="{% url 'set_language' %}" method="post" style="display: inline;">
             {% csrf_token %}
             <input name="next" type="hidden" value="{{ request.path }}" />
-            <select name="language" onchange="document.getElementById('languageForm').submit();">
-                <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 English</option>
-                <option value="tr" {% if LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 Türkçe</option>
+            <select name="language" class="language-btn" onchange="this.form.submit();">
+                <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 EN</option>
+                <option value="tr" {% if LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 TR</option>
             </select>
         </form>
     </div>
 
     <div class="login-container">
-        <div class="login-card">
-            <!-- Left Side -->
-            <div class="login-left">
-                <div class="login-left-content">
-                    <div class="icon">🌱</div>
-                    <h1>Sustindex</h1>
-                    <p>{% trans "Corporate Sustainability Assessment System" %}</p>
-                    <p style="margin-top: 20px; font-size: 0.95rem; opacity: 0.9;">
-                        {% trans "Measure, track, and improve your company's sustainability performance" %}
-                    </p>
+        <!-- Left Side - Login Form -->
+        <div class="login-left">
+            <div class="logo">🌱 Sustindex</div>
+            <h1 class="login-title">{% trans "Welcome Back" %}</h1>
+            <p class="login-subtitle">{% trans "Sign in to access your ESG dashboard and reports" %}</p>
+
+            <!-- Error Messages -->
+            {% if form.errors %}
+            <div class="error-messages">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Success Messages -->
+            {% if messages %}
+            {% for message in messages %}
+            <div class="success-messages">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="id_username" class="form-label">{% trans "Username" %}</label>
+                    <input type="text" 
+                           name="username" 
+                           id="id_username"
+                           class="form-input {% if form.username.errors %}error{% endif %}"
+                           placeholder="{% trans 'Enter your username' %}"
+                           value="{{ form.username.value|default:'' }}"
+                           required>
                 </div>
+
+                <div class="form-group">
+                    <label for="id_password" class="form-label">{% trans "Password" %}</label>
+                    <input type="password" 
+                           name="password" 
+                           id="id_password"
+                           class="form-input {% if form.password.errors %}error{% endif %}"
+                           placeholder="{% trans 'Enter your password' %}"
+                           required>
+                </div>
+
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> {% trans "Sign In" %}
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>{% trans "or" %}</span>
             </div>
 
-            <!-- Right Side -->
-            <div class="login-right">
-                <div class="login-header">
-                    <h2>{% trans "Welcome Back" %}</h2>
-                    <p>{% trans "Please login to your account" %}</p>
-                </div>
+            <div class="form-links">
+                <a href="{% url 'register' %}">
+                    {% trans "Don't have an account? Sign up" %}
+                </a>
+            </div>
+        </div>
 
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
+        <!-- Right Side - Welcome Content -->
+        <div class="login-right">
+            <div class="welcome-content">
+                <h2 class="welcome-title">{% trans "ESG Assessment Platform" %}</h2>
+                <p class="welcome-text">
+                    {% trans "Access your comprehensive sustainability dashboard with professional ESG reporting and analytics." %}
+                </p>
 
-                <form method="post" id="loginForm">
-                    {% csrf_token %}
-                    
-                    <div class="form-group">
-                        <label for="id_username" class="form-label">{% trans "Username" %}</label>
-                        <input type="text" 
-                               name="username" 
-                               id="id_username" 
-                               class="form-control" 
-                               placeholder="{% trans 'Enter your username' %}"
-                               required 
-                               autofocus>
+                <ul class="features-list">
+                    <li>
+                        <i class="fas fa-chart-line"></i>
+                        {% trans "Professional ESG Scoring" %}
+                    </li>
+                    <li>
+                        <i class="fas fa-file-pdf"></i>
+                        {% trans "Executive Reports" %}
+                    </li>
+                    <li>
+                        <i class="fas fa-shield-alt"></i>
+                        {% trans "Industry Standards" %}
+                    </li>
+                    <li>
+                        <i class="fas fa-users"></i>
+                        {% trans "Multi-tier Access" %}
+                    </li>
+                </ul>
+
+                <div class="stats-mini">
+                    <div class="stat-mini">
+                        <span class="stat-mini-number">30+</span>
+                        <span class="stat-mini-label">{% trans "Indicators" %}</span>
                     </div>
-
-                    <div class="form-group">
-                        <label for="id_password" class="form-label">{% trans "Password" %}</label>
-                        <input type="password" 
-                               name="password" 
-                               id="id_password" 
-                               class="form-control" 
-                               placeholder="{% trans 'Enter your password' %}"
-                               required>
+                    <div class="stat-mini">
+                        <span class="stat-mini-number">A-D</span>
+                        <span class="stat-mini-label">{% trans "Grades" %}</span>
                     </div>
-
-                    <button type="submit" class="btn-login">
-                        {% trans "Login" %} →
-                    </button>
-                </form>
-
-                <div class="login-footer">
-                    <p>{% trans "Don't have an account?" %} <a href="{% url 'register' %}">{% trans "Register here" %}</a></p>
+                    <div class="stat-mini">
+                        <span class="stat-mini-number">3</span>
+                        <span class="stat-mini-label">{% trans "Categories" %}</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Form animation on submit
-        document.getElementById('loginForm').addEventListener('submit', function() {
-            const btn = this.querySelector('.btn-login');
-            btn.innerHTML = '⏳ {% trans "Logging in..." %}';
-            btn.disabled = true;
-        });
+    document.addEventListener('DOMContentLoaded', function() {
+        // Focus first input
+        const firstInput = document.querySelector('.form-input');
+        if (firstInput) {
+            firstInput.focus();
+        }
 
-        // Add focus animation
-        document.querySelectorAll('.form-control').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
-            });
+        // Form validation
+        const form = document.querySelector('form');
+        const submitBtn = document.querySelector('.btn-login');
+        
+        form.addEventListener('submit', function() {
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {% trans "Signing in..." %}';
+            submitBtn.disabled = true;
         });
+    });
     </script>
 </body>
 </html>

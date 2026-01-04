@@ -30,6 +30,7 @@ def questionnaire_page(request, attempt_id):
     categories = Category.objects.prefetch_related('questions__choices').all()
     
     if request.method == 'POST':
+        # Process form data
         for question_id, choice_id in request.POST.items():
             if question_id.startswith('question_'):
                 q_id = int(question_id.split('_')[1])
@@ -42,6 +43,34 @@ def questionnaire_page(request, attempt_id):
                     defaults={'choice': choice}
                 )
         
+        # Process uploaded files (if any)
+        for key, files in request.FILES.lists():
+            if key.startswith('files_'):
+                question_id = int(key.split('_')[1])
+                question = Question.objects.get(id=question_id)
+                
+                # Get or create answer for this question
+                try:
+                    answer = Answer.objects.get(attempt=attempt, question=question)
+                except Answer.DoesNotExist:
+                    # Create placeholder answer with first choice if no answer exists
+                    first_choice = question.choices.first()
+                    answer = Answer.objects.create(
+                        attempt=attempt,
+                        question=question,
+                        choice=first_choice
+                    )
+                
+                # Save uploaded files
+                for file in files:
+                    if file.size <= 10 * 1024 * 1024:  # 10MB limit
+                        UserDocument.objects.create(
+                            answer=answer,
+                            title=file.name,
+                            file=file,
+                            file_size=file.size
+                        )
+        
         attempt.is_completed = True
         attempt.completed_at = timezone.now()
         attempt.calculate_score()
@@ -49,15 +78,54 @@ def questionnaire_page(request, attempt_id):
         
         return redirect('questionnaire_result', attempt_id=attempt.id)
     
+    # Get existing answers and documents for display
+    existing_answers = {}
+    existing_documents = {}
+    
+    for answer in attempt.answers.all():
+        existing_answers[answer.question.id] = answer.choice.id
+        documents = answer.documents.all()
+        if documents:
+            existing_documents[answer.question.id] = documents
+    
     return render(request, 'questionnaire/questionnaire.html', {
         'attempt': attempt,
-        'categories': categories
+        'categories': categories,
+        'existing_answers': existing_answers,
+        'existing_documents': existing_documents
     })
 
 @login_required
 def questionnaire_result(request, attempt_id):
     attempt = get_object_or_404(QuestionnaireAttempt, id=attempt_id, user=request.user)
-    return render(request, 'questionnaire/result.html', {'attempt': attempt})
+    
+    # محاسبه امتیازات ESG
+    esg_scores = attempt.calculate_esg_scores()
+    
+    # تولید گزارش اگر وجود نداشته باشد
+    from reports.models import Report
+    report, created = Report.objects.get_or_create(
+        attempt=attempt,
+        defaults={'generated_at': timezone.now()}
+    )
+    
+    # محاسبه تعداد فایل‌های آپلود شده
+    documents_count = 0
+    for answer in attempt.answers.all():
+        documents_count += answer.documents.count()
+    
+    # اضافه کردن تعداد فایل‌ها به attempt برای استفاده در template
+    attempt.documents_count = documents_count
+    
+    context = {
+        'attempt': attempt,
+        'esg_scores': esg_scores,
+        'report': report,
+        'recommendations': attempt.get_recommendations(),
+        'documents_count': documents_count,
+    }
+    
+    return render(request, 'questionnaire/result.html', context)
 
 @login_required
 @csrf_exempt
@@ -76,6 +144,21 @@ def upload_document(request):
             # Validate file size (max 10MB)
             if uploaded_file.size > 10 * 1024 * 1024:
                 return JsonResponse({'success': False, 'error': 'File size too large (max 10MB)'})
+            
+            # Validate file type
+            allowed_types = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'image/jpeg',
+                'image/jpg',
+                'image/png'
+            ]
+            
+            if uploaded_file.content_type not in allowed_types:
+                return JsonResponse({'success': False, 'error': 'File type not supported'})
             
             # Get or create answer
             attempt = get_object_or_404(QuestionnaireAttempt, id=attempt_id, user=request.user)
@@ -96,7 +179,7 @@ def upload_document(request):
             # Create document
             document = UserDocument.objects.create(
                 answer=answer,
-                title=title,
+                title=title or uploaded_file.name,
                 file=uploaded_file,
                 file_size=uploaded_file.size
             )
@@ -105,9 +188,23 @@ def upload_document(request):
                 'success': True,
                 'document_id': document.id,
                 'file_name': uploaded_file.name,
-                'file_size': document.get_file_size_display()
+                'file_size': document.get_file_size_display(),
+                'file_url': document.file.url if document.file else None
             })
             
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+@login_required
+def delete_document(request, document_id):
+    """Delete uploaded document"""
+    if request.method == 'POST':
+        try:
+            document = get_object_or_404(UserDocument, id=document_id, answer__attempt__user=request.user)
+            document.delete()
+            return JsonResponse({'success': True})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)})
     

@@ -1,12 +1,24 @@
 {% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% trans "Register" %} - Sustindex</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>{% trans "Create Account" %} - Sustindex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #1F7A63;
+            --neutral-color: #2E2E2E;
+            --accent-color: #4C6EF5;
+            --light-gray: #F8F9FA;
+            --success-green: #28A745;
+            --gold: #FFD700;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,267 +26,415 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2d6a4f 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 50%, #95d5b2 100%);
+            padding: 2rem 1rem;
             position: relative;
-            padding: 40px 20px;
+            overflow-x: hidden;
         }
 
-        /* Animated background circles */
         body::before {
             content: '';
             position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(45, 106, 79, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            top: -150px;
-            right: -150px;
-            animation: float 20s ease-in-out infinite;
-        }
-
-        body::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(82, 183, 136, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            bottom: -100px;
-            left: -100px;
-            animation: float 15s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
-        }
-
-        .language-selector {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            z-index: 10;
-        }
-
-        .language-selector select {
-            padding: 10px 20px;
-            border: 2px solid rgba(45, 106, 79, 0.3);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #1b4332;
-            font-weight: 500;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            font-family: 'Poppins', sans-serif;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
         }
 
         .register-container {
-            width: 100%;
-            max-width: 600px;
+            max-width: 1200px;
+            margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
         .register-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            padding: 50px 45px;
-            animation: slideUp 0.6s ease;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .register-left {
+            background: linear-gradient(135deg, var(--primary-color), #2d6a4f);
+            color: white;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .register-header {
-            text-align: center;
-            margin-bottom: 40px;
+        .register-left::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            left: -100px;
+            animation: pulse 3s ease-in-out infinite;
         }
 
-        .register-header .icon {
-            font-size: 70px;
-            margin-bottom: 20px;
-            animation: bounce 2s ease-in-out infinite;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .register-right {
+            padding: 3rem;
+            overflow-y: auto;
+            max-height: 90vh;
         }
 
-        .register-header h2 {
-            font-size: 2.2rem;
+        .language-selector {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10;
+        }
+
+        .language-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Left Side Content */
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .membership-preview {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .membership-title {
+            font-size: 1.3rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #1b4332, #2d6a4f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
         }
 
-        .register-header p {
+        .membership-tiers {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tier {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tier-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .tier-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .tier-info p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* Right Side - Form */
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-subtitle {
             color: #666;
-            font-size: 0.95rem;
+            font-size: 1rem;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: var(--light-gray);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .step.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .step-number {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
 
         .form-label {
             display: block;
+            margin-bottom: 0.5rem;
             font-weight: 600;
-            color: #1b4332;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
+            color: var(--neutral-color);
         }
 
-        .form-control, input[type="text"], input[type="email"], input[type="password"] {
+        .form-input {
             width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 0.95rem;
+            padding: 1rem;
+            border: 2px solid #E9ECEF;
+            border-radius: 10px;
+            font-size: 1rem;
             transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
             background: white;
         }
 
-        .form-control:focus, input:focus {
-            border-color: #2d6a4f;
+        .form-input:focus {
             outline: none;
-            box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1);
-            transform: translateY(-2px);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(31, 122, 99, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #dc3545;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #E9ECEF;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(31, 122, 99, 0.1);
+        }
+
+        .membership-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .membership-option {
+            border: 2px solid #E9ECEF;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .membership-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(31, 122, 99, 0.05);
+        }
+
+        .membership-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(31, 122, 99, 0.1);
+        }
+
+        .membership-option input {
+            display: none;
+        }
+
+        .membership-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .membership-name {
+            font-weight: 700;
+            color: var(--neutral-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .membership-desc {
+            font-size: 0.8rem;
+            color: #666;
         }
 
         .btn-register {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
-            border: none;
-            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--success-green));
             color: white;
-            font-weight: 600;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
             font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 10px;
+            margin-bottom: 1rem;
         }
 
         .btn-register:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(31, 122, 99, 0.3);
         }
 
-        .btn-register:active {
-            transform: translateY(-1px);
+        .btn-register:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .register-footer {
-            margin-top: 30px;
+        .form-links {
             text-align: center;
-            color: #666;
-            font-size: 0.95rem;
+            margin-top: 1rem;
         }
 
-        .register-footer a {
-            color: #2d6a4f;
+        .form-links a {
+            color: var(--primary-color);
             text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
+            font-weight: 500;
         }
 
-        .register-footer a:hover {
-            color: #1b4332;
+        .form-links a:hover {
             text-decoration: underline;
         }
 
-        .alert {
-            border-radius: 12px;
-            margin-bottom: 25px;
-            padding: 15px 20px;
-            animation: slideDown 0.5s ease;
+        .error-messages {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #f5c6cb;
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .helptext {
-            font-size: 0.85rem;
+        .field-help {
+            font-size: 0.8rem;
             color: #666;
-            margin-top: 6px;
-            display: block;
+            margin-top: 0.25rem;
         }
 
-        .errorlist {
-            list-style: none;
-            padding: 0;
-            margin: 8px 0 0 0;
-        }
-
-        .errorlist li {
-            color: #dc3545;
-            font-size: 0.85rem;
-            padding: 5px 0;
-        }
-
-        .form-group.has-error input {
-            border-color: #dc3545;
-        }
-
-        .password-strength {
-            height: 4px;
-            background: #e0e0e0;
-            border-radius: 2px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-
-        .password-strength-bar {
-            height: 100%;
-            width: 0;
-            transition: all 0.3s ease;
-        }
-
-        .strength-weak { background: #dc3545; width: 33%; }
-        .strength-medium { background: #ffc107; width: 66%; }
-        .strength-strong { background: #2d6a4f; width: 100%; }
-
+        /* Responsive */
         @media (max-width: 768px) {
             .register-card {
-                padding: 40px 30px;
+                grid-template-columns: 1fr;
             }
 
-            .register-header h2 {
-                font-size: 1.8rem;
+            .register-left {
+                display: none;
+            }
+
+            .register-right {
+                padding: 2rem;
+                max-height: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .membership-selector {
+                grid-template-columns: 1fr;
             }
 
             .language-selector {
-                top: 20px;
-                right: 20px;
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .language-btn {
+                background: var(--primary-color);
+                border-color: var(--primary-color);
             }
         }
     </style>
@@ -282,174 +442,215 @@
 <body>
     <!-- Language Selector -->
     <div class="language-selector">
-        <form action="{% url 'set_language' %}" method="post" id="languageForm">
+        <form action="{% url 'set_language' %}" method="post" style="display: inline;">
             {% csrf_token %}
             <input name="next" type="hidden" value="{{ request.path }}" />
-            <select name="language" onchange="document.getElementById('languageForm').submit();">
-                <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 English</option>
-                <option value="tr" {% if LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 Türkçe</option>
+            <select name="language" class="language-btn" onchange="this.form.submit();">
+                <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 EN</option>
+                <option value="tr" {% if LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 TR</option>
             </select>
         </form>
     </div>
 
     <div class="register-container">
         <div class="register-card">
-            <div class="register-header">
-                <div class="icon">🌱</div>
-                <h2>{% trans "Company Registration" %}</h2>
-                <p>{% trans "Create your account to get started" %}</p>
+            <!-- Left Side - Welcome Content -->
+            <div class="register-left">
+                <div class="welcome-content">
+                    <div class="logo">🌱 Sustindex</div>
+                    <h2 class="welcome-title">{% trans "Join the ESG Revolution" %}</h2>
+                    <p class="welcome-text">
+                        {% trans "Start your sustainability journey with professional ESG assessment and reporting tools trusted by companies worldwide." %}
+                    </p>
+
+                    <div class="membership-preview">
+                        <h3 class="membership-title">{% trans "Membership Benefits" %}</h3>
+                        <div class="membership-tiers">
+                            <div class="tier">
+                                <div class="tier-icon">🥈</div>
+                                <div class="tier-info">
+                                    <h4>{% trans "Silver" %}</h4>
+                                    <p>{% trans "One-time assessment & report" %}</p>
+                                </div>
+                            </div>
+                            <div class="tier">
+                                <div class="tier-icon">🏆</div>
+                                <div class="tier-info">
+                                    <h4>{% trans "Gold" %}</h4>
+                                    <p>{% trans "Unlimited access + E-learning" %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
+            <!-- Right Side - Registration Form -->
+            <div class="register-right">
+                <div class="form-header">
+                    <h1 class="form-title">{% trans "Create Your Account" %}</h1>
+                    <p class="form-subtitle">{% trans "Get started with your ESG assessment in minutes" %}</p>
+                </div>
+
+                <div class="progress-steps">
+                    <div class="step active">
+                        <div class="step-number">1</div>
+                        <span>{% trans "Account" %}</span>
                     </div>
-                {% endfor %}
-            {% endif %}
-
-            <form method="post" id="registerForm">
-                {% csrf_token %}
-                
-                <div class="form-group {% if form.username.errors %}has-error{% endif %}">
-                    <label for="{{ form.username.id_for_label }}" class="form-label">
-                        {% trans "Username" %} *
-                    </label>
-                    {{ form.username }}
-                    {% if form.username.errors %}
-                        <ul class="errorlist">
-                            {% for error in form.username.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {% if form.username.help_text %}
-                        <span class="helptext">{{ form.username.help_text }}</span>
-                    {% endif %}
-                </div>
-
-                <div class="form-group {% if form.email.errors %}has-error{% endif %}">
-                    <label for="{{ form.email.id_for_label }}" class="form-label">
-                        {% trans "Email" %} *
-                    </label>
-                    {{ form.email }}
-                    {% if form.email.errors %}
-                        <ul class="errorlist">
-                            {% for error in form.email.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-
-                <div class="form-group {% if form.company_name.errors %}has-error{% endif %}">
-                    <label for="{{ form.company_name.id_for_label }}" class="form-label">
-                        {% trans "Company Name" %} *
-                    </label>
-                    {{ form.company_name }}
-                    {% if form.company_name.errors %}
-                        <ul class="errorlist">
-                            {% for error in form.company_name.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-
-                <div class="form-group {% if form.phone.errors %}has-error{% endif %}">
-                    <label for="{{ form.phone.id_for_label }}" class="form-label">
-                        {% trans "Phone" %}
-                    </label>
-                    {{ form.phone }}
-                    {% if form.phone.errors %}
-                        <ul class="errorlist">
-                            {% for error in form.phone.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-
-                <div class="form-group {% if form.password1.errors %}has-error{% endif %}">
-                    <label for="{{ form.password1.id_for_label }}" class="form-label">
-                        {% trans "Password" %} *
-                    </label>
-                    {{ form.password1 }}
-                    <div class="password-strength">
-                        <div class="password-strength-bar" id="strengthBar"></div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <span>{% trans "Company" %}</span>
                     </div>
-                    {% if form.password1.errors %}
-                        <ul class="errorlist">
-                            {% for error in form.password1.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {% if form.password1.help_text %}
-                        <span class="helptext">{{ form.password1.help_text }}</span>
-                    {% endif %}
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <span>{% trans "Assessment" %}</span>
+                    </div>
                 </div>
 
-                <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
-                    <label for="{{ form.password2.id_for_label }}" class="form-label">
-                        {% trans "Confirm Password" %} *
-                    </label>
-                    {{ form.password2 }}
-                    {% if form.password2.errors %}
-                        <ul class="errorlist">
-                            {% for error in form.password2.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+                <!-- Error Messages -->
+                {% if form.errors %}
+                <div class="error-messages">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <div><strong>{{ field|title }}:</strong> {{ error }}</div>
+                        {% endfor %}
+                    {% endfor %}
                 </div>
+                {% endif %}
 
-                <button type="submit" class="btn-register">
-                    {% trans "Register" %} →
-                </button>
-            </form>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_username" class="form-label">{% trans "Username" %}</label>
+                            <input type="text" 
+                                   name="username" 
+                                   id="id_username"
+                                   class="form-input {% if form.username.errors %}error{% endif %}"
+                                   placeholder="{% trans 'Choose a username' %}"
+                                   value="{{ form.username.value|default:'' }}"
+                                   required>
+                            <div class="field-help">{% trans "This will be your login username" %}</div>
+                        </div>
 
-            <div class="register-footer">
-                <p>{% trans "Already registered?" %} <a href="{% url 'login' %}">{% trans "Login here" %}</a></p>
+                        <div class="form-group">
+                            <label for="id_email" class="form-label">{% trans "Email Address" %}</label>
+                            <input type="email" 
+                                   name="email" 
+                                   id="id_email"
+                                   class="form-input {% if form.email.errors %}error{% endif %}"
+                                   placeholder="{% trans 'your@company.com' %}"
+                                   value="{{ form.email.value|default:'' }}"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_company_name" class="form-label">{% trans "Company Name" %}</label>
+                        <input type="text" 
+                               name="company_name" 
+                               id="id_company_name"
+                               class="form-input {% if form.company_name.errors %}error{% endif %}"
+                               placeholder="{% trans 'Your Company Ltd.' %}"
+                               value="{{ form.company_name.value|default:'' }}"
+                               required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_password1" class="form-label">{% trans "Password" %}</label>
+                            <input type="password" 
+                                   name="password1" 
+                                   id="id_password1"
+                                   class="form-input {% if form.password1.errors %}error{% endif %}"
+                                   placeholder="{% trans 'Create a strong password' %}"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_password2" class="form-label">{% trans "Confirm Password" %}</label>
+                            <input type="password" 
+                                   name="password2" 
+                                   id="id_password2"
+                                   class="form-input {% if form.password2.errors %}error{% endif %}"
+                                   placeholder="{% trans 'Repeat your password' %}"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">{% trans "Choose Membership" %}</label>
+                        <div class="membership-selector">
+                            <label class="membership-option" for="membership_free">
+                                <input type="radio" name="membership_type" value="free" id="membership_free" checked>
+                                <div class="membership-icon">🌱</div>
+                                <div class="membership-name">{% trans "Free" %}</div>
+                                <div class="membership-desc">{% trans "Basic access" %}</div>
+                            </label>
+
+                            <label class="membership-option" for="membership_silver">
+                                <input type="radio" name="membership_type" value="silver" id="membership_silver">
+                                <div class="membership-icon">🥈</div>
+                                <div class="membership-name">{% trans "Silver" %}</div>
+                                <div class="membership-desc">{% trans "One assessment" %}</div>
+                            </label>
+
+                            <label class="membership-option" for="membership_gold">
+                                <input type="radio" name="membership_type" value="gold" id="membership_gold">
+                                <div class="membership-icon">🏆</div>
+                                <div class="membership-name">{% trans "Gold" %}</div>
+                                <div class="membership-desc">{% trans "Full access" %}</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-register">
+                        <i class="fas fa-user-plus"></i> {% trans "Create Account" %}
+                    </button>
+                </form>
+
+                <div class="form-links">
+                    <a href="{% url 'login' %}">
+                        {% trans "Already have an account? Sign in" %}
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Add form-control class to all inputs
-        document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]').forEach(input => {
-            input.classList.add('form-control');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Membership selector
+        const membershipOptions = document.querySelectorAll('.membership-option');
+        membershipOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                membershipOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Form submission
+        const form = document.querySelector('form');
+        const submitBtn = document.querySelector('.btn-register');
+        
+        form.addEventListener('submit', function() {
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {% trans "Creating Account..." %}';
+            submitBtn.disabled = true;
         });
 
         // Password strength indicator
-        const password1 = document.querySelector('input[name="password1"]');
-        const strengthBar = document.getElementById('strengthBar');
-
-        if (password1) {
-            password1.addEventListener('input', function() {
-                const value = this.value;
-                const length = value.length;
-                
-                strengthBar.className = 'password-strength-bar';
-                
-                if (length === 0) {
-                    strengthBar.style.width = '0';
-                } else if (length < 6) {
-                    strengthBar.classList.add('strength-weak');
-                } else if (length < 10) {
-                    strengthBar.classList.add('strength-medium');
-                } else {
-                    strengthBar.classList.add('strength-strong');
-                }
-            });
-        }
-
-        // Form animation on submit
-        document.getElementById('registerForm').addEventListener('submit', function() {
-            const btn = this.querySelector('.btn-register');
-            btn.innerHTML = '⏳ {% trans "Creating account..." %}';
-            btn.disabled = true;
+        const password1 = document.getElementById('id_password1');
+        const password2 = document.getElementById('id_password2');
+        
+        password2.addEventListener('input', function() {
+            if (password1.value !== password2.value) {
+                password2.classList.add('error');
+            } else {
+                password2.classList.remove('error');
+            }
         });
+    });
     </script>
 </body>
 </html>

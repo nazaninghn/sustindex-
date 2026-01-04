@@ -1,12 +1,25 @@
 {% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% trans "Dashboard" %} - Sustindex</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>{% trans "ESG Dashboard" %} - Sustindex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #1F7A63;
+            --neutral-color: #2E2E2E;
+            --accent-color: #4C6EF5;
+            --light-gray: #F8F9FA;
+            --success-green: #28A745;
+            --warning-orange: #FF6B35;
+            --gold: #FFD700;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,175 +27,159 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);
+            font-family: 'Inter', sans-serif;
+            background: var(--light-gray);
             min-height: 100vh;
+            color: var(--neutral-color);
         }
 
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 280px;
-            background: linear-gradient(180deg, #1b4332 0%, #2d6a4f 100%);
-            padding: 30px 0;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .logo-section {
-            padding: 0 30px 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-info {
-            padding: 0 30px 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .user-avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #52b788, #95d5b2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .user-name {
-            color: white;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .user-membership {
-            display: inline-block;
-            padding: 4px 12px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            color: white;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .nav-menu {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 5px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px 30px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .nav-icon {
-            font-size: 1.3rem;
-        }
-
-        .logout-section {
-            position: absolute;
-            bottom: 30px;
-            left: 0;
-            right: 0;
-            padding: 0 30px;
-        }
-
-        .btn-logout {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-        }
-
-        .btn-logout:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-left: 280px;
-            padding: 40px;
-        }
-
-        .top-bar {
+        /* Navigation */
+        .navbar {
             background: white;
-            border-radius: 20px;
-            padding: 20px 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .page-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1b4332;
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--neutral-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(31, 122, 99, 0.1);
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active {
+            background: var(--primary-color);
+            color: white;
         }
 
         .language-selector select {
-            padding: 10px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
             background: white;
             font-weight: 500;
             cursor: pointer;
-            color: #2d6a4f;
+            color: var(--neutral-color);
         }
 
-        /* Stats Cards */
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .page-header {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-info h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neutral-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .header-info p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--success-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        .user-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .user-membership {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--gold), #FFC107);
+            color: var(--neutral-color);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
         .stat-card {
             background: white;
             border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -194,98 +191,259 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #2d6a4f, #52b788);
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-green));
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.15);
+            box-shadow: 0 20px 40px rgba(31, 122, 99, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
         }
 
         .stat-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
+            width: 70px;
+            height: 70px;
             border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.8rem;
-            margin-bottom: 20px;
+            color: white;
+        }
+
+        .icon-membership { background: linear-gradient(135deg, var(--accent-color), #6C5CE7); }
+        .icon-assessments { background: linear-gradient(135deg, var(--success-green), #20C997); }
+        .icon-grade { background: linear-gradient(135deg, var(--gold), #FFC107); }
+        .icon-score { background: linear-gradient(135deg, var(--primary-color), #2d6a4f); }
+        .icon-reports { background: linear-gradient(135deg, var(--warning-orange), #FD79A8); }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neutral-color);
+            line-height: 1;
         }
 
         .stat-label {
             color: #666;
             font-size: 0.95rem;
-            margin-bottom: 10px;
             font-weight: 500;
+            margin-bottom: 1rem;
         }
 
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1b4332;
+        .stat-description {
+            color: #888;
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
 
-        /* Action Card */
-        .action-card {
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
-            border-radius: 20px;
-            padding: 40px;
-            color: white;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3);
-        }
-
-        .action-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .action-card p {
-            opacity: 0.9;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .btn-action {
-            padding: 14px 30px;
-            background: white;
-            color: #2d6a4f;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* History Table */
-        .history-section {
+        /* ESG Performance Section */
+        .esg-section {
             background: white;
             border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
         }
 
         .section-title {
-            font-size: 1.5rem;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--neutral-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--success-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .btn-view-all {
+            background: linear-gradient(135deg, var(--primary-color), var(--success-green));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-view-all:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(31, 122, 99, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .esg-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .esg-card {
+            background: var(--light-gray);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+
+        .esg-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .esg-card.environmental { border-left-color: var(--success-green); }
+        .esg-card.social { border-left-color: var(--accent-color); }
+        .esg-card.governance { border-left-color: var(--warning-orange); }
+
+        .esg-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .esg-icon.env { background: linear-gradient(135deg, var(--success-green), #20C997); }
+        .esg-icon.social { background: linear-gradient(135deg, var(--accent-color), #6C5CE7); }
+        .esg-icon.gov { background: linear-gradient(135deg, var(--warning-orange), #FD79A8); }
+
+        .esg-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neutral-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .esg-label {
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .esg-progress {
+            height: 8px;
+            background: #E9ECEF;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .esg-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s ease;
+        }
+
+        .fill-env { background: linear-gradient(90deg, var(--success-green), #20C997); }
+        .fill-social { background: linear-gradient(90deg, var(--accent-color), #6C5CE7); }
+        .fill-gov { background: linear-gradient(90deg, var(--warning-orange), #FD79A8); }
+
+        /* Action Section */
+        .action-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2d6a4f 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .action-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .action-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .action-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .btn-action {
+            background: var(--gold);
+            color: var(--neutral-color);
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-weight: 700;
-            color: #1b4332;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-action:hover {
+            background: #FFC107;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+            color: var(--neutral-color);
+            text-decoration: none;
+        }
+
+        /* History Section */
+        .history-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         .table-container {
@@ -295,40 +453,47 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 1rem;
         }
 
         thead {
-            background: #f8f9fa;
+            background: var(--light-gray);
         }
 
         th {
-            padding: 15px;
+            padding: 1rem;
             text-align: left;
-            font-weight: 600;
-            color: #2d6a4f;
-            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+            font-size: 0.95rem;
+            border-radius: 8px 8px 0 0;
         }
 
         td {
-            padding: 15px;
+            padding: 1rem;
             border-bottom: 1px solid #f0f0f0;
             color: #666;
         }
 
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+
         tbody tr:hover {
-            background: #f8f9fa;
+            background: var(--light-gray);
         }
 
         .status-badge {
-            padding: 6px 12px;
+            padding: 0.5rem 1rem;
             border-radius: 20px;
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
         .status-completed {
-            background: #d8f3dc;
-            color: #2d6a4f;
+            background: #d4edda;
+            color: #155724;
         }
 
         .status-progress {
@@ -336,213 +501,309 @@
             color: #856404;
         }
 
-        .btn-view {
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
+        .btn-table {
+            background: linear-gradient(135deg, var(--primary-color), var(--success-green));
             color: white;
+            padding: 0.5rem 1rem;
             border: none;
             border-radius: 8px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
 
-        .btn-view:hover {
+        .btn-table:hover {
             transform: scale(1.05);
+            color: white;
+            text-decoration: none;
         }
 
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
-            color: #999;
+            padding: 4rem 2rem;
+            color: #666;
         }
 
-        .empty-state-icon {
+        .empty-icon {
             font-size: 4rem;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
             opacity: 0.5;
+            color: var(--primary-color);
         }
 
-        /* Mobile Menu Toggle */
-        .mobile-menu-toggle {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1001;
-            background: linear-gradient(135deg, #2d6a4f, #52b788);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            color: white;
+        .empty-title {
             font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
-            transition: all 0.3s ease;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--neutral-color);
         }
 
-        .mobile-menu-toggle:hover {
-            transform: scale(1.05);
+        .empty-text {
+            margin-bottom: 2rem;
+            line-height: 1.6;
         }
 
-        .sidebar.mobile-open {
-            transform: translateX(0) !important;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
+        /* Responsive Design */
         @media (max-width: 1024px) {
-            .mobile-menu-toggle {
-                display: block;
+            .header-content {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
             }
 
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            .top-bar {
-                padding-left: 80px;
+            .esg-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
         }
 
         @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .page-header {
+                padding: 2rem;
+            }
+
+            .header-info h1 {
+                font-size: 2rem;
+            }
+
             .stats-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
 
-            .actions-grid {
-                grid-template-columns: 1fr;
+            .esg-section,
+            .action-section,
+            .history-section {
+                padding: 2rem;
             }
 
-            .page-title {
+            .section-title {
                 font-size: 1.5rem;
+            }
+
+            .action-title {
+                font-size: 2rem;
+            }
+
+            .table-container {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Mobile Menu Toggle -->
-    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
-    
-    <!-- Overlay -->
-    <div class="overlay" onclick="toggleMobileMenu()"></div>
-    
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo-section">
-            <div class="logo">🌱 Sustindex</div>
-        </div>
-
-        <div class="user-info">
-            <div class="user-avatar">{{ user.username|slice:":1"|upper }}</div>
-            <div class="user-name">{{ user.username }}</div>
-            <span class="user-membership">{{ user.get_membership_type_display }}</span>
-        </div>
-
-        <nav>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="{% url 'dashboard' %}" class="nav-link active">
-                        <span class="nav-icon">📊</span>
-                        <span>{% trans "Dashboard" %}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'start_questionnaire' %}" class="nav-link">
-                        <span class="nav-icon">📝</span>
-                        <span>{% trans "Questionnaire" %}</span>
-                    </a>
-                </li>
-                {% if user.membership_type == 'gold' %}
-                <li class="nav-item">
-                    <a href="{% url 'course_list' %}" class="nav-link">
-                        <span class="nav-icon">🎓</span>
-                        <span>{% trans "Courses" %}</span>
-                    </a>
-                </li>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">🌱 Sustindex</a>
+            <div class="nav-links">
+                <a href="{% url 'dashboard' %}" class="active">{% trans "Dashboard" %}</a>
+                {% if user.membership_type != 'free' %}
+                <a href="{% url 'reports_dashboard' %}">{% trans "Reports" %}</a>
                 {% endif %}
-            </ul>
-        </nav>
-
-        <div class="logout-section">
-            <a href="{% url 'logout' %}" class="btn-logout">
-                🚪 {% trans "Logout" %}
-            </a>
+                <a href="{% url 'start_questionnaire' %}">{% trans "Assessment" %}</a>
+                <div class="language-selector">
+                    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.path }}" />
+                        <select name="language" onchange="this.form.submit();">
+                            <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 EN</option>
+                            <option value="tr" {% if LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 TR</option>
+                        </select>
+                    </form>
+                </div>
+                <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
+            </div>
         </div>
-    </aside>
+    </nav>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <h1 class="page-title">{% trans "Dashboard" %}</h1>
-            <div class="language-selector">
-                <form action="{% url 'set_language' %}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.path }}" />
-                    <select name="language" onchange="this.form.submit();">
-                        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>🇬🇧 English</option>
-                        <option value="tr" {% if LANGUAGE_CODE == 'tr' %}selected{% endif %}>🇹🇷 Türkçe</option>
-                    </select>
-                </form>
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <div class="header-info">
+                    <h1>{% trans "ESG Dashboard" %}</h1>
+                    <p>{% trans "Monitor your sustainability performance and track ESG progress" %}</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">{{ user.username|slice:":1"|upper }}</div>
+                    <div class="user-name">{{ user.username }}</div>
+                    <div class="user-membership">{{ user.get_membership_type_display }}</div>
+                </div>
             </div>
         </div>
 
         <!-- Stats Grid -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-icon">👤</div>
-                <div class="stat-label">{% trans "Membership Type" %}</div>
-                <div class="stat-value">{{ user.get_membership_type_display }}</div>
+                <div class="stat-header">
+                    <div class="stat-icon icon-membership">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="stat-value">{{ user.get_membership_type_display }}</div>
+                </div>
+                <div class="stat-label">{% trans "Membership Level" %}</div>
+                <div class="stat-description">{% trans "Your current subscription tier and access level" %}</div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon">✅</div>
-                <div class="stat-label">{% trans "Completed Questionnaires" %}</div>
-                <div class="stat-value">{{ completed_count }}</div>
+                <div class="stat-header">
+                    <div class="stat-icon icon-assessments">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="stat-value">{{ completed_count }}</div>
+                </div>
+                <div class="stat-label">{% trans "Completed Assessments" %}</div>
+                <div class="stat-description">{% trans "Total number of ESG assessments completed" %}</div>
+            </div>
+
+            {% if esg_scores %}
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon icon-grade">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="stat-value">{{ esg_scores.grade }}</div>
+                </div>
+                <div class="stat-label">{% trans "Latest ESG Grade" %}</div>
+                <div class="stat-description">{% trans "Your most recent sustainability performance grade" %}</div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon">📈</div>
-                <div class="stat-label">{% trans "Total Score" %}</div>
-                <div class="stat-value">{{ last_score }}</div>
+                <div class="stat-header">
+                    <div class="stat-icon icon-score">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-value">{{ esg_scores.total|floatformat:0 }}/100</div>
+                </div>
+                <div class="stat-label">{% trans "Overall ESG Score" %}</div>
+                <div class="stat-description">{% trans "Comprehensive sustainability performance metric" %}</div>
             </div>
+            {% else %}
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon icon-grade">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="stat-value">-</div>
+                </div>
+                <div class="stat-label">{% trans "ESG Performance" %}</div>
+                <div class="stat-description">{% trans "Complete an assessment to see your ESG scores" %}</div>
+            </div>
+            {% endif %}
+
+            {% if reports_count %}
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon icon-reports">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-value">{{ reports_count }}</div>
+                </div>
+                <div class="stat-label">{% trans "Generated Reports" %}</div>
+                <div class="stat-description">{% trans "Professional ESG reports available for download" %}</div>
+            </div>
+            {% endif %}
         </div>
 
-        <!-- Action Card -->
-        <div class="action-card">
-            <h3>{% trans "Ready to assess your sustainability?" %}</h3>
-            <p>{% trans "Start a new questionnaire to evaluate your company's sustainability performance and get detailed insights." %}</p>
-            <a href="{% url 'start_questionnaire' %}" class="btn-action">
-                {% trans "Start New Questionnaire" %} →
-            </a>
+        {% if esg_scores %}
+        <!-- ESG Performance Section -->
+        <div class="esg-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <div class="section-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    {% trans "Latest ESG Performance" %}
+                </h2>
+                {% if user.membership_type != 'free' %}
+                <a href="{% url 'reports_dashboard' %}" class="btn-view-all">
+                    <i class="fas fa-external-link-alt"></i>
+                    {% trans "View All Reports" %}
+                </a>
+                {% endif %}
+            </div>
+            
+            <div class="esg-grid">
+                <div class="esg-card environmental">
+                    <div class="esg-icon env">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="esg-score">{{ esg_scores.environmental|floatformat:0 }}</div>
+                    <div class="esg-label">{% trans "Environmental" %}</div>
+                    <div class="esg-progress">
+                        <div class="esg-fill fill-env" style="width: 0%" data-width="{{ esg_scores.environmental }}%"></div>
+                    </div>
+                </div>
+                
+                <div class="esg-card social">
+                    <div class="esg-icon social">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="esg-score">{{ esg_scores.social|floatformat:0 }}</div>
+                    <div class="esg-label">{% trans "Social" %}</div>
+                    <div class="esg-progress">
+                        <div class="esg-fill fill-social" style="width: 0%" data-width="{{ esg_scores.social }}%"></div>
+                    </div>
+                </div>
+                
+                <div class="esg-card governance">
+                    <div class="esg-icon gov">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="esg-score">{{ esg_scores.governance|floatformat:0 }}</div>
+                    <div class="esg-label">{% trans "Governance" %}</div>
+                    <div class="esg-progress">
+                        <div class="esg-fill fill-gov" style="width: 0%" data-width="{{ esg_scores.governance }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Action Section -->
+        <div class="action-section">
+            <div class="action-content">
+                <h2 class="action-title">{% trans "Ready for Your Next Assessment?" %}</h2>
+                <p class="action-subtitle">{% trans "Continue building your sustainability profile with comprehensive ESG evaluation" %}</p>
+                <a href="{% url 'start_questionnaire' %}" class="btn-action">
+                    <i class="fas fa-play"></i>
+                    {% trans "Start New Assessment" %}
+                </a>
+            </div>
         </div>
 
         <!-- History Section -->
         <div class="history-section">
             <div class="section-header">
-                <h2 class="section-title">{% trans "Questionnaire History" %}</h2>
+                <h2 class="section-title">
+                    <div class="section-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    {% trans "Assessment History" %}
+                </h2>
             </div>
 
             <div class="table-container">
@@ -550,9 +811,10 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>{% trans "Date" %}</th>
+                            <th>{% trans "Assessment Date" %}</th>
                             <th>{% trans "Status" %}</th>
-                            <th>{% trans "Score" %}</th>
+                            <th>{% trans "ESG Score" %}</th>
+                            <th>{% trans "Grade" %}</th>
                             <th>{% trans "Actions" %}</th>
                         </tr>
                     </thead>
@@ -562,19 +824,32 @@
                             <td>{{ attempt.started_at|date:"M d, Y H:i" }}</td>
                             <td>
                                 {% if attempt.is_completed %}
-                                    <span class="status-badge status-completed">{% trans "Completed" %}</span>
+                                    <span class="status-badge status-completed">
+                                        <i class="fas fa-check-circle"></i> {% trans "Completed" %}
+                                    </span>
                                 {% else %}
-                                    <span class="status-badge status-progress">{% trans "In Progress" %}</span>
+                                    <span class="status-badge status-progress">
+                                        <i class="fas fa-clock"></i> {% trans "In Progress" %}
+                                    </span>
                                 {% endif %}
                             </td>
-                            <td><strong>{{ attempt.total_score }}</strong></td>
+                            <td><strong>{{ attempt.total_score|floatformat:1 }}/100</strong></td>
+                            <td>
+                                {% if attempt.esg_grade %}
+                                    <strong>{{ attempt.esg_grade }}</strong>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
                             <td>
                                 {% if attempt.is_completed %}
-                                    <a href="{% url 'questionnaire_result' attempt.id %}" class="btn-view">
-                                        {% trans "View Result" %}
+                                    <a href="{% url 'questionnaire_result' attempt.id %}" class="btn-table">
+                                        <i class="fas fa-eye"></i>
+                                        {% trans "View Results" %}
                                     </a>
                                 {% else %}
-                                    <a href="{% url 'questionnaire_page' attempt.id %}" class="btn-view">
+                                    <a href="{% url 'questionnaire_page' attempt.id %}" class="btn-table">
+                                        <i class="fas fa-play"></i>
                                         {% trans "Continue" %}
                                     </a>
                                 {% endif %}
@@ -585,25 +860,78 @@
                 </table>
                 {% else %}
                 <div class="empty-state">
-                    <div class="empty-state-icon">📋</div>
-                    <p>{% trans "You haven't completed any questionnaires yet" %}</p>
-                    <a href="{% url 'start_questionnaire' %}" class="btn-action" style="margin-top: 20px;">
-                        {% trans "Start Your First Questionnaire" %}
+                    <div class="empty-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3 class="empty-title">{% trans "No Assessments Yet" %}</h3>
+                    <p class="empty-text">
+                        {% trans "Start your sustainability journey by completing your first ESG assessment. Get insights into your organization's environmental, social, and governance performance." %}
+                    </p>
+                    <a href="{% url 'start_questionnaire' %}" class="btn-action">
+                        <i class="fas fa-rocket"></i>
+                        {% trans "Start Your First Assessment" %}
                     </a>
                 </div>
                 {% endif %}
             </div>
         </div>
-    </main>
+    </div>
 
     <script>
-        function toggleMobileMenu() {
-            const sidebar = document.querySelector('.sidebar');
-            const overlay = document.querySelector('.overlay');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate progress bars
+        setTimeout(() => {
+            const progressBars = document.querySelectorAll('.esg-fill');
+            progressBars.forEach(bar => {
+                const width = bar.dataset.width;
+                if (width) {
+                    bar.style.width = width;
+                }
+            });
+        }, 1000);
+
+        // Animate stat values
+        const statValues = document.querySelectorAll('.stat-value');
+        statValues.forEach(element => {
+            const text = element.textContent.trim();
+            const number = parseInt(text);
             
-            sidebar.classList.toggle('mobile-open');
-            overlay.classList.toggle('active');
-        }
+            if (!isNaN(number) && number > 0) {
+                let currentNumber = 0;
+                const increment = number / 30;
+                
+                const interval = setInterval(() => {
+                    if (currentNumber < number) {
+                        currentNumber += increment;
+                        element.textContent = Math.round(currentNumber);
+                    } else {
+                        element.textContent = number;
+                        clearInterval(interval);
+                    }
+                }, 50);
+            }
+        });
+
+        // Animate ESG scores
+        const esgScores = document.querySelectorAll('.esg-score');
+        esgScores.forEach(element => {
+            const finalScore = parseInt(element.textContent);
+            if (!isNaN(finalScore)) {
+                let currentScore = 0;
+                const increment = finalScore / 40;
+                
+                const interval = setInterval(() => {
+                    if (currentScore < finalScore) {
+                        currentScore += increment;
+                        element.textContent = Math.round(currentScore);
+                    } else {
+                        element.textContent = finalScore;
+                        clearInterval(interval);
+                    }
+                }, 40);
+            }
+        });
+    });
     </script>
 </body>
 </html>

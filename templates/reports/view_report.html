@@ -1,0 +1,651 @@
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "ESG Assessment Report" %} - Sustindex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1F7A63;
+            --neutral-color: #2E2E2E;
+            --accent-color: #4C6EF5;
+            --light-gray: #F8F9FA;
+            --success-green: #28A745;
+            --warning-orange: #FF6B35;
+            --gold: #FFD700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light-gray);
+            min-height: 100vh;
+            color: var(--neutral-color);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--neutral-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(31, 122, 99, 0.1);
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .report-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2d6a4f 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-info h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-meta {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-download {
+            background: var(--gold);
+            color: var(--neutral-color);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-download:hover {
+            background: #FFC107;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+            color: var(--neutral-color);
+            text-decoration: none;
+        }
+
+        /* ESG Score Card */
+        .esg-overview {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .grade-display {
+            margin-bottom: 2rem;
+        }
+
+        .grade-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            position: relative;
+        }
+
+        .grade-a { background: linear-gradient(135deg, var(--success-green), #20C997); }
+        .grade-b { background: linear-gradient(135deg, var(--gold), #FFC107); }
+        .grade-c { background: linear-gradient(135deg, var(--warning-orange), #FD79A8); }
+        .grade-d { background: linear-gradient(135deg, #6c757d, #495057); }
+
+        .grade-circle::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .grade-info h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .grade-score {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* Component Scores */
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .component-card {
+            background: var(--light-gray);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .component-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .icon-env { background: linear-gradient(135deg, var(--success-green), #20C997); }
+        .icon-social { background: linear-gradient(135deg, var(--accent-color), #6C5CE7); }
+        .icon-gov { background: linear-gradient(135deg, var(--warning-orange), #FD79A8); }
+
+        .component-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neutral-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .component-label {
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar-custom {
+            height: 12px;
+            background: #E9ECEF;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 1s ease;
+        }
+
+        .fill-env { background: linear-gradient(90deg, var(--success-green), #20C997); }
+        .fill-social { background: linear-gradient(90deg, var(--accent-color), #6C5CE7); }
+        .fill-gov { background: linear-gradient(90deg, var(--warning-orange), #FD79A8); }
+
+        /* Recommendations */
+        .recommendations-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), #FFC107);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--neutral-color);
+        }
+
+        .recommendations-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .recommendation-card {
+            background: var(--light-gray);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 5px solid #e63946;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .recommendation-card.high { border-left-color: #e63946; }
+        .recommendation-card.medium { border-left-color: var(--warning-orange); }
+        .recommendation-card.low { border-left-color: var(--success-green); }
+
+        .rec-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .rec-category {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+        }
+
+        .priority-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high { background: #f8d7da; color: #721c24; }
+        .priority-medium { background: #fff3cd; color: #856404; }
+        .priority-low { background: #d4edda; color: #155724; }
+
+        .rec-suggestion {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Report Sections */
+        .report-sections {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .report-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .report-section h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .report-section p {
+            color: #666;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        /* Actions */
+        .actions-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .actions-grid {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-action {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--success-green));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(31, 122, 99, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .report-header {
+                padding: 2rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .header-info h1 {
+                font-size: 2rem;
+            }
+
+            .components-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .grade-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 2rem;
+            }
+
+            .actions-grid {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">🌱 Sustindex</a>
+            <div class="nav-links">
+                <a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a>
+                <a href="{% url 'reports_dashboard' %}">{% trans "Reports" %}</a>
+                <a href="{% url 'start_questionnaire' %}">{% trans "Assessment" %}</a>
+                <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="report-header">
+            <div class="header-content">
+                <div class="header-info">
+                    <h1>{% trans "ESG Assessment Report" %}</h1>
+                    <div class="header-meta">
+                        {% trans "Company" %}: {{ attempt.user.company_name|default:"N/A" }} | 
+                        {% trans "Date" %}: {{ attempt.completed_at|date:"M d, Y" }}
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <a href="{% url 'download_report_pdf' report.id %}" class="btn-download">
+                        <i class="fas fa-download"></i> {% trans "Download PDF" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESG Overview -->
+        <div class="esg-overview">
+            <div class="grade-display">
+                <div class="grade-circle grade-{{ esg_scores.grade|lower|slice:':1' }}">
+                    {{ esg_scores.grade }}
+                </div>
+                <div class="grade-info">
+                    <h2>{% trans "Overall ESG Grade" %}</h2>
+                    <div class="grade-score">{{ esg_scores.total|floatformat:1 }}/100</div>
+                </div>
+            </div>
+
+            <div class="components-grid">
+                <div class="component-card">
+                    <div class="component-icon icon-env">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="component-score">{{ esg_scores.environmental|floatformat:0 }}</div>
+                    <div class="component-label">{% trans "Environmental" %}</div>
+                    <div class="progress-bar-custom">
+                        <div class="progress-fill fill-env" style="width: {{ esg_scores.environmental }}%"></div>
+                    </div>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-icon icon-social">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="component-score">{{ esg_scores.social|floatformat:0 }}</div>
+                    <div class="component-label">{% trans "Social" %}</div>
+                    <div class="progress-bar-custom">
+                        <div class="progress-fill fill-social" style="width: {{ esg_scores.social }}%"></div>
+                    </div>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-icon icon-gov">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="component-score">{{ esg_scores.governance|floatformat:0 }}</div>
+                    <div class="component-label">{% trans "Governance" %}</div>
+                    <div class="progress-bar-custom">
+                        <div class="progress-fill fill-gov" style="width: {{ esg_scores.governance }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        {% if recommendations %}
+        <div class="recommendations-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                {% trans "Key Recommendations" %}
+            </h2>
+            
+            <div class="recommendations-grid">
+                {% for rec in recommendations %}
+                <div class="recommendation-card {{ rec.priority|lower }}">
+                    <div class="rec-header">
+                        <div class="rec-category">{{ rec.category }}</div>
+                        <div class="priority-badge priority-{{ rec.priority|lower }}">
+                            {{ rec.priority }} {% trans "Priority" %}
+                        </div>
+                    </div>
+                    <div class="rec-suggestion">{{ rec.suggestion }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Report Sections -->
+        <div class="report-sections">
+            {% for section in sections %}
+            <div class="report-section">
+                <h3>{{ section.title }}</h3>
+                <p>{{ section.content }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Actions -->
+        <div class="actions-section">
+            <div class="actions-grid">
+                <a href="{% url 'dashboard' %}" class="btn-action btn-secondary">
+                    <i class="fas fa-arrow-left"></i> {% trans "Back to Dashboard" %}
+                </a>
+                <a href="{% url 'reports_dashboard' %}" class="btn-action btn-primary">
+                    <i class="fas fa-chart-line"></i> {% trans "View All Reports" %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate progress bars
+        const progressBars = document.querySelectorAll('.progress-fill');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const fill = entry.target;
+                    const width = fill.style.width;
+                    fill.style.width = '0%';
+                    setTimeout(() => {
+                        fill.style.width = width;
+                    }, 500);
+                }
+            });
+        });
+        
+        progressBars.forEach(fill => observer.observe(fill));
+
+        // Animate grade circle
+        const gradeCircle = document.querySelector('.grade-circle');
+        if (gradeCircle) {
+            gradeCircle.style.transform = 'scale(0)';
+            setTimeout(() => {
+                gradeCircle.style.transition = 'transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                gradeCircle.style.transform = 'scale(1)';
+            }, 300);
+        }
+    });
+    </script>
+</body>
+</html>
