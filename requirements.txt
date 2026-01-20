@@ -1,3 +1,4 @@
+python-3.11.9
 Django==5.0.6
 gunicorn==21.2.0
 psycopg2-binary==2.9.9
@@ -8,5 +9,5 @@ django-ckeditor==6.7.1
 django-import-export==4.0.0
 django-simple-history==3.7.0
 django-crispy-forms==2.3
-crispy-bootstrap5==2.0.0
+crispy-bootstrap5==2025.6
 Pillow==10.3.0
