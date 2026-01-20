@@ -20,7 +20,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
-from questionnaire.autocomplete import CategoryAutocomplete
+
+try:
+    from questionnaire.autocomplete import CategoryAutocomplete
+    AUTOCOMPLETE_AVAILABLE = CategoryAutocomplete is not None
+except (ImportError, AttributeError):
+    AUTOCOMPLETE_AVAILABLE = False
+    CategoryAutocomplete = None
 
 # Admin panel settings
 admin.site.site_header = "Sustindex Admin Panel"
@@ -30,8 +36,13 @@ admin.site.index_title = "Welcome to Sustindex Admin"
 # URLs without language prefix
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
-    path('autocomplete/category/', CategoryAutocomplete.as_view(), name='category-autocomplete'),
 ]
+
+# Add autocomplete URL only if available
+if AUTOCOMPLETE_AVAILABLE:
+    urlpatterns.append(
+        path('autocomplete/category/', CategoryAutocomplete.as_view(), name='category-autocomplete')
+    )
 
 # URLs with language prefix
 urlpatterns += i18n_patterns(
