@@ -33,6 +33,10 @@ ALLOWED_HOSTS = ['*']  # Allow access from all devices
 # Application definition
 
 INSTALLED_APPS = [
+    # Django Autocomplete Light - باید قبل از admin باشه
+    'dal',
+    'dal_select2',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +48,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'ckeditor',
+    'import_export',
+    'simple_history',
     
     # Local apps
     'accounts',
@@ -62,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',  # برای تاریخچه تغییرات
 ]
 
 ROOT_URLCONF = 'sustindex.urls'

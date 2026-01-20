@@ -1,11 +1,12 @@
 {% load i18n %}
 {% load dict_extras %}
+{% load questionnaire_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% trans "ESG Assessment Questionnaire" %} - Sustindex</title>
+    <title>{% trans "Sustainability Assessment Questionnaire" %} - Sustindex</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -44,6 +45,33 @@
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .survey-info {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .survey-info h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .survey-info p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        .session-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
         }
 
         .progress-header {
@@ -244,11 +272,17 @@
             background: rgba(31, 122, 99, 0.1);
         }
 
-        .choice-radio {
+        .choice-radio,
+        .choice-checkbox {
             margin-right: 1rem;
             width: 20px;
             height: 20px;
             accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .choice-checkbox {
+            border-radius: 4px;
         }
 
         .choice-text {
@@ -265,6 +299,39 @@
             border-radius: 15px;
             font-size: 0.8rem;
             font-weight: 600;
+        }
+
+        /* Cannot Answer Option */
+        .cannot-answer-option {
+            border-color: #FFC107;
+            background: rgba(255, 193, 7, 0.05);
+            margin-top: 1rem;
+            border-style: dashed;
+        }
+
+        .cannot-answer-option:hover {
+            border-color: #FFA000;
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .cannot-answer-option.selected {
+            border-color: #FFA000;
+            background: rgba(255, 193, 7, 0.15);
+            border-style: solid;
+        }
+
+        .cannot-answer-option .choice-text {
+            color: #F57C00;
+            font-weight: 500;
+        }
+
+        .cannot-answer-option .choice-text i {
+            margin-right: 0.5rem;
+        }
+
+        .cannot-score {
+            background: #FFC107;
+            color: var(--neutral-color);
         }
 
         /* File Upload Section */
@@ -441,6 +508,14 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             text-align: center;
         }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
         .submit-btn {
             background: linear-gradient(135deg, var(--primary-color), var(--success-green));
@@ -453,6 +528,10 @@
             cursor: pointer;
             transition: all 0.3s ease;
             min-width: 200px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .submit-btn:hover {
@@ -467,22 +546,83 @@
             box-shadow: none;
         }
 
-        /* Save & Continue */
-        .save-continue {
+        /* Save Progress Button */
+        .save-progress-btn {
             background: white;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            padding: 0.75rem 2rem;
-            border-radius: 8px;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            margin-right: 1rem;
             transition: all 0.3s ease;
+            min-width: 180px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
-        .save-continue:hover {
-            background: var(--primary-color);
+        .save-progress-btn:hover {
+            background: var(--accent-color);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 110, 245, 0.3);
+        }
+        
+        .save-progress-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Save Status Message */
+        .save-status {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .save-status.success {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success-green);
+            border: 1px solid var(--success-green);
+            display: flex;
+        }
+        
+        .save-status.error {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--warning-orange);
+            border: 1px solid var(--warning-orange);
+            display: flex;
+        }
+        
+        .save-status.saving {
+            background: rgba(76, 110, 245, 0.1);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            display: flex;
+        }
+        
+        /* Spinner Animation */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Responsive */
@@ -523,15 +663,16 @@
             .progress-steps {
                 display: none;
             }
-
-            .submit-btn {
+            
+            .button-group {
+                flex-direction: column;
                 width: 100%;
-                margin-bottom: 1rem;
             }
 
-            .save-continue {
+            .submit-btn,
+            .save-progress-btn {
                 width: 100%;
-                margin-right: 0;
+                min-width: auto;
             }
 
             /* Mobile file upload adjustments */
@@ -561,10 +702,23 @@
 </head>
 <body>
     <div class="container">
+        <!-- Survey Information -->
+        {% if attempt.survey %}
+        <div class="survey-info">
+            <h2><i class="fas fa-clipboard-list"></i> {{ attempt.survey.name }}</h2>
+            <p>{{ attempt.survey.description }}</p>
+            {% if attempt.session %}
+            <span class="session-badge">
+                <i class="fas fa-calendar-alt"></i> {{ attempt.session.name }}
+            </span>
+            {% endif %}
+        </div>
+        {% endif %}
+        
         <!-- Progress Bar -->
         <div class="progress-container">
             <div class="progress-header">
-                <div class="progress-title">{% trans "ESG Assessment Progress" %}</div>
+                <div class="progress-title">{% trans "Assessment Progress" %}</div>
                 <div class="progress-stats">
                     <span id="answered-count">0</span> / <span id="total-questions">{{ categories|length }}</span> {% trans "Categories" %}
                 </div>
@@ -584,8 +738,8 @@
 
         <!-- Header -->
         <div class="header">
-            <h1>{% trans "ESG Assessment Questionnaire" %}</h1>
-            <p>{% trans "Complete this comprehensive assessment to receive your ESG score and professional sustainability report." %}</p>
+            <h1>{% trans "Sustainability Assessment Questionnaire" %}</h1>
+            <p>{% trans "Complete this comprehensive assessment to receive your sustainability score and professional report." %}</p>
         </div>
 
         <!-- Form -->
@@ -621,16 +775,44 @@
                     <div class="choices-container">
                         {% for choice in question.choices.all %}
                         <label class="choice-option" for="choice_{{ question.id }}_{{ choice.id }}">
-                            <input type="radio" 
-                                   name="question_{{ question.id }}" 
-                                   value="{{ choice.id }}" 
-                                   id="choice_{{ question.id }}_{{ choice.id }}"
-                                   class="choice-radio"
-                                   data-question="{{ question.id }}">
+                            {% if question.allow_multiple %}
+                                {# چند انتخابی - checkbox #}
+                                <input type="checkbox" 
+                                       name="question_{{ question.id }}" 
+                                       value="{{ choice.id }}" 
+                                       id="choice_{{ question.id }}_{{ choice.id }}"
+                                       class="choice-checkbox"
+                                       data-question="{{ question.id }}"
+                                       {% if choice.id|in_list:existing_answers_multiple|get:question.id %}checked{% endif %}>
+                            {% else %}
+                                {# تک انتخابی - radio #}
+                                <input type="radio" 
+                                       name="question_{{ question.id }}" 
+                                       value="{{ choice.id }}" 
+                                       id="choice_{{ question.id }}_{{ choice.id }}"
+                                       class="choice-radio"
+                                       data-question="{{ question.id }}"
+                                       {% if existing_answers|get:question.id == choice.id %}checked{% endif %}>
+                            {% endif %}
                             <span class="choice-text">{{ choice.text }}</span>
                             <span class="choice-score">{{ choice.score }} pts</span>
                         </label>
                         {% endfor %}
+                        
+                        {# گزینه "نمی‌توانم پاسخ دهم" #}
+                        <label class="choice-option cannot-answer-option" for="cannot_{{ question.id }}">
+                            <input type="radio" 
+                                   name="question_{{ question.id }}" 
+                                   value="cannot_answer" 
+                                   id="cannot_{{ question.id }}"
+                                   class="choice-radio cannot-answer-radio"
+                                   data-question="{{ question.id }}">
+                            <span class="choice-text">
+                                <i class="fas fa-question-circle"></i>
+                                {% trans "I cannot answer this question" %}
+                            </span>
+                            <span class="choice-score cannot-score">0 pts</span>
+                        </label>
                     </div>
 
                     <!-- File Upload Section -->
@@ -682,11 +864,19 @@
 
             <!-- Submit -->
             <div class="submit-container">
-                <button type="submit" class="submit-btn" id="submit-btn" disabled>
-                    <i class="fas fa-check-circle"></i> {% trans "Complete Assessment" %}
-                </button>
+                <div class="button-group">
+                    <button type="button" class="save-progress-btn" id="save-progress-btn">
+                        <i class="fas fa-save"></i> {% trans "Save Progress" %}
+                    </button>
+                    <button type="submit" class="submit-btn" id="submit-btn" disabled>
+                        <i class="fas fa-check-circle"></i> {% trans "Complete Assessment" %}
+                    </button>
+                </div>
+                
+                <div class="save-status" id="save-status"></div>
+                
                 <div style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
-                    {% trans "Please answer all questions to complete the assessment" %}
+                    {% trans "Save your progress anytime and continue later, or complete all questions to finish" %}
                 </div>
             </div>
         </form>
@@ -696,12 +886,67 @@
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('questionnaire-form');
         const submitBtn = document.getElementById('submit-btn');
+        const saveProgressBtn = document.getElementById('save-progress-btn');
+        const saveStatus = document.getElementById('save-status');
         const progressBar = document.getElementById('progress-bar');
         const answeredCount = document.getElementById('answered-count');
         const totalQuestions = document.querySelectorAll('.question-card').length;
         
         let answeredQuestions = new Set();
         let uploadedFiles = {};
+
+        // Show save status message
+        function showSaveStatus(type, message) {
+            saveStatus.className = 'save-status ' + type;
+            saveStatus.innerHTML = message;
+            
+            // Auto hide after 3 seconds for success/error
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    saveStatus.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Save Progress Function
+        async function saveProgress() {
+            saveProgressBtn.disabled = true;
+            showSaveStatus('saving', '<div class="spinner"></div> {% trans "Saving your progress..." %}');
+            
+            try {
+                // Collect form data
+                const formData = new FormData(form);
+                
+                // Send AJAX request
+                const response = await fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                if (response.ok) {
+                    showSaveStatus('success', '<i class="fas fa-check-circle"></i> {% trans "Progress saved successfully! You can continue later." %}');
+                } else {
+                    throw new Error('Save failed');
+                }
+            } catch (error) {
+                showSaveStatus('error', '<i class="fas fa-exclamation-circle"></i> {% trans "Failed to save progress. Please try again." %}');
+            } finally {
+                saveProgressBtn.disabled = false;
+            }
+        }
+
+        // Save Progress Button Click
+        saveProgressBtn.addEventListener('click', saveProgress);
+        
+        // Auto-save every 2 minutes (optional)
+        let autoSaveInterval = setInterval(() => {
+            if (answeredQuestions.size > 0) {
+                saveProgress();
+            }
+        }, 120000); // 2 minutes
 
         // Update progress
         function updateProgress() {
@@ -732,18 +977,27 @@
             });
         }
 
-        // Handle radio button changes
-        document.querySelectorAll('input[type="radio"]').forEach(radio => {
-            radio.addEventListener('change', function() {
+        // Handle radio button and checkbox changes
+        document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+            input.addEventListener('change', function() {
                 const questionId = this.dataset.question;
                 answeredQuestions.add(questionId);
                 
                 // Update choice styling
-                const choiceOptions = document.querySelectorAll(`input[name="question_${questionId}"]`);
-                choiceOptions.forEach(option => {
-                    option.closest('.choice-option').classList.remove('selected');
-                });
-                this.closest('.choice-option').classList.add('selected');
+                if (this.type === 'radio') {
+                    const choiceOptions = document.querySelectorAll(`input[name="question_${questionId}"]`);
+                    choiceOptions.forEach(option => {
+                        option.closest('.choice-option').classList.remove('selected');
+                    });
+                    this.closest('.choice-option').classList.add('selected');
+                } else if (this.type === 'checkbox') {
+                    // برای checkbox، toggle کردن selected class
+                    if (this.checked) {
+                        this.closest('.choice-option').classList.add('selected');
+                    } else {
+                        this.closest('.choice-option').classList.remove('selected');
+                    }
+                }
                 
                 updateProgress();
             });

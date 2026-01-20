@@ -2,6 +2,87 @@ from django.db import models
 from django.conf import settings
 from ckeditor.fields import RichTextField
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
+
+
+class Survey(models.Model):
+    """
+    پرسشنامه‌های مختلف ارزیابی پایداری
+    هر survey می‌تونه چندین session داشته باشه
+    """
+    name = models.CharField(max_length=200, verbose_name=_('Survey Name'))
+    description = models.TextField(blank=True, verbose_name=_('Description'))
+    is_active = models.BooleanField(default=True, verbose_name=_('Active'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Created At'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('Updated At'))
+    
+    # تنظیمات survey
+    allow_multiple_attempts = models.BooleanField(default=False, verbose_name=_('Allow Multiple Attempts'))
+    show_results_immediately = models.BooleanField(default=True, verbose_name=_('Show Results Immediately'))
+    
+    class Meta:
+        verbose_name = _('Survey')
+        verbose_name_plural = _('Surveys')
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.name
+    
+    def get_total_questions(self):
+        """Get total number of active questions in this survey"""
+        return self.questions.filter(is_active=True).count()
+    
+    def get_active_sessions(self):
+        """Get active sessions for this survey"""
+        return self.sessions.filter(is_active=True)
+
+
+class SurveySession(models.Model):
+    """Assessment sessions with specific time periods"""
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='sessions', verbose_name=_('Survey'), null=True, blank=True)
+    name = models.CharField(max_length=200, verbose_name=_('Session Name'))
+    description = models.TextField(blank=True, verbose_name=_('Description'))
+    start_date = models.DateTimeField(verbose_name=_('Start Date'))
+    end_date = models.DateTimeField(verbose_name=_('End Date'))
+    is_active = models.BooleanField(default=True, verbose_name=_('Active'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Created At'))
+    
+    class Meta:
+        verbose_name = _('Survey Session')
+        verbose_name_plural = _('Survey Sessions')
+        ordering = ['-start_date']
+    
+    def __str__(self):
+        survey_name = self.survey.name if self.survey else 'No Survey'
+        return f"{survey_name} - {self.name}"
+    
+    def is_open(self):
+        """Check if session is currently open"""
+        now = timezone.now()
+        return self.is_active and self.start_date <= now <= self.end_date
+    
+    def get_status(self):
+        """Get session status"""
+        now = timezone.now()
+        if not self.is_active:
+            return 'inactive'
+        elif now < self.start_date:
+            return 'upcoming'
+        elif now > self.end_date:
+            return 'closed'
+        else:
+            return 'open'
+    
+    def get_status_display(self):
+        """Get human-readable status"""
+        status = self.get_status()
+        status_map = {
+            'inactive': _('Inactive'),
+            'upcoming': _('Upcoming'),
+            'closed': _('Closed'),
+            'open': _('Open')
+        }
+        return status_map.get(status, _('Unknown'))
 
 
 class Category(models.Model):
@@ -9,7 +90,7 @@ class Category(models.Model):
     name = models.CharField(max_length=200, verbose_name=_('Name'))
     description = models.TextField(blank=True, verbose_name=_('Description'))
     order = models.IntegerField(default=0, verbose_name=_('Display Order'))
-    # اضافه کردن وزن برای محاسبه امتیاز ESG
+    # اضافه کردن وزن برای محاسبه امتیاز
     environmental_weight = models.FloatField(default=0.0, verbose_name=_('Environmental Weight'))
     social_weight = models.FloatField(default=0.0, verbose_name=_('Social Weight'))
     governance_weight = models.FloatField(default=0.0, verbose_name=_('Governance Weight'))
@@ -24,7 +105,7 @@ class Category(models.Model):
         return self.name
     
     def get_category_score(self, attempt):
-        """محاسبه امتیاز دسته‌بندی برای یک attempt"""
+        """Calculate category score for an attempt"""
         questions = self.questions.filter(is_active=True)
         if not questions.exists():
             return 0
@@ -35,35 +116,36 @@ class Category(models.Model):
         for question in questions:
             answer = attempt.answers.filter(question=question).first()
             if answer:
-                total_score += answer.choice.score
+                total_score += answer.get_total_score()
                 max_choice_score = question.choices.aggregate(models.Max('score'))['score__max'] or 0
                 total_possible += max_choice_score
         
         if total_possible == 0:
             return 0
         
-        # تبدیل به درصد از حداکثر امتیاز دسته‌بندی
         percentage = (total_score / total_possible) * 100
         return min(percentage, self.max_score)
 
 
 class Question(models.Model):
     """Questionnaire questions"""
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='questions', verbose_name=_('Survey'), null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='questions', verbose_name=_('Category'))
     text = RichTextField(verbose_name=_('Question Text'))
     order = models.IntegerField(default=0, verbose_name=_('Display Order'))
     is_active = models.BooleanField(default=True, verbose_name=_('Active'))
+    allow_multiple = models.BooleanField(default=False, verbose_name=_('Allow Multiple Choices'), help_text=_('Allow users to select multiple answers'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Created At'))
-    # اضافه کردن قابلیت آپلود فایل برای سوال
     attachment = models.FileField(upload_to='question_attachments/', blank=True, verbose_name=_('Question Attachment'))
     
     class Meta:
         verbose_name = _('Question')
         verbose_name_plural = _('Questions')
-        ordering = ['category', 'order']
+        ordering = ['survey', 'category', 'order']
     
     def __str__(self):
-        return f"{self.category.name} - Question {self.order}"
+        survey_name = self.survey.name if self.survey else 'No Survey'
+        return f"{survey_name} - {self.category.name} - Q{self.order}"
 
 
 class Choice(models.Model):
@@ -85,16 +167,18 @@ class Choice(models.Model):
 class QuestionnaireAttempt(models.Model):
     """User attempts to complete questionnaire"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='attempts', verbose_name=_('User'))
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='attempts', verbose_name=_('Survey'), null=True, blank=True)
+    session = models.ForeignKey(SurveySession, on_delete=models.SET_NULL, null=True, blank=True, related_name='attempts', verbose_name=_('Survey Session'))
     started_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Started At'))
     completed_at = models.DateTimeField(null=True, blank=True, verbose_name=_('Completed At'))
     is_completed = models.BooleanField(default=False, verbose_name=_('Completed'))
     total_score = models.IntegerField(default=0, verbose_name=_('Total Score'))
     
-    # اضافه کردن امتیازات ESG جداگانه
+    # اضافه کردن امتیازات جداگانه
     environmental_score = models.FloatField(default=0.0, verbose_name=_('Environmental Score'))
     social_score = models.FloatField(default=0.0, verbose_name=_('Social Score'))
     governance_score = models.FloatField(default=0.0, verbose_name=_('Governance Score'))
-    esg_grade = models.CharField(max_length=2, blank=True, verbose_name=_('ESG Grade'))
+    overall_grade = models.CharField(max_length=2, blank=True, verbose_name=_('Overall Grade'))
     
     class Meta:
         verbose_name = _('Questionnaire Attempt')
@@ -102,7 +186,8 @@ class QuestionnaireAttempt(models.Model):
         ordering = ['-started_at']
     
     def __str__(self):
-        return f"{self.user.username} - {self.started_at.strftime('%Y-%m-%d')}"
+        survey_name = self.survey.name if self.survey else 'No Survey'
+        return f"{self.user.username} - {survey_name} - {self.started_at.strftime('%Y-%m-%d')}"
     
     def calculate_score(self):
         """Calculate total score from all answers"""
@@ -111,8 +196,8 @@ class QuestionnaireAttempt(models.Model):
         self.save()
         return total
     
-    def calculate_esg_scores(self):
-        """محاسبه امتیازات ESG جداگانه"""
+    def calculate_scores(self):
+        """محاسبه امتیازات جداگانه"""
         categories = Category.objects.all()
         
         env_score = 0
@@ -122,7 +207,6 @@ class QuestionnaireAttempt(models.Model):
         for category in categories:
             category_score = category.get_category_score(self)
             
-            # توزیع امتیاز بر اساس وزن‌های تعریف شده
             env_score += category_score * category.environmental_weight
             social_score += category_score * category.social_weight  
             gov_score += category_score * category.governance_weight
@@ -131,12 +215,12 @@ class QuestionnaireAttempt(models.Model):
         self.social_score = round(social_score, 2)
         self.governance_score = round(gov_score, 2)
         
-        # محاسبه نمره کل ESG (میانگین وزنی)
-        total_esg = (self.environmental_score + self.social_score + self.governance_score) / 3
-        self.total_score = round(total_esg, 2)
+        # محاسبه نمره کل (میانگین وزنی)
+        total = (self.environmental_score + self.social_score + self.governance_score) / 3
+        self.total_score = round(total, 2)
         
-        # تعیین گرید ESG
-        self.esg_grade = self.get_esg_grade()
+        # تعیین گرید
+        self.overall_grade = self.get_overall_grade()
         
         self.save()
         return {
@@ -144,11 +228,11 @@ class QuestionnaireAttempt(models.Model):
             'social': self.social_score,
             'governance': self.governance_score,
             'total': self.total_score,
-            'grade': self.esg_grade
+            'grade': self.overall_grade
         }
     
-    def get_esg_grade(self):
-        """تعیین گرید ESG بر اساس امتیاز کل"""
+    def get_overall_grade(self):
+        """تعیین گرید بر اساس امتیاز کل"""
         if self.total_score >= 80:
             return 'A+'
         elif self.total_score >= 70:
@@ -165,7 +249,7 @@ class QuestionnaireAttempt(models.Model):
             return 'D'
     
     def get_recommendations(self):
-        """ارائه پیشنهادات بر اساس امتیازات"""
+        """Provide recommendations based on scores"""
         recommendations = []
         
         if self.environmental_score < 50:
@@ -196,7 +280,8 @@ class Answer(models.Model):
     """User answers to questions"""
     attempt = models.ForeignKey(QuestionnaireAttempt, on_delete=models.CASCADE, related_name='answers', verbose_name=_('Attempt'))
     question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name=_('Question'))
-    choice = models.ForeignKey(Choice, on_delete=models.CASCADE, verbose_name=_('Selected Choice'))
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE, null=True, blank=True, verbose_name=_('Selected Choice (Single)'))
+    choices = models.ManyToManyField(Choice, related_name='answers_multiple', blank=True, verbose_name=_('Selected Choices (Multiple)'))
     answered_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Answered At'))
     
     class Meta:
@@ -206,6 +291,31 @@ class Answer(models.Model):
     
     def __str__(self):
         return f"{self.attempt.user.username} - {self.question}"
+    
+    def get_total_score(self):
+        """Calculate total score for this answer"""
+        if not self.choice and not self.choices.exists():
+            return 0
+        
+        if self.question.allow_multiple:
+            return sum(choice.score for choice in self.choices.all())
+        else:
+            return self.choice.score if self.choice else 0
+    
+    def is_cannot_answer(self):
+        """Check if user selected 'cannot answer'"""
+        return not self.choice and not self.choices.exists()
+    
+    def get_selected_choices_display(self):
+        """Display selected choices"""
+        if self.is_cannot_answer():
+            return "Cannot answer"
+        
+        if self.question.allow_multiple:
+            return ", ".join([choice.text for choice in self.choices.all()])
+        else:
+            return self.choice.text if self.choice else "-"
+
 
 
 class UserDocument(models.Model):

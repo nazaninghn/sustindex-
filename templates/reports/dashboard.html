@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% trans "ESG Reports Dashboard" %} - Sustindex</title>
+    <title>{% trans "Sustainability Reports Dashboard" %} - Sustindex</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -469,7 +469,7 @@
         <div class="page-header">
             <div class="header-content">
                 <div>
-                    <h1 class="page-title">{% trans "ESG Reports Dashboard" %}</h1>
+                    <h1 class="page-title">{% trans "Sustainability Reports Dashboard" %}</h1>
                     <p class="page-subtitle">{% trans "View and manage your sustainability assessment reports" %}</p>
                 </div>
                 <div class="header-actions">
@@ -525,7 +525,7 @@
         <!-- Reports List -->
         <div class="reports-section">
             <div class="section-header">
-                <h2 class="section-title">{% trans "Your ESG Reports" %}</h2>
+                <h2 class="section-title">{% trans "Your Sustainability Reports" %}</h2>
             </div>
 
             {% if reports %}
@@ -534,7 +534,7 @@
                     <div class="report-card">
                         <div class="report-header">
                             <div class="report-info">
-                                <h3>{% trans "ESG Assessment Report" %}</h3>
+                                <h3>{% trans "Sustainability Assessment Report" %}</h3>
                                 <div class="report-date">
                                     {% trans "Generated on" %} {{ report.generated_at|date:"M d, Y" }} | 
                                     {% trans "Completed" %}: {{ report.attempt.completed_at|date:"M d, Y" }}

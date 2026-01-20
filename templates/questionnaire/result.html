@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% trans "ESG Assessment Complete" %} - Sustindex</title>
+    <title>{% trans "Assessment Complete" %} - Sustindex</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -279,8 +279,8 @@
             font-size: 0.95rem;
         }
 
-        /* ESG Breakdown */
-        .esg-breakdown {
+        /* Score Breakdown */
+        .score-breakdown {
             background: white;
             border-radius: 25px;
             padding: 3rem;
@@ -304,7 +304,7 @@
             font-size: 1.1rem;
         }
 
-        .esg-components {
+        .score-components {
             display: grid;
             gap: 2rem;
         }
@@ -757,7 +757,7 @@
                 font-size: 3rem;
             }
 
-            .esg-breakdown,
+            .score-breakdown,
             .insights-section,
             .action-section {
                 padding: 2rem;
@@ -823,7 +823,11 @@
             <div class="hero-content">
                 <div class="celebration-icon">📊</div>
                 <h1 class="hero-title">{% trans "Assessment Complete" %}</h1>
-                <p class="hero-subtitle">{% trans "Your comprehensive ESG sustainability analysis is ready for review" %}</p>
+                {% if attempt.survey %}
+                <p class="hero-subtitle">{{ attempt.survey.name }} - {% trans "Your comprehensive sustainability analysis is ready for review" %}</p>
+                {% else %}
+                <p class="hero-subtitle">{% trans "Your comprehensive sustainability analysis is ready for review" %}</p>
+                {% endif %}
                 
                 <div class="completion-stats">
                     <div class="stat-item">
@@ -846,50 +850,50 @@
         <div class="results-grid">
             <!-- Grade Card -->
             <div class="grade-card">
-                <div class="grade-circle grade-{{ esg_scores.grade|lower|slice:':1' }}">
-                    {{ esg_scores.grade }}
+                <div class="grade-circle grade-{{ scores.grade|lower|slice:':1' }}">
+                    {{ scores.grade }}
                 </div>
                 <div class="grade-info">
-                    <h2>{% trans "Your ESG Grade" %}</h2>
+                    <h2>{% trans "Your Overall Grade" %}</h2>
                     <div class="grade-score">
-                        {% trans "Overall Score" %}: {{ esg_scores.total|floatformat:1 }}/100
+                        {% trans "Overall Score" %}: {{ scores.total|floatformat:1 }}/100
                     </div>
                 </div>
                 
                 <div class="grade-description">
                     <h4>
-                        {% if esg_scores.grade == 'A+' or esg_scores.grade == 'A' %}
+                        {% if scores.grade == 'A+' or scores.grade == 'A' %}
                             {% trans "Excellent Performance" %}
-                        {% elif esg_scores.grade == 'B+' or esg_scores.grade == 'B' %}
+                        {% elif scores.grade == 'B+' or scores.grade == 'B' %}
                             {% trans "Good Performance" %}
-                        {% elif esg_scores.grade == 'C+' or esg_scores.grade == 'C' %}
+                        {% elif scores.grade == 'C+' or scores.grade == 'C' %}
                             {% trans "Fair Performance" %}
                         {% else %}
                             {% trans "Needs Improvement" %}
                         {% endif %}
                     </h4>
                     <p>
-                        {% if esg_scores.grade == 'A+' or esg_scores.grade == 'A' %}
-                            {% trans "Outstanding sustainability practices. Your organization demonstrates leadership in ESG performance." %}
-                        {% elif esg_scores.grade == 'B+' or esg_scores.grade == 'B' %}
+                        {% if scores.grade == 'A+' or scores.grade == 'A' %}
+                            {% trans "Outstanding sustainability practices. Your organization demonstrates leadership in performance." %}
+                        {% elif scores.grade == 'B+' or scores.grade == 'B' %}
                             {% trans "Strong sustainability foundation with opportunities for enhancement in key areas." %}
-                        {% elif esg_scores.grade == 'C+' or esg_scores.grade == 'C' %}
-                            {% trans "Moderate sustainability practices. Focus on improving key ESG areas for better performance." %}
+                        {% elif scores.grade == 'C+' or scores.grade == 'C' %}
+                            {% trans "Moderate sustainability practices. Focus on improving key areas for better performance." %}
                         {% else %}
-                            {% trans "Significant opportunities for improvement. Consider developing comprehensive ESG strategies." %}
+                            {% trans "Significant opportunities for improvement. Consider developing comprehensive strategies." %}
                         {% endif %}
                     </p>
                 </div>
             </div>
 
-            <!-- ESG Breakdown -->
-            <div class="esg-breakdown">
+            <!-- Score Breakdown -->
+            <div class="score-breakdown">
                 <div class="breakdown-header">
-                    <h2 class="breakdown-title">{% trans "ESG Performance" %}</h2>
+                    <h2 class="breakdown-title">{% trans "Performance Breakdown" %}</h2>
                     <p class="breakdown-subtitle">{% trans "Detailed breakdown of your sustainability scores" %}</p>
                 </div>
                 
-                <div class="esg-components">
+                <div class="score-components">
                     <div class="component-card">
                         <div class="component-header">
                             <div class="component-info">
@@ -902,13 +906,13 @@
                                 </div>
                             </div>
                             <div class="component-score">
-                                <div class="score-number">{{ esg_scores.environmental|floatformat:0 }}</div>
+                                <div class="score-number">{{ scores.environmental|floatformat:0 }}</div>
                                 <div class="score-label">{% trans "out of 100" %}</div>
                             </div>
                         </div>
                         <div class="progress-container">
                             <div class="progress-bar">
-                                <div class="progress-fill fill-env" style="width: 0%" data-width="{{ esg_scores.environmental }}%"></div>
+                                <div class="progress-fill fill-env" style="width: 0%" data-width="{{ scores.environmental }}%"></div>
                             </div>
                         </div>
                     </div>
@@ -925,13 +929,13 @@
                                 </div>
                             </div>
                             <div class="component-score">
-                                <div class="score-number">{{ esg_scores.social|floatformat:0 }}</div>
+                                <div class="score-number">{{ scores.social|floatformat:0 }}</div>
                                 <div class="score-label">{% trans "out of 100" %}</div>
                             </div>
                         </div>
                         <div class="progress-container">
                             <div class="progress-bar">
-                                <div class="progress-fill fill-social" style="width: 0%" data-width="{{ esg_scores.social }}%"></div>
+                                <div class="progress-fill fill-social" style="width: 0%" data-width="{{ scores.social }}%"></div>
                             </div>
                         </div>
                     </div>
@@ -948,13 +952,13 @@
                                 </div>
                             </div>
                             <div class="component-score">
-                                <div class="score-number">{{ esg_scores.governance|floatformat:0 }}</div>
+                                <div class="score-number">{{ scores.governance|floatformat:0 }}</div>
                                 <div class="score-label">{% trans "out of 100" %}</div>
                             </div>
                         </div>
                         <div class="progress-container">
                             <div class="progress-bar">
-                                <div class="progress-fill fill-gov" style="width: 0%" data-width="{{ esg_scores.governance }}%"></div>
+                                <div class="progress-fill fill-gov" style="width: 0%" data-width="{{ scores.governance }}%"></div>
                             </div>
                         </div>
                     </div>
@@ -974,7 +978,7 @@
             </div>
             
             <div class="insights-grid">
-                {% if esg_scores.environmental >= 70 %}
+                {% if scores.environmental >= 70 %}
                 <div class="insight-card strength">
                     <div class="insight-header">
                         <div class="insight-badge badge-strength">{% trans "Strength" %}</div>
@@ -986,7 +990,7 @@
                 </div>
                 {% endif %}
 
-                {% if esg_scores.social >= 70 %}
+                {% if scores.social >= 70 %}
                 <div class="insight-card strength">
                     <div class="insight-header">
                         <div class="insight-badge badge-strength">{% trans "Strength" %}</div>
@@ -998,7 +1002,7 @@
                 </div>
                 {% endif %}
 
-                {% if esg_scores.governance >= 70 %}
+                {% if scores.governance >= 70 %}
                 <div class="insight-card strength">
                     <div class="insight-header">
                         <div class="insight-badge badge-strength">{% trans "Strength" %}</div>
@@ -1010,7 +1014,7 @@
                 </div>
                 {% endif %}
 
-                {% if esg_scores.environmental < 50 %}
+                {% if scores.environmental < 50 %}
                 <div class="insight-card improvement">
                     <div class="insight-header">
                         <div class="insight-badge badge-improvement">{% trans "Priority" %}</div>
@@ -1022,7 +1026,7 @@
                 </div>
                 {% endif %}
 
-                {% if esg_scores.social < 50 %}
+                {% if scores.social < 50 %}
                 <div class="insight-card improvement">
                     <div class="insight-header">
                         <div class="insight-badge badge-improvement">{% trans "Priority" %}</div>
@@ -1034,7 +1038,7 @@
                 </div>
                 {% endif %}
 
-                {% if esg_scores.governance < 50 %}
+                {% if scores.governance < 50 %}
                 <div class="insight-card improvement">
                     <div class="insight-header">
                         <div class="insight-badge badge-improvement">{% trans "Priority" %}</div>

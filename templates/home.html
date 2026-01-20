@@ -5,11 +5,8 @@
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="theme-color" content="#1F7A63">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>{% trans "ESG Performance Assessment for Companies" %} - Sustindex</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Sustainability Performance Assessment for Companies" %} - Sustindex</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -23,7 +20,6 @@
             --gold: #FFD700;
         }
 
-        /* Performance optimizations */
         * {
             margin: 0;
             padding: 0;
@@ -35,22 +31,6 @@
             line-height: 1.6;
             color: var(--neutral-color);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Reduce motion for users who prefer it */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
         }
 
         /* Navigation */
@@ -97,19 +77,6 @@
 
         .nav-links a:hover {
             color: var(--primary-color);
-        }
-
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--neutral-color);
-            cursor: pointer;
-        }
-
-        .nav-links.mobile-open {
-            display: flex;
         }
 
         .language-btn {
@@ -410,442 +377,6 @@
             line-height: 1.6;
         }
 
-        /* Demo Section */
-        .demo-section {
-            padding: 5rem 0;
-            background: white;
-        }
-
-        .demo-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .demo-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .demo-tab {
-            background: var(--light-gray);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            font-weight: 600;
-            color: var(--neutral-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .demo-tab:hover {
-            background: rgba(31, 122, 99, 0.1);
-            color: var(--primary-color);
-        }
-
-        .demo-tab.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .demo-content {
-            display: none;
-        }
-
-        .demo-content.active {
-            display: block;
-        }
-
-        .demo-preview {
-            background: var(--light-gray);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 2px solid #e2e8f0;
-        }
-
-        .demo-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .demo-header h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--neutral-color);
-        }
-
-        .demo-badge {
-            background: linear-gradient(135deg, var(--success-green), #20C997);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .demo-progress {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .demo-progress .progress-bar {
-            width: 200px;
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .demo-progress .progress-fill {
-            height: 100%;
-            border-radius: 4px;
-        }
-
-        .demo-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .demo-stat {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .stat-icon.env { background: linear-gradient(135deg, #28A745, #20C997); }
-        .stat-icon.social { background: linear-gradient(135deg, #4C6EF5, #6C5CE7); }
-        .stat-icon.governance { background: linear-gradient(135deg, #FF6B35, #FD79A8); }
-
-        .stat-info {
-            flex: 1;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--neutral-color);
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-            color: #666;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-progress {
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .demo-chart {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .chart-header h4 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--neutral-color);
-        }
-
-        .chart-period {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .chart-placeholder {
-            height: 200px;
-        }
-
-        .trend-chart {
-            width: 100%;
-            height: 100%;
-        }
-
-        .demo-question {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-        }
-
-        .question-category {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(40, 167, 69, 0.1);
-            color: var(--success-green);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .demo-question h4 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--neutral-color);
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
-        }
-
-        .demo-options {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .option-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--light-gray);
-            border-radius: 10px;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .option-item.selected {
-            border-color: var(--primary-color);
-            background: rgba(31, 122, 99, 0.1);
-        }
-
-        .option-radio {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid #ccc;
-            position: relative;
-        }
-
-        .option-item.selected .option-radio {
-            border-color: var(--primary-color);
-        }
-
-        .option-item.selected .option-radio::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--primary-color);
-        }
-
-        .option-item span {
-            flex: 1;
-            color: var(--neutral-color);
-            font-weight: 500;
-        }
-
-        .option-score {
-            background: var(--primary-color);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .demo-upload {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--success-green);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .report-summary {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .report-grade {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .grade-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--success-green), #20C997);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 800;
-            color: white;
-        }
-
-        .grade-info h4 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--neutral-color);
-            margin-bottom: 0.25rem;
-        }
-
-        .grade-info p {
-            color: #666;
-        }
-
-        .report-insights {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .insight-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 10px;
-        }
-
-        .insight-item.strength {
-            background: rgba(40, 167, 69, 0.1);
-            color: var(--success-green);
-        }
-
-        .insight-item.improvement {
-            background: rgba(255, 107, 53, 0.1);
-            color: var(--warning-orange);
-        }
-
-        .insight-item i {
-            font-size: 1.2rem;
-            margin-top: 0.2rem;
-        }
-
-        .insight-item strong {
-            display: block;
-            margin-bottom: 0.25rem;
-            color: var(--neutral-color);
-        }
-
-        .insight-item p {
-            color: #666;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            margin: 0;
-        }
-
-        .report-benchmark {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-        }
-
-        .report-benchmark h4 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--neutral-color);
-            margin-bottom: 1rem;
-        }
-
-        .benchmark-chart {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .benchmark-bar {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .benchmark-label {
-            width: 120px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--neutral-color);
-        }
-
-        .benchmark-value {
-            width: 40px;
-            font-weight: 700;
-            color: var(--neutral-color);
-        }
-
-        .benchmark-fill {
-            flex: 1;
-            height: 8px;
-            border-radius: 4px;
-            position: relative;
-        }
-
-        .demo-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .demo-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .demo-btn:hover {
-            background: #1a6b56;
-            transform: translateY(-2px);
-        }
-
         /* Methodology Section */
         .methodology-section {
             padding: 5rem 0;
@@ -912,89 +443,13 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 1024px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .demo-stats {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .demo-tabs {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-
-            .demo-tab {
-                padding: 0.75rem 1.5rem;
-                font-size: 0.9rem;
-            }
-        }
-
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0 1rem;
-                flex-wrap: wrap;
-                position: relative;
-            }
-
-            .mobile-menu-toggle {
-                display: block;
             }
 
             .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                gap: 0;
-                padding: 1rem;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-                border-radius: 0 0 10px 10px;
-                z-index: 1000;
-            }
-
-            .nav-links.mobile-open {
-                display: flex;
-            }
-
-            .nav-links a,
-            .nav-links form {
-                padding: 0.75rem 0;
-                border-bottom: 1px solid #f0f0f0;
-                width: 100%;
-            }
-
-            .nav-links a:last-child {
-                border-bottom: none;
-            }
-
-            .language-btn {
-                padding: 6px 12px;
-                font-size: 0.9rem;
-                width: 100%;
-            }
-
-            .btn-login {
-                padding: 8px 16px;
-                font-size: 0.9rem;
-                text-align: center;
-                margin-top: 0.5rem;
-            }
-
-            /* Hero Section Mobile */
-            .hero-section {
-                padding: 3rem 0;
-            }
-
-            .hero-content {
-                padding: 0 1rem;
+                gap: 1rem;
             }
 
             .hero-grid {
@@ -1003,43 +458,16 @@
             }
 
             .hero-text h1 {
-                font-size: 2.2rem;
-                line-height: 1.2;
-            }
-
-            .hero-text p {
-                font-size: 1.1rem;
+                font-size: 2.5rem;
             }
 
             .hero-stats {
-                gap: 1.5rem;
+                gap: 2rem;
                 justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            .stat-item {
-                min-width: 100px;
-            }
-
-            .stat-number {
-                font-size: 2rem;
             }
 
             .cta-buttons {
                 flex-direction: column;
-                gap: 1rem;
-            }
-
-            .cta-primary,
-            .cta-secondary {
-                padding: 16px 32px;
-                font-size: 1rem;
-                text-align: center;
-            }
-
-            /* Dashboard Preview Mobile */
-            .dashboard-preview {
-                padding: 1.5rem;
             }
 
             .esg-metrics {
@@ -1047,33 +475,8 @@
                 gap: 1rem;
             }
 
-            .metric-card {
-                padding: 1rem;
-            }
-
-            .metric-score {
-                font-size: 2rem;
-            }
-
-            /* Sections Mobile */
-            .features-section,
-            .demo-section,
-            .methodology-section {
-                padding: 3rem 0;
-            }
-
-            .features-container,
-            .demo-container,
-            .methodology-container {
-                padding: 0 1rem;
-            }
-
             .section-header h2 {
-                font-size: 1.8rem;
-            }
-
-            .section-header p {
-                font-size: 1rem;
+                font-size: 2rem;
             }
 
             .feature-grid {
@@ -1081,361 +484,8 @@
                 gap: 2rem;
             }
 
-            .feature-card {
-                padding: 2rem;
-            }
-
-            .feature-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
-            }
-
-            /* Demo Section Mobile */
-            .demo-tabs {
-                flex-direction: column;
-                gap: 0.5rem;
-                margin-bottom: 2rem;
-            }
-
-            .demo-tab {
-                padding: 1rem;
-                font-size: 0.9rem;
-                justify-content: center;
-            }
-
-            .demo-preview {
-                padding: 1.5rem;
-            }
-
-            .demo-header {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-
-            .demo-header h3 {
-                font-size: 1.2rem;
-            }
-
-            .demo-progress {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .demo-progress .progress-bar {
-                width: 150px;
-            }
-
-            .demo-stats {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .demo-stat {
-                padding: 1rem;
-            }
-
-            .stat-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
-            }
-
-            .demo-question {
-                padding: 1.5rem;
-            }
-
-            .demo-question h4 {
-                font-size: 1rem;
-                line-height: 1.4;
-            }
-
-            .demo-options {
-                gap: 0.5rem;
-            }
-
-            .option-item {
-                padding: 0.75rem;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-
-            .option-item span {
-                font-size: 0.9rem;
-            }
-
-            .option-score {
-                align-self: flex-end;
-            }
-
-            /* Report Demo Mobile */
-            .report-summary {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .report-grade {
-                justify-content: center;
-            }
-
-            .grade-circle {
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
-            }
-
-            .report-insights {
-                gap: 0.75rem;
-            }
-
-            .insight-item {
-                padding: 0.75rem;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-
-            .insight-item i {
-                font-size: 1rem;
-            }
-
-            .insight-item p {
-                font-size: 0.85rem;
-            }
-
-            .report-benchmark {
-                padding: 1rem;
-            }
-
-            .benchmark-bar {
-                flex-direction: column;
-                gap: 0.5rem;
-                align-items: flex-start;
-            }
-
-            .benchmark-label {
-                width: auto;
-                font-size: 0.85rem;
-            }
-
-            .benchmark-value {
-                width: auto;
-                font-size: 0.9rem;
-            }
-
-            .benchmark-fill {
-                width: 100% !important;
-                height: 6px;
-            }
-
-            .demo-actions {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-
-            .demo-btn {
-                padding: 0.75rem 1.25rem;
-                font-size: 0.9rem;
-                justify-content: center;
-            }
-
-            /* Chart Mobile */
-            .demo-chart {
-                padding: 1rem;
-            }
-
-            .chart-header {
-                flex-direction: column;
-                gap: 0.5rem;
-                align-items: flex-start;
-            }
-
-            .chart-header h4 {
-                font-size: 1rem;
-            }
-
-            .chart-period {
-                font-size: 0.8rem;
-            }
-
-            .chart-placeholder {
-                height: 150px;
-            }
-
-            /* Methodology Mobile */
             .methodology-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .methodology-item {
-                padding: 1.5rem;
-            }
-
-            .methodology-number {
-                width: 35px;
-                height: 35px;
-                font-size: 0.9rem;
-            }
-
-            .methodology-item h5 {
-                font-size: 1rem;
-            }
-
-            .methodology-item p {
-                font-size: 0.9rem;
-            }
-
-            /* Footer Mobile */
-            .footer {
-                padding: 1.5rem 0;
-            }
-
-            .footer-container {
-                padding: 0 1rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Touch-friendly improvements */
-        .demo-tab,
-        .cta-primary,
-        .cta-secondary,
-        .btn-login,
-        .btn-action,
-        .demo-btn {
-            min-height: 44px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Improve touch targets on mobile */
-        @media (max-width: 768px) {
-            .demo-tab {
-                min-height: 48px;
-                padding: 1rem;
-            }
-
-            .option-item {
-                min-height: 48px;
-                cursor: pointer;
-            }
-
-            .mobile-menu-toggle {
-                min-height: 44px;
-                min-width: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-            /* Extra small screens */
-            .hero-text h1 {
-                font-size: 1.8rem;
-            }
-
-            .hero-text p {
-                font-size: 1rem;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .stat-item {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-            }
-
-            .stat-number {
-                font-size: 1.5rem;
-            }
-
-            .stat-label {
-                font-size: 0.8rem;
-            }
-
-            .cta-primary,
-            .cta-secondary {
-                padding: 14px 24px;
-                font-size: 0.9rem;
-            }
-
-            .dashboard-preview {
-                padding: 1rem;
-            }
-
-            .preview-header {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-
-            .preview-title {
-                font-size: 1.2rem;
-            }
-
-            .preview-score {
-                padding: 0.4rem 1rem;
-                font-size: 1rem;
-            }
-
-            .metric-score {
-                font-size: 1.8rem;
-            }
-
-            .section-header h2 {
-                font-size: 1.5rem;
-            }
-
-            .demo-tab {
-                padding: 0.75rem;
-                font-size: 0.85rem;
-            }
-
-            .demo-preview {
-                padding: 1rem;
-            }
-
-            .demo-header h3 {
-                font-size: 1.1rem;
-            }
-
-            .demo-question h4 {
-                font-size: 0.95rem;
-            }
-
-            .option-item span {
-                font-size: 0.85rem;
-            }
-
-            .grade-circle {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-
-            .nav-links {
-                gap: 0.25rem;
-            }
-
-            .language-btn {
-                padding: 4px 8px;
-                font-size: 0.8rem;
-            }
-
-            .btn-login {
-                padding: 6px 12px;
-                font-size: 0.8rem;
             }
         }
     </style>
@@ -1445,10 +495,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="/" class="logo">🌱 Sustindex</a>
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="nav-links" id="navLinks">
+            <div class="nav-links">
                 <form action="{% url 'set_language' %}" method="post" style="display: inline;">
                     {% csrf_token %}
                     <input name="next" type="hidden" value="{{ request.path }}" />
@@ -1467,13 +514,13 @@
         <div class="hero-content">
             <div class="hero-grid">
                 <div class="hero-text">
-                    <h1>{% trans "ESG Performance Assessment for Companies" %}</h1>
-                    <p>{% trans "Measure, score, and improve your sustainability performance with professional ESG reporting based on international standards." %}</p>
+                    <h1>{% trans "Sustainability Performance Assessment for Companies" %}</h1>
+                    <p>{% trans "Measure, score, and improve your sustainability performance with professional reporting based on international standards." %}</p>
                     
                     <div class="hero-stats">
                         <div class="stat-item">
                             <span class="stat-number">30+</span>
-                            <span class="stat-label">{% trans "ESG Indicators" %}</span>
+                            <span class="stat-label">{% trans "Sustainability Indicators" %}</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-number">3</span>
@@ -1487,7 +534,7 @@
                     
                     <div class="cta-buttons">
                         <a href="{% url 'register' %}" class="cta-primary">
-                            {% trans "Start ESG Assessment" %}
+                            {% trans "Start Assessment" %}
                         </a>
                         <a href="#methodology" class="cta-secondary">
                             {% trans "View Methodology" %}
@@ -1497,7 +544,7 @@
                 
                 <div class="dashboard-preview">
                     <div class="preview-header">
-                        <h3 class="preview-title">{% trans "ESG Dashboard" %}</h3>
+                        <h3 class="preview-title">{% trans "Sustainability Dashboard" %}</h3>
                         <div class="preview-score">A-</div>
                     </div>
                     
@@ -1535,8 +582,8 @@
     <section class="features-section">
         <div class="features-container">
             <div class="section-header">
-                <h2>{% trans "Professional ESG Assessment" %}</h2>
-                <p>{% trans "Your company receives an ESG score based on 30 indicators across Environmental, Social, and Governance categories." %}</p>
+                <h2>{% trans "Professional Sustainability Assessment" %}</h2>
+                <p>{% trans "Your company receives a sustainability score based on 30 indicators across Environmental, Social, and Governance categories." %}</p>
             </div>
             
             <div class="feature-grid">
@@ -1545,7 +592,7 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h4>{% trans "Comprehensive Scoring" %}</h4>
-                    <p>{% trans "Detailed analysis across all ESG dimensions with weighted scoring methodology." %}</p>
+                    <p>{% trans "Detailed analysis across all sustainability dimensions with weighted scoring methodology." %}</p>
                 </div>
                 
                 <div class="feature-card">
@@ -1561,212 +608,7 @@
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h4>{% trans "Industry Standards" %}</h4>
-                    <p>{% trans "Based on internationally recognized ESG frameworks and best practices." %}</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Live Demo Section -->
-    <section class="demo-section">
-        <div class="demo-container">
-            <div class="section-header">
-                <h2>{% trans "See Sustindex in Action" %}</h2>
-                <p>{% trans "Experience our comprehensive ESG assessment platform with real data and analytics" %}</p>
-            </div>
-            
-            <div class="demo-tabs">
-                <button class="demo-tab active" data-tab="dashboard">
-                    <i class="fas fa-tachometer-alt"></i>
-                    {% trans "Dashboard" %}
-                </button>
-                <button class="demo-tab" data-tab="assessment">
-                    <i class="fas fa-clipboard-check"></i>
-                    {% trans "Assessment" %}
-                </button>
-                <button class="demo-tab" data-tab="report">
-                    <i class="fas fa-chart-bar"></i>
-                    {% trans "Reports" %}
-                </button>
-            </div>
-
-            <!-- Dashboard Demo -->
-            <div class="demo-content active" id="demo-dashboard">
-                <div class="demo-preview">
-                    <div class="demo-header">
-                        <h3>{% trans "ESG Performance Dashboard" %}</h3>
-                        <div class="demo-badge">{% trans "Live Demo" %}</div>
-                    </div>
-                    
-                    <div class="demo-stats">
-                        <div class="demo-stat">
-                            <div class="stat-icon env">
-                                <i class="fas fa-leaf"></i>
-                            </div>
-                            <div class="stat-info">
-                                <div class="stat-value">85</div>
-                                <div class="stat-label">{% trans "Environmental" %}</div>
-                                <div class="stat-progress">
-                                    <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, #28A745, #20C997);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="demo-stat">
-                            <div class="stat-icon social">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="stat-info">
-                                <div class="stat-value">78</div>
-                                <div class="stat-label">{% trans "Social" %}</div>
-                                <div class="stat-progress">
-                                    <div class="progress-fill" style="width: 78%; background: linear-gradient(90deg, #4C6EF5, #6C5CE7);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="demo-stat">
-                            <div class="stat-icon governance">
-                                <i class="fas fa-balance-scale"></i>
-                            </div>
-                            <div class="stat-info">
-                                <div class="stat-value">92</div>
-                                <div class="stat-label">{% trans "Governance" %}</div>
-                                <div class="stat-progress">
-                                    <div class="progress-fill" style="width: 92%; background: linear-gradient(90deg, #FF6B35, #FD79A8);"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="demo-chart">
-                        <div class="chart-header">
-                            <h4>{% trans "ESG Performance Trend" %}</h4>
-                            <div class="chart-period">{% trans "Last 12 Months" %}</div>
-                        </div>
-                        <div class="chart-placeholder">
-                            <svg viewBox="0 0 400 200" class="trend-chart">
-                                <defs>
-                                    <linearGradient id="trendGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#1F7A63;stop-opacity:0.3" />
-                                        <stop offset="100%" style="stop-color:#1F7A63;stop-opacity:0" />
-                                    </linearGradient>
-                                </defs>
-                                <path d="M 0 150 Q 100 120 200 100 T 400 80" stroke="#1F7A63" stroke-width="3" fill="none"/>
-                                <path d="M 0 150 Q 100 120 200 100 T 400 80 L 400 200 L 0 200 Z" fill="url(#trendGradient)"/>
-                                <circle cx="400" cy="80" r="4" fill="#1F7A63"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Assessment Demo -->
-            <div class="demo-content" id="demo-assessment">
-                <div class="demo-preview">
-                    <div class="demo-header">
-                        <h3>{% trans "Interactive ESG Assessment" %}</h3>
-                        <div class="demo-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 60%; background: linear-gradient(90deg, #1F7A63, #28A745);"></div>
-                            </div>
-                            <span>6/10 {% trans "Questions Completed" %}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="demo-question">
-                        <div class="question-category">
-                            <i class="fas fa-leaf"></i>
-                            {% trans "Environmental" %}
-                        </div>
-                        <h4>{% trans "Does your organization have environmental certifications (ISO 14001, etc.)?" %}</h4>
-                        
-                        <div class="demo-options">
-                            <div class="option-item selected">
-                                <div class="option-radio"></div>
-                                <span>{% trans "Yes, multiple environmental certifications" %}</span>
-                                <div class="option-score">10 pts</div>
-                            </div>
-                            <div class="option-item">
-                                <div class="option-radio"></div>
-                                <span>{% trans "Yes, one environmental certification" %}</span>
-                                <div class="option-score">7 pts</div>
-                            </div>
-                            <div class="option-item">
-                                <div class="option-radio"></div>
-                                <span>{% trans "In process of obtaining certification" %}</span>
-                                <div class="option-score">4 pts</div>
-                            </div>
-                        </div>
-                        
-                        <div class="demo-upload">
-                            <i class="fas fa-paperclip"></i>
-                            <span>{% trans "2 supporting documents uploaded" %}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Report Demo -->
-            <div class="demo-content" id="demo-report">
-                <div class="demo-preview">
-                    <div class="demo-header">
-                        <h3>{% trans "Professional ESG Report" %}</h3>
-                        <div class="demo-actions">
-                            <button class="demo-btn">
-                                <i class="fas fa-download"></i>
-                                {% trans "Export PDF" %}
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="report-summary">
-                        <div class="report-grade">
-                            <div class="grade-circle">A-</div>
-                            <div class="grade-info">
-                                <h4>{% trans "Overall ESG Grade" %}</h4>
-                                <p>{% trans "Score: 85/100" %}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="report-insights">
-                            <div class="insight-item strength">
-                                <i class="fas fa-check-circle"></i>
-                                <div>
-                                    <strong>{% trans "Strength" %}</strong>
-                                    <p>{% trans "Excellent governance practices with strong board independence" %}</p>
-                                </div>
-                            </div>
-                            <div class="insight-item improvement">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <div>
-                                    <strong>{% trans "Priority" %}</strong>
-                                    <p>{% trans "Enhance renewable energy adoption and carbon footprint reduction" %}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="report-benchmark">
-                        <h4>{% trans "Industry Benchmark" %}</h4>
-                        <div class="benchmark-chart">
-                            <div class="benchmark-bar">
-                                <div class="benchmark-label">{% trans "Your Score" %}</div>
-                                <div class="benchmark-value your-score">85</div>
-                                <div class="benchmark-fill" style="width: 85%; background: #1F7A63;"></div>
-                            </div>
-                            <div class="benchmark-bar">
-                                <div class="benchmark-label">{% trans "Industry Average" %}</div>
-                                <div class="benchmark-value">72</div>
-                                <div class="benchmark-fill" style="width: 72%; background: #ccc;"></div>
-                            </div>
-                            <div class="benchmark-bar">
-                                <div class="benchmark-label">{% trans "Top Performers" %}</div>
-                                <div class="benchmark-value">91</div>
-                                <div class="benchmark-fill" style="width: 91%; background: #28A745;"></div>
-                            </div>
-                        </div>
-                    </div>
+                    <p>{% trans "Based on internationally recognized sustainability frameworks and best practices." %}</p>
                 </div>
             </div>
         </div>
@@ -1777,7 +619,7 @@
         <div class="methodology-container">
             <div class="section-header">
                 <h2>{% trans "Assessment Methodology" %}</h2>
-                <p>{% trans "Our ESG assessment follows a structured approach based on international standards." %}</p>
+                <p>{% trans "Our sustainability assessment follows a structured approach based on international standards." %}</p>
             </div>
             
             <div class="methodology-grid">
@@ -1840,70 +682,7 @@
         });
         
         metricFills.forEach(fill => observer.observe(fill));
-
-        // Demo tabs functionality
-        const demoTabs = document.querySelectorAll('.demo-tab');
-        const demoContents = document.querySelectorAll('.demo-content');
-
-        demoTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs and contents
-                demoTabs.forEach(t => t.classList.remove('active'));
-                demoContents.forEach(c => c.classList.remove('active'));
-
-                // Add active class to clicked tab
-                tab.classList.add('active');
-
-                // Show corresponding content
-                const targetTab = tab.dataset.tab;
-                const targetContent = document.getElementById(`demo-${targetTab}`);
-                if (targetContent) {
-                    targetContent.classList.add('active');
-                }
-            });
-        });
-
-        // Animate demo stats when visible
-        const demoStats = document.querySelectorAll('.stat-value');
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const element = entry.target;
-                    const finalValue = parseInt(element.textContent);
-                    let currentValue = 0;
-                    const increment = finalValue / 50;
-
-                    const interval = setInterval(() => {
-                        if (currentValue < finalValue) {
-                            currentValue += increment;
-                            element.textContent = Math.round(currentValue);
-                        } else {
-                            element.textContent = finalValue;
-                            clearInterval(interval);
-                        }
-                    }, 30);
-                }
-            });
-        });
-
-        demoStats.forEach(stat => statsObserver.observe(stat));
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const navLinks = document.getElementById('navLinks');
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
-            
-            if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) {
-                navLinks.classList.remove('mobile-open');
-            }
-        });
     });
-
-    // Mobile menu toggle function
-    function toggleMobileMenu() {
-        const navLinks = document.getElementById('navLinks');
-        navLinks.classList.toggle('mobile-open');
-    }
     </script>
 </body>
 </html>
