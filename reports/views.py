@@ -15,19 +15,15 @@ def generate_report(request, attempt_id):
     if not attempt.is_completed:
         return JsonResponse({'error': 'Questionnaire not completed'}, status=400)
     
-    # محاسبه امتیازات ESG
     esg_scores = attempt.calculate_esg_scores()
     
-    # ایجاد یا بروزرسانی گزارش
     report, created = Report.objects.get_or_create(
         attempt=attempt,
         defaults={'generated_at': timezone.now()}
     )
     
-    # پاک کردن بخش‌های قبلی
     report.sections.all().delete()
     
-    # ایجاد بخش‌های گزارش
     create_report_sections(report, attempt, esg_scores)
     
     return redirect('view_report', report_id=report.id)
@@ -37,7 +33,6 @@ def view_report(request, report_id):
     """نمایش گزارش"""
     report = get_object_or_404(Report, id=report_id, attempt__user=request.user)
     
-    # آماده‌سازی داده‌ها برای نمایش
     context = {
         'report': report,
         'attempt': report.attempt,
@@ -67,13 +62,11 @@ def download_report_pdf(request, report_id):
         from reportlab.lib import colors
         from io import BytesIO
         
-        # ایجاد PDF
         buffer = BytesIO()
         doc = SimpleDocTemplate(buffer, pagesize=A4)
         styles = getSampleStyleSheet()
         story = []
         
-        # عنوان گزارش
         title_style = ParagraphStyle(
             'CustomTitle',
             parent=styles['Heading1'],
@@ -84,7 +77,6 @@ def download_report_pdf(request, report_id):
         story.append(Paragraph("Sustainability Assessment Report", title_style))
         story.append(Spacer(1, 20))
         
-        # اطلاعات شرکت
         company_info = [
             ['Company:', report.attempt.user.company_name or 'N/A'],
             ['Assessment Date:', report.attempt.completed_at.strftime('%Y-%m-%d') if report.attempt.completed_at else 'N/A'],
@@ -105,7 +97,6 @@ def download_report_pdf(request, report_id):
         story.append(company_table)
         story.append(Spacer(1, 30))
         
-        # امتیازات ESG
         esg_data = [
             ['ESG Component', 'Score', 'Grade'],
             ['Environmental', f"{report.attempt.environmental_score:.1f}", get_component_grade(report.attempt.environmental_score)],
@@ -131,7 +122,6 @@ def download_report_pdf(request, report_id):
         story.append(esg_table)
         story.append(Spacer(1, 30))
         
-        # پیشنهادات
         recommendations = report.attempt.get_recommendations()
         if recommendations:
             story.append(Paragraph("Recommendations for Improvement", styles['Heading2']))
@@ -142,11 +132,9 @@ def download_report_pdf(request, report_id):
                 story.append(Paragraph(rec['suggestion'], styles['Normal']))
                 story.append(Spacer(1, 12))
         
-        # ساخت PDF
         doc.build(story)
         buffer.seek(0)
         
-        # ارسال فایل
         response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="ESG_Report_{report.attempt.user.company_name}_{report.generated_at.strftime("%Y%m%d")}.pdf"'
         
@@ -160,7 +148,6 @@ def download_report_pdf(request, report_id):
 def create_report_sections(report, attempt, esg_scores):
     """ایجاد بخش‌های گزارش"""
     
-    # بخش خلاصه اجرایی
     executive_summary = f"""
     This sustainability assessment evaluates your organization's Environmental, Social, and Governance (ESG) performance.
     
@@ -182,7 +169,6 @@ def create_report_sections(report, attempt, esg_scores):
         order=1
     )
     
-    # بخش تحلیل دسته‌بندی‌ها
     from questionnaire.models import Category
     categories = Category.objects.all()
     

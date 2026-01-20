@@ -12,7 +12,6 @@ from questionnaire.models import Category
 def setup_esg_weights():
     """تنظیم وزن‌های ESG برای دسته‌بندی‌ها"""
     
-    # تنظیم وزن‌ها بر اساس استانداردهای ESG
     category_weights = {
         'Environment': {
             'environmental_weight': 1.0,  # 100% environmental

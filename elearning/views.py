@@ -5,7 +5,6 @@ from .models import Course, Lesson, LessonProgress
 
 @login_required
 def course_list(request):
-    # فقط اعضای طلایی دسترسی دارند
     if request.user.membership_type != 'gold':
         return render(request, 'elearning/access_denied.html')
     
@@ -32,7 +31,6 @@ def lesson_detail(request, lesson_id):
     
     lesson = get_object_or_404(Lesson, id=lesson_id)
     
-    # ثبت پیشرفت
     progress, created = LessonProgress.objects.get_or_create(
         user=request.user,
         lesson=lesson

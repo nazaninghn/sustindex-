@@ -19,7 +19,6 @@ def recalc_attempt_score(attempt):
     
     attempt.total_score = total
     
-    # محاسبه امتیازات
     attempt.calculate_scores()
     
     return total
@@ -37,10 +36,8 @@ def attempt_stats(attempt):
             'progress_percent': درصد پیشرفت
         }
     """
-    # تعداد کل سوالات فعال
     total_questions = attempt.answers.count()
     
-    # تعداد سوالاتی که پاسخ داده شده (نه cannot answer)
     answered_questions = 0
     cannot_answer_count = 0
     
@@ -50,7 +47,6 @@ def attempt_stats(attempt):
         elif answer.choice or answer.choices.exists():
             answered_questions += 1
     
-    # محاسبه درصد پیشرفت (شامل cannot answer هم میشه)
     progress_percent = 0
     if total_questions > 0:
         progress_percent = round(((answered_questions + cannot_answer_count) / total_questions) * 100)

@@ -9,23 +9,18 @@ from .models import Survey, SurveySession, Category, Question, QuestionnaireAtte
 
 @login_required
 def start_questionnaire(request):
-    # بررسی محدودیت‌های عضویت
     user = request.user
     attempts_count = QuestionnaireAttempt.objects.filter(user=user, is_completed=True).count()
     
     if user.membership_type == 'silver' and attempts_count >= 1:
         return render(request, 'questionnaire/limit_reached.html')
     
-    # انتخاب survey فعال (اولین survey فعال یا default)
     survey = Survey.objects.filter(is_active=True).first()
     if not survey:
-        # اگر هیچ survey فعالی نبود، اولین survey را انتخاب کن
         survey = Survey.objects.first()
     
-    # انتخاب session فعال (اگر وجود داشته باشد)
     session = None
     if survey:
-        # پیدا کردن session باز
         open_sessions = survey.sessions.filter(
             is_active=True,
             start_date__lte=timezone.now(),
@@ -33,7 +28,6 @@ def start_questionnaire(request):
         )
         session = open_sessions.first()
     
-    # ایجاد تلاش جدید
     attempt = QuestionnaireAttempt.objects.create(
         user=user,
         survey=survey,
@@ -48,14 +42,11 @@ def questionnaire_page(request, attempt_id):
     if attempt.is_completed:
         return redirect('questionnaire_result', attempt_id=attempt.id)
     
-    # فقط سوالات مربوط به survey این attempt را نمایش بده
     if attempt.survey:
         questions = attempt.survey.questions.filter(is_active=True)
     else:
-        # fallback: همه سوالات فعال
         questions = Question.objects.filter(is_active=True)
     
-    # دسته‌بندی‌هایی که حداقل یک سوال دارند
     categories = Category.objects.filter(
         questions__in=questions
     ).prefetch_related('questions__choices').distinct()
@@ -76,30 +67,25 @@ def questionnaire_page(request, attempt_id):
                     question=question
                 )
                 
-                # چک کردن اگر "نمی‌توانم پاسخ دهم" انتخاب شده
                 if value == 'cannot_answer':
-                    # پاک کردن تمام انتخاب‌ها
                     answer.choice = None
                     answer.choices.clear()
                     answer.save()
                     continue
                 
                 if question.allow_multiple:
-                    # برای سوالات چند انتخابی
                     choice_ids = request.POST.getlist(key)
-                    # فیلتر کردن "cannot_answer" از لیست
                     choice_ids = [cid for cid in choice_ids if cid != 'cannot_answer']
                     
-                    answer.choices.clear()  # پاک کردن انتخاب‌های قبلی
+                    answer.choices.clear()
                     for choice_id in choice_ids:
                         choice = question.choices.get(id=int(choice_id))
                         answer.choices.add(choice)
-                    answer.choice = None  # پاک کردن single choice
+                    answer.choice = None
                 else:
-                    # برای سوالات تک انتخابی
                     choice = question.choices.get(id=int(value))
                     answer.choice = choice
-                    answer.choices.clear()  # پاک کردن multiple choices
+                    answer.choices.clear()
                 
                 answer.save()
         
@@ -154,10 +140,8 @@ def questionnaire_page(request, attempt_id):
     
     for answer in attempt.answers.all():
         if answer.question.allow_multiple:
-            # برای چند انتخابی، لیست IDها
             existing_answers_multiple[answer.question.id] = list(answer.choices.values_list('id', flat=True))
         else:
-            # برای تک انتخابی
             if answer.choice:
                 existing_answers[answer.question.id] = answer.choice.id
         
@@ -177,22 +161,18 @@ def questionnaire_page(request, attempt_id):
 def questionnaire_result(request, attempt_id):
     attempt = get_object_or_404(QuestionnaireAttempt, id=attempt_id, user=request.user)
     
-    # محاسبه امتیازات
     scores = attempt.calculate_scores()
     
-    # تولید گزارش اگر وجود نداشته باشد
     from reports.models import Report
     report, created = Report.objects.get_or_create(
         attempt=attempt,
         defaults={'generated_at': timezone.now()}
     )
     
-    # محاسبه تعداد فایل‌های آپلود شده
     documents_count = 0
     for answer in attempt.answers.all():
         documents_count += answer.documents.count()
     
-    # اضافه کردن تعداد فایل‌ها به attempt برای استفاده در template
     attempt.documents_count = documents_count
     
     context = {

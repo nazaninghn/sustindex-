@@ -29,8 +29,7 @@ admin.site.index_title = "Welcome to Sustindex Admin"
 
 # URLs without language prefix
 urlpatterns = [
-    path('i18n/', include('django.conf.urls.i18n')),  # For language switching
-    # Autocomplete URLs (باید قبل از i18n_patterns باشه)
+    path('i18n/', include('django.conf.urls.i18n')),
     path('autocomplete/category/', CategoryAutocomplete.as_view(), name='category-autocomplete'),
 ]
 

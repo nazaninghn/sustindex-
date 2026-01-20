@@ -44,7 +44,6 @@ except ImportError:
     pass
 
 INSTALLED_APPS = [
-    # Django Autocomplete Light - باید قبل از admin باشه
     *OPTIONAL_APPS,
     
     'django.contrib.admin',
@@ -70,15 +69,15 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',  # برای چندزبانگی
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'simple_history.middleware.HistoryRequestMiddleware',  # برای تاریخچه تغییرات
+    'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'sustindex.urls'
@@ -94,7 +93,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.i18n',  # برای چندزبانگی
+                'django.template.context_processors.i18n',
             ],
         },
     },
@@ -143,7 +142,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en'  # زبان پیش‌فرض
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'UTC'
 
@@ -151,13 +150,11 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# زبان‌های پشتیبانی شده
 LANGUAGES = [
     ('en', 'English'),
     ('tr', 'Türkçe'),
 ]
 
-# مسیر فایل‌های ترجمه
 LOCALE_PATHS = [
     BASE_DIR / 'locale',
 ]

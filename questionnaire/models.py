@@ -16,7 +16,6 @@ class Survey(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Created At'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_('Updated At'))
     
-    # تنظیمات survey
     allow_multiple_attempts = models.BooleanField(default=False, verbose_name=_('Allow Multiple Attempts'))
     show_results_immediately = models.BooleanField(default=True, verbose_name=_('Show Results Immediately'))
     
@@ -90,7 +89,6 @@ class Category(models.Model):
     name = models.CharField(max_length=200, verbose_name=_('Name'))
     description = models.TextField(blank=True, verbose_name=_('Description'))
     order = models.IntegerField(default=0, verbose_name=_('Display Order'))
-    # اضافه کردن وزن برای محاسبه امتیاز
     environmental_weight = models.FloatField(default=0.0, verbose_name=_('Environmental Weight'))
     social_weight = models.FloatField(default=0.0, verbose_name=_('Social Weight'))
     governance_weight = models.FloatField(default=0.0, verbose_name=_('Governance Weight'))
@@ -174,7 +172,6 @@ class QuestionnaireAttempt(models.Model):
     is_completed = models.BooleanField(default=False, verbose_name=_('Completed'))
     total_score = models.IntegerField(default=0, verbose_name=_('Total Score'))
     
-    # اضافه کردن امتیازات جداگانه
     environmental_score = models.FloatField(default=0.0, verbose_name=_('Environmental Score'))
     social_score = models.FloatField(default=0.0, verbose_name=_('Social Score'))
     governance_score = models.FloatField(default=0.0, verbose_name=_('Governance Score'))
@@ -215,11 +212,9 @@ class QuestionnaireAttempt(models.Model):
         self.social_score = round(social_score, 2)
         self.governance_score = round(gov_score, 2)
         
-        # محاسبه نمره کل (میانگین وزنی)
         total = (self.environmental_score + self.social_score + self.governance_score) / 3
         self.total_score = round(total, 2)
         
-        # تعیین گرید
         self.overall_grade = self.get_overall_grade()
         
         self.save()
