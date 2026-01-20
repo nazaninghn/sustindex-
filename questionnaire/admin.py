@@ -6,10 +6,21 @@ from django.utils import timezone
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
-from dal import autocomplete
+try:
+    from dal import autocomplete
+    DAL_AVAILABLE = True
+except ImportError:
+    DAL_AVAILABLE = False
+    
 from import_export.admin import ImportExportModelAdmin
 from simple_history.admin import SimpleHistoryAdmin
-from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+
+try:
+    from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+    DROPDOWN_FILTER_AVAILABLE = True
+except ImportError:
+    DROPDOWN_FILTER_AVAILABLE = False
+    RelatedDropdownFilter = None
 
 from .models import Survey, SurveySession, Category, Question, Choice, QuestionnaireAttempt, Answer, UserDocument
 from .services import recalc_attempt_score, attempt_stats, get_category_performance

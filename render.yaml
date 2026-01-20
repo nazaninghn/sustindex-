@@ -2,13 +2,15 @@ databases:
   - name: sustindex-db
     databaseName: sustindex
     user: sustindex
+    plan: free
 
 services:
   - type: web
     name: sustindex
-    env: python
-    buildCommand: "./build.sh"
-    startCommand: "gunicorn sustindex.wsgi:application"
+    runtime: python
+    plan: free
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn sustindex.wsgi:application --bind 0.0.0.0:$PORT --workers 2"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -16,5 +18,9 @@ services:
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
+      - key: DEBUG
+        value: False
+      - key: PYTHON_VERSION
+        value: 3.11.9
       - key: WEB_CONCURRENCY
-        value: 4
+        value: 2

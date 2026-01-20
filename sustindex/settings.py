@@ -32,10 +32,20 @@ ALLOWED_HOSTS = ['*']  # Allow access from all devices
 
 # Application definition
 
+# Optional apps - only add if installed
+OPTIONAL_APPS = []
+
+# Check if django-autocomplete-light is installed
+try:
+    import dal
+    import dal_select2
+    OPTIONAL_APPS.extend(['dal', 'dal_select2'])
+except ImportError:
+    pass
+
 INSTALLED_APPS = [
     # Django Autocomplete Light - باید قبل از admin باشه
-    'dal',
-    'dal_select2',
+    *OPTIONAL_APPS,
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -201,3 +211,7 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
