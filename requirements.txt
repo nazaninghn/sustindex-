@@ -4,7 +4,6 @@ psycopg2-binary==2.9.9
 dj-database-url==2.1.0
 whitenoise==6.6.0
 django-ckeditor==6.7.1
-tablib[html,ods,xls,xlsx,yaml]==3.5.0
 django-import-export==3.3.9
 django-simple-history==3.5.0
 django-crispy-forms==2.1
