@@ -49,7 +49,7 @@ def dashboard(request):
             'social': last_attempt.social_score,
             'governance': last_attempt.governance_score,
             'total': last_attempt.total_score,
-            'grade': last_attempt.esg_grade
+            'grade': last_attempt.overall_grade
         }
     
     # Get reports count
