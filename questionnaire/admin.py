@@ -113,7 +113,7 @@ class SurveyAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
 @admin.register(SurveySession)
 class SurveySessionAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     list_display = ['id', 'survey', 'name', 'start_date', 'end_date', 'status_badge', 'attempts_count', 'is_active']
-    list_filter = [('survey', RelatedDropdownFilter), 'is_active', 'start_date', 'end_date']
+    list_filter = ['survey' if not DROPDOWN_FILTER_AVAILABLE else ('survey', RelatedDropdownFilter), 'is_active', 'start_date', 'end_date']
     search_fields = ['name', 'description', 'survey__name']
     date_hierarchy = 'start_date'
     list_per_page = 50
@@ -264,7 +264,7 @@ class CategoryAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
 @admin.register(Question)
 class QuestionAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     list_display = ['id', 'survey', 'category', 'order', 'text_preview', 'allow_multiple', 'choice_count', 'is_active', 'created_at']
-    list_filter = [('survey', RelatedDropdownFilter), ('category', RelatedDropdownFilter), 'is_active', 'allow_multiple', 'created_at']
+    list_filter = ['survey' if not DROPDOWN_FILTER_AVAILABLE else ('survey', RelatedDropdownFilter), 'category' if not DROPDOWN_FILTER_AVAILABLE else ('category', RelatedDropdownFilter), 'is_active', 'allow_multiple', 'created_at']
     list_editable = ['order', 'is_active', 'allow_multiple']
     search_fields = ['text']
     ordering = ['survey', 'category', 'order']
@@ -358,7 +358,7 @@ class QuestionnaireAttemptAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
         'id', 'user_info', 'survey', 'session', 'started_at', 'completion_status', 
         'progress_bar', 'grade_display', 'total_score'
     ]
-    list_filter = [('survey', RelatedDropdownFilter), ('session', RelatedDropdownFilter), 'is_completed', 'overall_grade', 'started_at']
+    list_filter = ['survey' if not DROPDOWN_FILTER_AVAILABLE else ('survey', RelatedDropdownFilter), 'session' if not DROPDOWN_FILTER_AVAILABLE else ('session', RelatedDropdownFilter), 'is_completed', 'overall_grade', 'started_at']
     search_fields = ['user__username', 'user__email', 'user__company_name']
     readonly_fields = [
         'started_at', 'total_score', 'environmental_score', 
