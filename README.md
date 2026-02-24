@@ -167,10 +167,10 @@ DATABASE_URL=sqlite:///db.sqlite3
 ### Frontend Environment Variables
 Create `frontend/.env.local` (see `frontend/.env.local.example`):
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 
 # For production:
-# NEXT_PUBLIC_API_URL=https://your-backend-url.com
+# NEXT_PUBLIC_API_URL=https://your-backend-url.com/api/v1
 ```
 
 ## 🌐 Deployment
