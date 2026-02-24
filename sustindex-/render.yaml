@@ -10,6 +10,7 @@ services:
     runtime: python
     plan: free
     region: frankfurt
+    rootDir: sustindex-
     buildCommand: "bash build.sh"
     startCommand: "gunicorn sustindex.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --log-level info"
     envVars:
