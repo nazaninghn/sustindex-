@@ -184,9 +184,33 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 
 ## 🌐 Deployment
 
-### Backend Options
+### Full-Stack Deployment (Recommended)
 
-#### Option 1: Render.com (Recommended for beginners)
+#### Render.com - Single Service
+Deploy both frontend and backend together on one service:
+
+- ✅ Single URL for everything
+- ✅ No CORS issues
+- ✅ Simpler management
+- ✅ Free tier available
+- ⚠️ Cold starts after 15 min inactivity
+
+**Quick Deploy:**
+1. Create account at [Render.com](https://render.com)
+2. New Web Service → Connect GitHub repo
+3. Render detects `render.yaml` → Click "Apply"
+4. Wait 10-15 minutes for build
+5. Done!
+
+**Detailed guides**: 
+- [RENDER_FULLSTACK_DEPLOYMENT.md](RENDER_FULLSTACK_DEPLOYMENT.md) - Full-stack on single service
+- [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md) - Step-by-step verification
+
+### Separate Deployment (Alternative)
+
+#### Backend Options
+
+**Option 1: Render.com**
 - ✅ Easy setup with `render.yaml`
 - ✅ Free tier available
 - ⚠️ Cold starts after 15 min inactivity
@@ -201,7 +225,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 
 **Detailed guide**: [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md)
 
-#### Option 2: Railway (Recommended for production)
+**Option 2: Railway**
 - ✅ No cold starts
 - ✅ Faster builds
 - ✅ Better free tier (500 hours/month)
@@ -214,7 +238,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 
 **Detailed guide**: [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)
 
-### Frontend (Vercel)
+#### Frontend (Vercel)
 
 **Quick Deploy:**
 1. Push code to GitHub

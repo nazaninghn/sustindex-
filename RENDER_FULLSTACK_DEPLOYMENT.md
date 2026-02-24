@@ -120,14 +120,19 @@ python manage.py createsuperuser
 
 ### Build Process (build.sh)
 ```bash
-1. Install Python dependencies
-2. Install Node.js dependencies (npm install)
-3. Build Next.js (npm run build)
-4. Export Next.js to static files
-5. Collect Django static files
-6. Run database migrations
-7. Setup initial data
+1. Upgrade pip, setuptools, wheel
+2. Install Python dependencies from requirements.txt
+3. Navigate to frontend directory
+4. Install Node.js dependencies (npm install)
+5. Build Next.js (npm run build → exports to sustindex-/frontend-build/)
+6. Return to sustindex- directory
+7. Collect Django static files
+8. Run database migrations
+9. Compile translations
+10. Setup initial data (create admin user if needed)
 ```
+
+**Note**: The build script runs from `sustindex-` directory (set by `rootDir` in render.yaml), so all paths are relative to that directory.
 
 ### URL Routing
 ```
@@ -164,10 +169,22 @@ python manage.py createsuperuser
 
 ### Build Fails at npm install
 ```bash
-# Check Node version
+# Check Node version in Render Shell
 echo $NODE_VERSION
 
 # Should be 18.17.0 or higher
+# If not set, add NODE_VERSION=18.17.0 to environment variables
+```
+
+### Build Fails at requirements.txt
+```bash
+# Error: "Could not open requirements file"
+# This means the build script is running from wrong directory
+
+# Solution: Ensure render.yaml has:
+rootDir: sustindex-
+
+# And build.sh does NOT have "cd sustindex-" before pip install
 ```
 
 ### Build Fails at Next.js build

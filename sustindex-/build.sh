@@ -10,7 +10,6 @@ pip install --upgrade pip setuptools wheel
 
 echo ""
 echo "Installing Python dependencies..."
-cd sustindex-
 pip install -r requirements.txt --no-cache-dir
 
 echo ""
