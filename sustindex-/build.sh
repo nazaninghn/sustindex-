@@ -1,39 +1,58 @@
 #!/usr/bin/env bash
 set -o errexit
 
-echo "Python version:"
-python --version
+echo "========================================="
+echo "Starting build process..."
+echo "========================================="
 
 echo ""
-echo "Upgrading pip..."
-pip install --upgrade pip setuptools wheel
+echo "[1/8] Checking Python version..."
+python --version || { echo "Python not found!"; exit 1; }
 
 echo ""
-echo "Installing Python dependencies..."
-pip install -r requirements.txt --no-cache-dir
+echo "[2/8] Checking current directory..."
+pwd
+ls -la
 
 echo ""
-echo "Building Next.js frontend..."
-cd ../frontend
-npm install
-npm run build
-cd ../sustindex-
+echo "[3/8] Upgrading pip..."
+pip install --upgrade pip setuptools wheel || { echo "Failed to upgrade pip"; exit 1; }
 
 echo ""
-echo "Collecting static files..."
-python manage.py collectstatic --no-input
+echo "[4/8] Installing Python dependencies..."
+if [ -f "requirements.txt" ]; then
+    echo "Found requirements.txt"
+    pip install -r requirements.txt --no-cache-dir || { echo "Failed to install Python dependencies"; exit 1; }
+else
+    echo "ERROR: requirements.txt not found!"
+    exit 1
+fi
 
 echo ""
-echo "Running migrations..."
+echo "[5/8] Building Next.js frontend..."
+if [ -d "../frontend" ]; then
+    cd ../frontend
+    echo "Installing Node dependencies..."
+    npm install || { echo "Failed npm install"; exit 1; }
+    echo "Building Next.js..."
+    npm run build || { echo "Failed npm build"; exit 1; }
+    cd ../sustindex-
+else
+    echo "ERROR: frontend directory not found!"
+    exit 1
+fi
+
+echo ""
+echo "[6/8] Collecting static files..."
+python manage.py collectstatic --no-input || { echo "Failed to collect static files"; exit 1; }
+
+echo ""
+echo "[7/8] Running migrations..."
 python manage.py makemigrations --noinput || echo "No new migrations"
-python manage.py migrate --noinput
+python manage.py migrate --noinput || { echo "Failed to run migrations"; exit 1; }
 
 echo ""
-echo "Compiling translations..."
-python manage.py compilemessages --ignore=venv 2>/dev/null || echo "Skipping compilemessages"
-
-echo ""
-echo "Setting up initial data..."
+echo "[8/8] Setting up initial data..."
 python -c "
 import os
 import django
@@ -44,17 +63,14 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 if not User.objects.filter(username='admin').exists():
-    try:
-        exec(open('setup.py').read())
-        print('Setup completed')
-    except Exception as e:
-        print(f'Setup error: {e}')
-        User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
-        print('Admin user created')
+    User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
+    print('Admin user created')
 else:
-    print('Admin user exists')
-" || echo "Setup had issues"
+    print('Admin user already exists')
+" || echo "Setup had issues (non-critical)"
 
 echo ""
-echo "Build completed!"
+echo "========================================="
+echo "Build completed successfully!"
+echo "========================================="
 
