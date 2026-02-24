@@ -261,8 +261,16 @@ if REST_FRAMEWORK_INSTALLED:
         "http://127.0.0.1:3000",
     ]
 
+    # Add production domains from environment variable
+    FRONTEND_URL = os.environ.get('FRONTEND_URL', '')
+    if FRONTEND_URL:
+        CORS_ALLOWED_ORIGINS.append(FRONTEND_URL)
+    
+    # Allow all Vercel preview deployments
     if not DEBUG:
-        CORS_ALLOWED_ORIGINS.append("https://your-nextjs-domain.com")
+        CORS_ALLOWED_ORIGIN_REGEXES = [
+            r"^https://.*\.vercel\.app$",
+        ]
 
     CORS_ALLOW_CREDENTIALS = True
 
