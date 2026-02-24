@@ -2,6 +2,11 @@
 
 A comprehensive web-based platform for evaluating and tracking organizational sustainability performance across Environmental, Social, and Governance (ESG) dimensions.
 
+## 🔗 Related Repositories
+
+- **Backend (Django)**: [nazaninghn/sustindex-](https://github.com/nazaninghn/sustindex-) - This repository
+- **Frontend (Next.js)**: [nazaninghn/sustindex-academia](https://github.com/nazaninghn/sustindex-academia) - Alternative full-stack repository
+
 ## 🎯 Features
 
 ### Core Functionality

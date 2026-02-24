@@ -2,6 +2,11 @@
 
 A comprehensive **Environmental, Social, and Governance (ESG)** assessment platform designed for businesses to evaluate, track, and improve their sustainability performance.
 
+## 🔗 Related Repositories
+
+- **Frontend (Next.js)**: [nazaninghn/sustindex-academia](https://github.com/nazaninghn/sustindex-academia)
+- **Full Stack**: This repository contains both backend and frontend
+
 ![Sustindex Dashboard](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
 ![Django](https://img.shields.io/badge/Django-4.2.7-blue)
 ![Python](https://img.shields.io/badge/Python-3.8+-blue)
