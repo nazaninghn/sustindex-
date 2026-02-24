@@ -65,6 +65,24 @@ body {
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 .animate-slide-down {
   animation: slideDown 0.5s ease-out;
 }
@@ -75,4 +93,20 @@ body {
 
 .animate-fade-in-delay {
   animation: fadeInDelay 0.8s ease-out 0.2s both;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.delay-1000 {
+  animation-delay: 1s;
+}
+
+.delay-500 {
+  animation-delay: 0.5s;
 }
