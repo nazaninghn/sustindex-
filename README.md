@@ -92,12 +92,18 @@ npm run dev
 
 Frontend will be available at: http://localhost:3000
 
-## 🔑 Default Credentials
+## 🔑 Admin Access
 
-- **Username**: admin
-- **Password**: admin123
+Create an admin user to access the Django admin panel:
 
-⚠️ Change these credentials in production!
+```bash
+cd sustindex-
+python manage.py createsuperuser
+```
+
+Follow the prompts to set username, email, and password.
+
+Access admin panel at: http://localhost:8000/admin/
 
 ## 📚 API Documentation
 
@@ -167,11 +173,14 @@ DATABASE_URL=sqlite:///db.sqlite3
 ### Frontend Environment Variables
 Create `frontend/.env.local` (see `frontend/.env.local.example`):
 ```env
+# Backend API URL (must include /api/v1 path)
 NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 
 # For production:
 # NEXT_PUBLIC_API_URL=https://your-backend-url.com/api/v1
 ```
+
+**Note**: The `/api/v1` path is required as it's the base URL for all API endpoints.
 
 ## 🌐 Deployment
 
@@ -181,7 +190,9 @@ The application is configured for deployment on Render.com:
 - `build.sh`: Build script
 - `runtime.txt`: Python version
 
-Live Demo: https://sustindex.onrender.com
+**Note**: To deploy your own instance, follow the [Deployment Guide](sustindex-/DEPLOYMENT.md).
+
+Demo instance: https://sustindex.onrender.com (may be inactive due to free tier limitations)
 
 ### Frontend (Vercel)
 Deploy to Vercel with one click:
