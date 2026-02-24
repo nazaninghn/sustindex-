@@ -195,11 +195,21 @@ The application is configured for deployment on Render.com:
 Demo instance: https://sustindex.onrender.com (may be inactive due to free tier limitations)
 
 ### Frontend (Vercel)
-Deploy to Vercel with one click:
-```bash
-cd frontend
-vercel
-```
+Deploy the Next.js frontend to Vercel:
+
+**Quick Deploy:**
+1. Push code to GitHub
+2. Go to [Vercel Dashboard](https://vercel.com)
+3. Import repository: `nazaninghn/sustindex-`
+4. Set Root Directory: `frontend`
+5. Add environment variable: `NEXT_PUBLIC_API_URL=https://sustindex.onrender.com/api/v1`
+6. Deploy!
+
+**Detailed guide**: See [VERCEL_DEPLOYMENT.md](VERCEL_DEPLOYMENT.md)
+
+**One-Click Deploy:**
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/nazaninghn/sustindex-&root-directory=frontend&env=NEXT_PUBLIC_API_URL&envDescription=Backend%20API%20URL&envLink=https://github.com/nazaninghn/sustindex-/blob/main/README.md)
 
 ## 📖 Documentation
 
