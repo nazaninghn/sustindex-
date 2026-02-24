@@ -1,0 +1,18 @@
+{
+  "name": "sustindex-fullstack",
+  "version": "1.0.0",
+  "description": "Sustindex - Sustainability Assessment Platform",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd sustindex- && python manage.py runserver",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:frontend": "cd frontend && npm install",
+    "build:frontend": "cd frontend && npm run build"
+  },
+  "keywords": ["sustainability", "assessment", "django", "nextjs"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

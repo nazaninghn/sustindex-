@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="alert alert-danger text-center">
+    <h3>{% trans "Access Restricted" %}</h3>
+    <p>{% trans "The e-learning platform is only available for Gold members." %}</p>
+    <a href="{% url 'dashboard' %}" class="btn btn-primary">{% trans "Back to Dashboard" %}</a>
+</div>
+{% endblock %}

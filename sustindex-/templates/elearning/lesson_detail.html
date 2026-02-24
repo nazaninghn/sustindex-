@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'course_list' %}">{% trans "Courses" %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'course_detail' lesson.course.id %}">{{ lesson.course.title }}</a></li>
+        <li class="breadcrumb-item active">{{ lesson.title }}</li>
+    </ol>
+</nav>
+
+<h2 class="mb-4">{{ lesson.title }}</h2>
+
+{% if lesson.video_url %}
+<div class="ratio ratio-16x9 mb-4">
+    <iframe src="{{ lesson.video_url }}" allowfullscreen></iframe>
+</div>
+{% endif %}
+
+<div class="card mb-4">
+    <div class="card-body">
+        {{ lesson.content|safe }}
+    </div>
+</div>
+
+{% if lesson.attachments.all %}
+<h4 class="mb-3">{% trans "Attachments" %}</h4>
+<ul class="list-group mb-4">
+    {% for attachment in lesson.attachments.all %}
+    <li class="list-group-item">
+        <a href="{{ attachment.file.url }}" target="_blank">{{ attachment.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if not progress.is_completed %}
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" name="complete" class="btn btn-success">{% trans "Mark as Completed" %}</button>
+</form>
+{% else %}
+<div class="alert alert-success">{% trans "You have completed this lesson" %} ✓</div>
+{% endif %}
+{% endblock %}

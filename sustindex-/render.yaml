@@ -1,0 +1,27 @@
+databases:
+  - name: sustindex-db
+    databaseName: sustindex
+    user: sustindex
+    plan: free
+
+services:
+  - type: web
+    name: sustindex
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn sustindex.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --log-level debug"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: sustindex-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: True
+      - key: DJANGO_SETTINGS_MODULE
+        value: sustindex.settings
+      - key: WEB_CONCURRENCY
+        value: 2

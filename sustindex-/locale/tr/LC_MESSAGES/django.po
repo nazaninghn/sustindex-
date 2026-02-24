@@ -1,0 +1,752 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-19 04:57-0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\accounts\models.py:9
+msgid "Free"
+msgstr "Ücretsiz"
+
+#: .\accounts\models.py:10
+msgid "Silver"
+msgstr "Gümüş"
+
+#: .\accounts\models.py:11
+msgid "Gold"
+msgstr "Altın"
+
+#: .\accounts\models.py:18 .\accounts\models.py:55
+#: .\templates\accounts\dashboard.html:445
+msgid "Membership Type"
+msgstr "Üyelik Türü"
+
+#: .\accounts\models.py:20 .\accounts\models.py:35
+#: .\templates\accounts\register.html:348
+msgid "Company Name"
+msgstr "Şirket Adı"
+
+#: .\accounts\models.py:21 .\templates\accounts\register.html:362
+msgid "Phone"
+msgstr "Telefon"
+
+#: .\accounts\models.py:22
+msgid "Registration Date"
+msgstr "Kayıt Tarihi"
+
+#: .\accounts\models.py:25 .\accounts\models.py:34 .\accounts\models.py:54
+#: .\elearning\models.py:60 .\questionnaire\models.py:57
+msgid "User"
+msgstr "Kullanıcı"
+
+#: .\accounts\models.py:26
+msgid "Users"
+msgstr "Kullanıcılar"
+
+#: .\accounts\models.py:36
+#, fuzzy
+#| msgid "Registration Date"
+msgid "Registration Number"
+msgstr "Kayıt Tarihi"
+
+#: .\accounts\models.py:37
+msgid "Address"
+msgstr "Adres"
+
+#: .\accounts\models.py:38
+msgid "Website"
+msgstr "Web Sitesi"
+
+#: .\accounts\models.py:39
+msgid "Industry"
+msgstr "Sektör"
+
+#: .\accounts\models.py:40
+msgid "Employee Count"
+msgstr "Çalışan Sayısı"
+
+#: .\accounts\models.py:41
+#, fuzzy
+#| msgid "Logout"
+msgid "Logo"
+msgstr "Çıkış"
+
+#: .\accounts\models.py:42
+msgid "Additional Data"
+msgstr "Ek Veriler"
+
+#: .\accounts\models.py:45
+#, fuzzy
+#| msgid "Company Name"
+msgid "Company Profile"
+msgstr "Şirket Adı"
+
+#: .\accounts\models.py:46
+#, fuzzy
+#| msgid "Company Name"
+msgid "Company Profiles"
+msgstr "Şirket Adı"
+
+#: .\accounts\models.py:56
+msgid "Start Date"
+msgstr "Başlangıç Tarihi"
+
+#: .\accounts\models.py:57
+#, fuzzy
+#| msgid "Date"
+msgid "End Date"
+msgstr "Tarih"
+
+#: .\accounts\models.py:58 .\elearning\models.py:13
+#: .\questionnaire\models.py:27
+#, fuzzy
+#| msgid "Actions"
+msgid "Active"
+msgstr "İşlemler"
+
+#: .\accounts\models.py:61
+#, fuzzy
+#| msgid "Membership Type"
+msgid "Membership History"
+msgstr "Üyelik Türü"
+
+#: .\accounts\models.py:62
+#, fuzzy
+#| msgid "Membership Type"
+msgid "Membership Histories"
+msgstr "Üyelik Türü"
+
+#: .\elearning\models.py:9
+#, fuzzy
+#| msgid "Company Name"
+msgid "Company"
+msgstr "Şirket Adı"
+
+#: .\elearning\models.py:10 .\elearning\models.py:28 .\elearning\models.py:46
+msgid "Title"
+msgstr "Başlık"
+
+#: .\elearning\models.py:11 .\questionnaire\models.py:10
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Description"
+msgstr "Anket"
+
+#: .\elearning\models.py:12
+msgid "Thumbnail"
+msgstr "Küçük Resim"
+
+#: .\elearning\models.py:14 .\questionnaire\models.py:28
+msgid "Created At"
+msgstr "Oluşturulma Tarihi"
+
+#: .\elearning\models.py:17 .\elearning\models.py:27
+#, fuzzy
+#| msgid "Courses"
+msgid "Course"
+msgstr "Kurslar"
+
+#: .\elearning\models.py:18 .\templates\accounts\dashboard.html:410
+#: .\templates\base.html:30 .\templates\elearning\course_list.html:5
+#: .\templates\elearning\lesson_detail.html:7
+msgid "Courses"
+msgstr "Kurslar"
+
+#: .\elearning\models.py:29 .\reports\models.py:26
+#, fuzzy
+#| msgid "Continue"
+msgid "Content"
+msgstr "Devam Et"
+
+#: .\elearning\models.py:30
+msgid "Video URL"
+msgstr "Video URL"
+
+#: .\elearning\models.py:31 .\reports\models.py:27
+msgid "Order"
+msgstr "Sıra"
+
+#: .\elearning\models.py:32
+msgid "Duration (minutes)"
+msgstr "Süre (dakika)"
+
+#: .\elearning\models.py:35 .\elearning\models.py:45 .\elearning\models.py:61
+#, fuzzy
+#| msgid "Lessons"
+msgid "Lesson"
+msgstr "Dersler"
+
+#: .\elearning\models.py:36 .\templates\elearning\course_detail.html:13
+msgid "Lessons"
+msgstr "Dersler"
+
+#: .\elearning\models.py:47
+msgid "File"
+msgstr "Dosya"
+
+#: .\elearning\models.py:48
+msgid "Uploaded At"
+msgstr "Yüklenme Tarihi"
+
+#: .\elearning\models.py:51
+#, fuzzy
+#| msgid "Attachments"
+msgid "Lesson Attachment"
+msgstr "Ekler"
+
+#: .\elearning\models.py:52
+#, fuzzy
+#| msgid "Attachments"
+msgid "Lesson Attachments"
+msgstr "Ekler"
+
+#: .\elearning\models.py:62 .\questionnaire\models.py:60
+#: .\templates\accounts\dashboard.html:494
+msgid "Completed"
+msgstr "Tamamlandı"
+
+#: .\elearning\models.py:63 .\questionnaire\models.py:59
+#, fuzzy
+#| msgid "Completed"
+msgid "Completed At"
+msgstr "Tamamlandı"
+
+#: .\elearning\models.py:66 .\elearning\models.py:67
+#, fuzzy
+#| msgid "In Progress"
+msgid "Lesson Progress"
+msgstr "Devam Ediyor"
+
+#: .\questionnaire\models.py:9
+msgid "Name"
+msgstr "Ad"
+
+#: .\questionnaire\models.py:11 .\questionnaire\models.py:26
+#: .\questionnaire\models.py:44
+msgid "Display Order"
+msgstr "Görüntüleme Sırası"
+
+#: .\questionnaire\models.py:14 .\questionnaire\models.py:24
+msgid "Category"
+msgstr "Kategori"
+
+#: .\questionnaire\models.py:15
+msgid "Categories"
+msgstr "Kategoriler"
+
+#: .\questionnaire\models.py:25
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Question Text"
+msgstr "Anket"
+
+#: .\questionnaire\models.py:31 .\questionnaire\models.py:41
+#: .\questionnaire\models.py:82
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Question"
+msgstr "Anket"
+
+#: .\questionnaire\models.py:32
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Questions"
+msgstr "Anket"
+
+#: .\questionnaire\models.py:42
+msgid "Choice Text"
+msgstr "Seçenek Metni"
+
+#: .\questionnaire\models.py:43 .\templates\accounts\dashboard.html:484
+msgid "Score"
+msgstr "Puan"
+
+#: .\questionnaire\models.py:47
+msgid "Choice"
+msgstr "Seçenek"
+
+#: .\questionnaire\models.py:48
+msgid "Choices"
+msgstr "Seçenekler"
+
+#: .\questionnaire\models.py:58
+msgid "Started At"
+msgstr "Başlangıç Zamanı"
+
+#: .\questionnaire\models.py:61 .\templates\accounts\dashboard.html:457
+#, fuzzy
+#| msgid "Your Total Score"
+msgid "Total Score"
+msgstr "Toplam Puanınız"
+
+#: .\questionnaire\models.py:64
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Questionnaire Attempt"
+msgstr "Anket"
+
+#: .\questionnaire\models.py:65
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Questionnaire Attempts"
+msgstr "Anket"
+
+#: .\questionnaire\models.py:81 .\reports\models.py:9
+msgid "Attempt"
+msgstr "Deneme"
+
+#: .\questionnaire\models.py:83
+msgid "Selected Choice"
+msgstr "Seçilen Seçenek"
+
+#: .\questionnaire\models.py:84
+msgid "Answered At"
+msgstr "Cevaplanma Zamanı"
+
+#: .\questionnaire\models.py:87
+msgid "Answer"
+msgstr "Cevap"
+
+#: .\questionnaire\models.py:88
+msgid "Answers"
+msgstr "Cevaplar"
+
+#: .\reports\models.py:10
+msgid "Generated At"
+msgstr "Oluşturulma Zamanı"
+
+#: .\reports\models.py:11
+msgid "PDF File"
+msgstr "PDF Dosyası"
+
+#: .\reports\models.py:14 .\reports\models.py:24
+#, fuzzy
+#| msgid "Receive report"
+msgid "Report"
+msgstr "Rapor alın"
+
+#: .\reports\models.py:15
+msgid "Reports"
+msgstr "Raporlar"
+
+#: .\reports\models.py:25
+msgid "Section Title"
+msgstr "Bölüm Başlığı"
+
+#: .\reports\models.py:30
+msgid "Report Section"
+msgstr "Rapor Bölümü"
+
+#: .\reports\models.py:31
+msgid "Report Sections"
+msgstr "Rapor Bölümleri"
+
+#: .\templates\accounts\dashboard.html:7
+#: .\templates\accounts\dashboard.html:397
+#: .\templates\accounts\dashboard.html:428 .\templates\base.html:27
+msgid "Dashboard"
+msgstr "Kontrol Paneli"
+
+#: .\templates\accounts\dashboard.html:403 .\templates\base.html:28
+msgid "Questionnaire"
+msgstr "Anket"
+
+#: .\templates\accounts\dashboard.html:419 .\templates\base.html:62
+msgid "Logout"
+msgstr "Çıkış"
+
+#: .\templates\accounts\dashboard.html:451
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Completed Questionnaires"
+msgstr "Anket"
+
+#: .\templates\accounts\dashboard.html:464
+msgid "Ready to assess your sustainability?"
+msgstr "Sürdürülebilirliğinizi değerlendirmeye hazır mısınız?"
+
+#: .\templates\accounts\dashboard.html:465
+#, fuzzy
+#| msgid ""
+#| "Measure, track, and improve your company's sustainability performance"
+msgid ""
+"Start a new questionnaire to evaluate your company's sustainability "
+"performance and get detailed insights."
+msgstr ""
+"Şirketinizin sürdürülebilirlik performansını ölçün, takip edin ve geliştirin"
+
+#: .\templates\accounts\dashboard.html:467
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Start New Questionnaire"
+msgstr "Anket"
+
+#: .\templates\accounts\dashboard.html:474
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Questionnaire History"
+msgstr "Anket"
+
+#: .\templates\accounts\dashboard.html:482
+msgid "Date"
+msgstr "Tarih"
+
+#: .\templates\accounts\dashboard.html:483
+msgid "Status"
+msgstr "Durum"
+
+#: .\templates\accounts\dashboard.html:485
+msgid "Actions"
+msgstr "İşlemler"
+
+#: .\templates\accounts\dashboard.html:496
+msgid "In Progress"
+msgstr "Devam Ediyor"
+
+#: .\templates\accounts\dashboard.html:503
+msgid "View Result"
+msgstr "Sonucu Görüntüle"
+
+#: .\templates\accounts\dashboard.html:507
+msgid "Continue"
+msgstr "Devam Et"
+
+#: .\templates\accounts\dashboard.html:518
+msgid "You haven't completed any questionnaires yet"
+msgstr "Henüz hiç anket tamamlamadınız"
+
+#: .\templates\accounts\dashboard.html:520
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Start Your First Questionnaire"
+msgstr "Anket"
+
+#: .\templates\accounts\login.html:7 .\templates\accounts\login.html:386
+#: .\templates\base.html:64 .\templates\home.html:448
+msgid "Login"
+msgstr "Giriş"
+
+#: .\templates\accounts\login.html:339 .\templates\home.html:8
+msgid "Corporate Sustainability Assessment System"
+msgstr "Kurumsal Sürdürülebilirlik Değerlendirme Sistemi"
+
+#: .\templates\accounts\login.html:341
+msgid "Measure, track, and improve your company's sustainability performance"
+msgstr "Şirketinizin sürdürülebilirlik performansını ölçün, takip edin ve geliştirin"
+"Şirketinizin sürdürülebilirlik performansını ölçün, takip edin ve geliştirin"
+
+#: .\templates\accounts\login.html:349
+msgid "Welcome Back"
+msgstr "Tekrar Hoş Geldiniz"
+
+#: .\templates\accounts\login.html:350
+msgid "Please login to your account"
+msgstr "Lütfen hesabınıza giriş yapın"
+
+#: .\templates\accounts\login.html:365 .\templates\accounts\register.html:317
+#, fuzzy
+#| msgid "User"
+msgid "Username"
+msgstr "Kullanıcı"
+
+#: .\templates\accounts\login.html:370
+msgid "Enter your username"
+msgstr "Kullanıcı adınızı girin"
+
+#: .\templates\accounts\login.html:376 .\templates\accounts\register.html:376
+msgid "Password"
+msgstr "Şifre"
+
+#: .\templates\accounts\login.html:381
+msgid "Enter your password"
+msgstr "Şifrenizi girin"
+
+#: .\templates\accounts\login.html:391
+msgid "Don't have an account?"
+msgstr "Hesabınız yok mu?"
+
+#: .\templates\accounts\login.html:391
+#, fuzzy
+#| msgid "Register"
+msgid "Register here"
+msgstr "Kayıt Ol"
+
+#: .\templates\accounts\login.html:401
+msgid "Logging in..."
+msgstr "Giriş yapılıyor..."
+
+#: .\templates\accounts\profile_setup.html:8
+#: .\templates\accounts\profile_setup.html:149
+msgid "Complete Company Information"
+msgstr "Şirket Bilgilerini Tamamlayın"
+
+#: .\templates\accounts\profile_setup.html:150
+msgid "Help us know more about your company"
+msgstr "Şirketiniz hakkında daha fazla bilgi edinmemize yardımcı olun"
+
+#: .\templates\accounts\profile_setup.html:174
+msgid "Save"
+msgstr "Kaydet"
+
+#: .\templates\accounts\profile_setup.html:179
+msgid "Skip for now"
+msgstr "Şimdilik atla"
+
+#: .\templates\accounts\register.html:7 .\templates\accounts\register.html:409
+#: .\templates\base.html:65 .\templates\home.html:503 .\templates\home.html:518
+msgid "Register"
+msgstr "Kayıt Ol"
+
+#: .\templates\accounts\register.html:300
+#, fuzzy
+#| msgid "Free Registration"
+msgid "Company Registration"
+msgstr "Ücretsiz Kayıt"
+
+#: .\templates\accounts\register.html:301
+msgid "Create your account to get started"
+msgstr "Başlamak için hesabınızı oluşturun"
+
+#: .\templates\accounts\register.html:334
+msgid "Email"
+msgstr "E-posta"
+
+#: .\templates\accounts\register.html:396
+msgid "Confirm Password"
+msgstr "Şifreyi Onayla"
+
+#: .\templates\accounts\register.html:414
+msgid "Already registered?"
+msgstr "Zaten kayıtlı mısınız?"
+
+#: .\templates\accounts\register.html:414
+#, fuzzy
+#| msgid "Login"
+msgid "Login here"
+msgstr "Giriş"
+
+#: .\templates\accounts\register.html:451
+msgid "Creating account..."
+msgstr "Hesap oluşturuluyor..."
+
+#: .\templates\base.html:87 .\templates\home.html:526
+msgid "All rights reserved."
+msgstr "Tüm hakları saklıdır."
+
+#: .\templates\elearning\access_denied.html:6
+msgid "Access Restricted"
+msgstr "Erişim Kısıtlı"
+
+#: .\templates\elearning\access_denied.html:7
+msgid "The e-learning platform is only available for Gold members."
+msgstr "E-öğrenme platformu yalnızca Altın üyeler için kullanılabilir."
+
+#: .\templates\elearning\access_denied.html:8
+#: .\templates\questionnaire\limit_reached.html:9
+#: .\templates\questionnaire\questionnaire.html:322
+#: .\templates\questionnaire\result.html:21
+#, fuzzy
+#| msgid "Dashboard"
+msgid "Back to Dashboard"
+msgstr "Kontrol Paneli"
+
+#: .\templates\elearning\course_detail.html:19
+msgid "minutes"
+msgstr "dakika"
+
+#: .\templates\elearning\course_list.html:17
+#, fuzzy
+#| msgid "Courses"
+msgid "View Course"
+msgstr "Kurslar"
+
+#: .\templates\elearning\course_list.html:23
+msgid "No courses have been created for you yet."
+msgstr "Henüz sizin için hiç kurs oluşturulmadı."
+
+#: .\templates\elearning\lesson_detail.html:28
+msgid "Attachments"
+msgstr "Ekler"
+
+#: .\templates\elearning\lesson_detail.html:41
+msgid "Mark as Completed"
+msgstr "Tamamlandı Olarak İşaretle"
+
+#: .\templates\elearning\lesson_detail.html:44
+msgid "You have completed this lesson"
+msgstr "Bu dersi tamamladınız"
+
+#: .\templates\home.html:457
+msgid "Find the perfect complement to your sustainability"
+msgstr "Sürdürülebilirliğiniz için mükemmel tamamlayıcıyı bulun"
+
+#: .\templates\home.html:458
+msgid ""
+"We will help you assess and improve your company's sustainability "
+"performance. Check our memberships and surround yourself with excellence!"
+msgstr ""
+"Şirketinizin sürdürülebilirlik performansını değerlendirmenize ve geliştirmenize yardımcı olacağız. Üyeliklerimizi kontrol edin ve kendinizi mükemmellikle çevreleyın!"
+
+#: .\templates\home.html:460
+#, fuzzy
+#| msgid "Free Membership"
+msgid "Explore Memberships"
+msgstr "Ücretsiz Üyelik"
+
+#: .\templates\home.html:461
+#, fuzzy
+#| msgid "Started At"
+msgid "Get Started"
+msgstr "Başlangıç Zamanı"
+
+#: .\templates\home.html:474
+#, fuzzy
+#| msgid "Silver Membership"
+msgid "Choose Your Membership"
+msgstr "Gümüş Üyelik"
+
+#: .\templates\home.html:475
+msgid "Select the plan that best fits your company's needs"
+msgstr "Şirketinizin ihtiyaçlarına en uygun planı seçin"
+
+#: .\templates\home.html:482
+msgid "Free Membership"
+msgstr "Ücretsiz Üyelik"
+
+#: .\templates\home.html:483
+msgid "Limited access to basic features"
+msgstr "Temel özelliklere sınırlı erişim"
+
+#: .\templates\home.html:485
+#, fuzzy
+#| msgid "Dashboard"
+msgid "Basic dashboard access"
+msgstr "Kontrol Paneli"
+
+#: .\templates\home.html:486
+msgid "View sample questions"
+msgstr "Örnek soruları görüntüleyin"
+
+#: .\templates\home.html:487
+msgid "Community support"
+msgstr "Topluluk desteği"
+
+#: .\templates\home.html:489
+msgid "Free Registration"
+msgstr "Ücretsiz Kayıt"
+
+#: .\templates\home.html:495
+msgid "Silver Membership"
+msgstr "Gümüş Üyelik"
+
+#: .\templates\home.html:496
+msgid "Perfect for getting started"
+msgstr "Başlamak için mükemmel"
+
+#: .\templates\home.html:498
+msgid "One-time questionnaire response"
+msgstr "Tek seferlik anket yanıtı"
+
+#: .\templates\home.html:499
+msgid "Receive report"
+msgstr "Rapor alın"
+
+#: .\templates\home.html:500
+msgid "Email support"
+msgstr "E-posta desteği"
+
+#: .\templates\home.html:501
+msgid "Basic analytics"
+msgstr "Temel analitik"
+
+#: .\templates\home.html:509
+msgid "Gold Membership"
+msgstr "Altın Üyelik"
+
+#: .\templates\home.html:510
+msgid "Complete sustainability solution"
+msgstr "Tam sürdürülebilirlik çözümü"
+
+#: .\templates\home.html:512
+msgid "Unlimited questionnaire responses"
+msgstr "Sınırsız anket yanıtları"
+
+#: .\templates\home.html:513
+msgid "Detailed reports"
+msgstr "Detaylı raporlar"
+
+#: .\templates\home.html:514
+msgid "Access to e-learning platform"
+msgstr "E-öğrenme platformuna erişim"
+
+#: .\templates\home.html:515
+msgid "Consulting services"
+msgstr "Danışmanlık hizmetleri"
+
+#: .\templates\home.html:516
+msgid "Priority support"
+msgstr "Öncelikli destek"
+
+#: .\templates\questionnaire\limit_reached.html:6
+#, fuzzy
+#| msgid "Membership Type"
+msgid "Membership Limit"
+msgstr "Üyelik Türü"
+
+#: .\templates\questionnaire\limit_reached.html:7
+msgid "With Silver membership, you can only respond to the questionnaire once."
+msgstr "Gümüş üyelikle ankete yalnızca bir kez yanıt verebilirsiniz."
+
+#: .\templates\questionnaire\limit_reached.html:8
+msgid "For unlimited access, please upgrade to Gold membership."
+msgstr "Sınırsız erişim için lütfen Altın üyeliğe yükseltin."
+
+#: .\templates\questionnaire\questionnaire.html:7
+#: .\templates\questionnaire\questionnaire.html:272
+#, fuzzy
+#| msgid "Corporate Sustainability Assessment System"
+msgid "Sustainability Assessment Questionnaire"
+msgstr "Kurumsal Sürdürülebilirlik Değerlendirme Sistemi"
+
+#: .\templates\questionnaire\questionnaire.html:318
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Submit Questionnaire"
+msgstr "Anket"
+
+#: .\templates\questionnaire\result.html:6
+#, fuzzy
+#| msgid "Questionnaire"
+msgid "Questionnaire Result"
+msgstr "Anket"
+
+#: .\templates\questionnaire\result.html:10
+msgid "Your Total Score"
+msgstr "Toplam Puanınız"
+
+#: .\templates\questionnaire\result.html:15
+#, fuzzy
+#| msgid "Registration Date"
+msgid "Completion Date"
+msgstr "Kayıt Tarihi"
+
+#: .\templates\questionnaire\result.html:18
+msgid "Download PDF Report"
+msgstr "PDF Raporu İndir"
+
+#~ msgid "Welcome to Sustindex"
+#~ msgstr "Sustindex'e Hoş Geldiniz"
