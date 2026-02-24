@@ -6,12 +6,12 @@ databases:
 
 services:
   - type: web
-    name: sustindex
+    name: sustindex-fullstack
     runtime: python
     plan: free
     region: frankfurt
     buildCommand: "bash build.sh"
-    startCommand: "gunicorn sustindex.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --log-level debug"
+    startCommand: "gunicorn sustindex.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --log-level info"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -20,8 +20,12 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
-        value: True
+        value: False
       - key: DJANGO_SETTINGS_MODULE
         value: sustindex.settings
       - key: WEB_CONCURRENCY
         value: 2
+      - key: NEXT_PUBLIC_API_URL
+        value: https://sustindex-fullstack.onrender.com/api/v1
+      - key: NODE_VERSION
+        value: 18.17.0

@@ -184,28 +184,47 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 
 ## 🌐 Deployment
 
-### Backend (Render.com)
-The application is configured for deployment on Render.com:
-- `render.yaml`: Service configuration
-- `build.sh`: Build script
-- `runtime.txt`: Python version
+### Backend Options
 
-**Note**: To deploy your own instance, follow the [Deployment Guide](sustindex-/DEPLOYMENT.md).
+#### Option 1: Render.com (Recommended for beginners)
+- ✅ Easy setup with `render.yaml`
+- ✅ Free tier available
+- ⚠️ Cold starts after 15 min inactivity
 
-Demo instance: https://sustindex.onrender.com (may be inactive due to free tier limitations)
+**Quick Deploy:**
+1. Create account at [Render.com](https://render.com)
+2. New Web Service → Connect GitHub repo
+3. Root Directory: `sustindex-`
+4. Add PostgreSQL database
+5. Set environment variables
+6. Deploy!
+
+**Detailed guide**: [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md)
+
+#### Option 2: Railway (Recommended for production)
+- ✅ No cold starts
+- ✅ Faster builds
+- ✅ Better free tier (500 hours/month)
+
+**Quick Deploy:**
+1. Create account at [Railway.app](https://railway.app)
+2. New Project → Deploy from GitHub
+3. Add PostgreSQL
+4. Auto-deploys!
+
+**Detailed guide**: [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)
 
 ### Frontend (Vercel)
-Deploy the Next.js frontend to Vercel:
 
 **Quick Deploy:**
 1. Push code to GitHub
 2. Go to [Vercel Dashboard](https://vercel.com)
 3. Import repository: `nazaninghn/sustindex-`
 4. Set Root Directory: `frontend`
-5. Add environment variable: `NEXT_PUBLIC_API_URL=https://sustindex.onrender.com/api/v1`
+5. Add environment variable: `NEXT_PUBLIC_API_URL=<your-backend-url>/api/v1`
 6. Deploy!
 
-**Detailed guide**: See [VERCEL_DEPLOYMENT.md](VERCEL_DEPLOYMENT.md)
+**Detailed guide**: [VERCEL_DEPLOYMENT.md](VERCEL_DEPLOYMENT.md)
 
 **One-Click Deploy:**
 

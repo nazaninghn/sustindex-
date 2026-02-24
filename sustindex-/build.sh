@@ -9,8 +9,17 @@ echo "Upgrading pip..."
 pip install --upgrade pip setuptools wheel
 
 echo ""
-echo "Installing dependencies..."
+echo "Installing Python dependencies..."
 pip install -r requirements.txt --no-cache-dir
+
+echo ""
+echo "Building Next.js frontend..."
+cd ../frontend
+npm install
+npm run build
+echo "Exporting Next.js static files..."
+npm run export || echo "Export not configured, using build output"
+cd ../sustindex-
 
 echo ""
 echo "Collecting static files..."

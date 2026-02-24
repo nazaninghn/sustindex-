@@ -191,8 +191,15 @@ if os.path.exists(BASE_DIR / 'static'):
 else:
     STATICFILES_DIRS = []
 
+# Frontend build directory
+FRONTEND_BUILD_DIR = BASE_DIR / 'frontend-build'
+
 # WhiteNoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

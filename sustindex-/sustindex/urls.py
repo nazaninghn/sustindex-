@@ -15,11 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
+from django.views.static import serve
+import os
 
 try:
     from questionnaire.autocomplete import CategoryAutocomplete
@@ -39,6 +41,17 @@ admin.site.site_header = "Sustindex Admin Panel"
 admin.site.site_title = "Sustindex Admin"
 admin.site.index_title = "Welcome to Sustindex Admin"
 
+# Serve Next.js frontend
+def serve_frontend(request, path=''):
+    """Serve Next.js static files"""
+    frontend_dir = settings.FRONTEND_BUILD_DIR
+    
+    # Serve index.html for root and routes
+    if not path or not os.path.exists(os.path.join(frontend_dir, path)):
+        path = 'index.html'
+    
+    return serve(request, path, document_root=frontend_dir)
+
 # URLs without language prefix
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
@@ -54,16 +67,16 @@ if AUTOCOMPLETE_AVAILABLE:
         path('autocomplete/category/', CategoryAutocomplete.as_view(), name='category-autocomplete')
     )
 
-# URLs with language prefix (Only Admin and API - Frontend is Next.js)
+# URLs with language prefix (Admin only - Frontend is Next.js)
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
-    # Old template-based URLs are disabled - Use Next.js frontend at localhost:3000
-    # path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    # path('accounts/', include('accounts.urls')),
-    # path('questionnaire/', include('questionnaire.urls')),
-    # path('elearning/', include('elearning.urls')),
-    # path('reports/', include('reports.urls')),
 )
+
+# Serve Next.js static files
+urlpatterns += [
+    re_path(r'^_next/(?P<path>.*)$', serve_frontend),
+    re_path(r'^(?P<path>.*)$', serve_frontend),
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
