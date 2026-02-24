@@ -18,8 +18,11 @@ python manage.py runserver
 
 ### 4. Admin Panel
 - **URL**: http://127.0.0.1:8000/en/admin/
-- **Username**: `admin`
-- **Password**: `admin123`
+
+**Create admin user:**
+```bash
+python manage.py createsuperuser
+```
 
 ---
 
@@ -41,16 +44,21 @@ python manage.py runserver
 
 ### 4. Admin Paneli
 - **URL**: http://127.0.0.1:8000/tr/admin/
-- **Kullanıcı adı**: `admin`
-- **Şifre**: `admin123`
+
+**Admin kullanıcısı oluştur:**
+```bash
+python manage.py createsuperuser
+```
 
 ---
 
 ## Sample Users / Örnek Kullanıcılar
 
+**Note:** Create users via Django admin panel or `createsuperuser` command.
+
 | Username | Password | Membership | Üyelik |
 |----------|----------|------------|--------|
-| admin | admin123 | Superuser | Süper Kullanıcı |
+| (create your own) | (your password) | Superuser | Süper Kullanıcı |
 | company_free | test1234 | Free | Ücretsiz |
 | company_silver | test1234 | Silver | Gümüş |
 | company_gold | test1234 | Gold | Altın |
